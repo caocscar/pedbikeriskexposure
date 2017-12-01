@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>PedBike Risk Exposure</title>
+    <style>
+		html, body {
+			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+		#map {
+			height: 100%;
+			width: 100%;
+			border: thin solid #333;
+		}
+		.nicebox {
+          position: absolute;
+          text-align: center;
+          font-family: "Roboto", "Arial", sans-serif;
+          font-size: 13px;
+          z-index: 5;
+          box-shadow: 0 4px 6px -4px #333;
+          padding: 5px 10px;
+          background: linear-gradient(to bottom,rgba(29,202,255,1) 0%,rgb(192,222,237) 100%);
+          border: rgb(229, 229, 229) 1px solid;
+        }
+		#controls1 {
+          top: 10px;
+          left: 110px;
+          width: 120px;
+          height: 20px;
+        }
+		#county {
+          width: 120px;
+          height: 20px;
+        }
+		#controls2 {
+          top: 10px;
+          left: 260px;
+          width: 110px;
+          height: 20px;
+        }
+		#riskexp {
+          width: 110px;
+          height: 20px;
+        }
+		#controls3 {
+          top: 10px;
+          left: 400px;
+          width: 50px;
+          height: 20px;
+        }
+		#ranking {
+          width: 50px;
+          height: 20px;
+        }
+		#controls4 {
+          top: 10px;
+          left: 480px;
+          width: 100px;
+          height: 20px;
+        }
+		#roadlayer {
+          width: 100px;
+          height: 20px;
+        }
+		#controls5 {
+          top: 10px;
+          left: 610px;
+          width: 110px;
+          height: 20px;
+        }
+		#crashlayer {
+          width: 110px;
+          height: 20px;
+        }
+	</style>
+  </head>
+  <body>
+    <div id="controls1" class="nicebox">
+      <div><select id="county">
+		<option value="fips IN (65,81,161,163)">4 Counties</option>
+  		<option value="fips=65">Ingham</option>
+		<option value="fips=81">Kent</option>
+		<option value="fips=161">Washtenaw</option>
+		<option value="fips=163">Wayne</option>
+	  </select></div>
+    </div>
+	<div id="controls2" class="nicebox">
+	  <div><select id="riskexp">
+		<option value="0">Hide SPAZ</option>
+		<option value="2">Ped Risk</option>
+  		<option value="3">Bike Risk</option>
+		<option value="4">Ped Exposure</option>
+  		<option value="5">Bike Exposure</option>
+		</select></div>	  
+    </div>
+	<div id="controls3" class="nicebox">
+	  <div><select id="ranking">
+		<option value="99999">All</option>
+  		<option value="10">10</option>
+		<option value="25">25</option>
+		<option value="100">100</option>
+	  </select></div>	  
+    </div>
+	<div id="controls4" class="nicebox">
+	  <div><select id="roadlayer">
+		<option value="0">Hide Roads</option>
+  		<option value="1">Ped - Roads</option>
+  		<option value="2">Bike - Roads</option>
+	  </select></div>	  
+    </div>
+	<div id="controls5" class="nicebox">
+	  <div><select id="crashlayer">
+		<option value="0">Hide Crashes</option>
+  		<option value="1">Ped Crashes</option>
+  		<option value="2">Bike Crashes</option>
+	  </select></div>	  
+    </div>
+    <div id="map"></div>
+    <script>
+		// global variables
+		var map;
+		var pedbike = "1XQm2mKsjmpjbQ-g9jXK01lqxuQm59BeSt2-Z_rNB";
+		var pedroad = "1d4JszU1lOfgEIeb3meW_Igves9F54mXD8BoKSkXY";
+		var bikeroad = "1mSGXLW5LiPI6w35BoxtvKRuABc_iDhuibDraaOKO";
+		var crashes = "18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1";
+		var selectBox1 = document.getElementById('county');
+		var selectBox2 = document.getElementById('ranking');
+		var selectBox3 = document.getElementById('riskexp');
+		var selectBox4 = document.getElementById('roadlayer');
+		var selectBox5 = document.getElementById('crashlayer');
+		selectBox3.value = 2
+		
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 12,
+				center: {lat: 42.25, lng: -83.7},
+				mapTypeId: 'roadmap', // ['roadmap','satellite','hybrid','terrain'] are the 4 basemaps			
+			});
+			// add fusion table layer	
+			crashlayer = new google.maps.FusionTablesLayer({
+				query: {select: 'geometry',
+						from: crashes},
+				options: {styleId: 2,
+						  templateId: 2},
+			});
+			pedbikelayer = new google.maps.FusionTablesLayer({
+				map: map,
+				query: {select: 'geometry',
+						from: pedbike,
+						where: "PRrank > 0"},
+				options: {styleId: 2,
+						  templateId: 5},
+			});
+			roadlayer = new google.maps.FusionTablesLayer({
+				query: {select: 'geometry',
+						from: pedroad},
+				options: {styleId: 2,
+						  templateId: 2},
+			});
+
+			// callback function for div elements (dropdowns)
+			google.maps.event.addDomListener(selectBox1, 'change', newSelection);
+			google.maps.event.addDomListener(selectBox2, 'change', newSelection);
+			google.maps.event.addDomListener(selectBox3, 'change', newSelection);
+			google.maps.event.addDomListener(selectBox4, 'change', newSelection);
+			google.maps.event.addDomListener(selectBox5, 'change', newSelection);
+		}
+
+		function newSelection () {
+			var county = selectBox1.value;
+			var ranking = selectBox2.value;
+			var styleid  = selectBox3.value;
+			(styleid > 1) ? pedbikelayer.setMap(map) : pedbikelayer.setMap(null)
+			var rankcol = (styleid == 2) ? "PRrank > 0 AND PRrank":
+						  (styleid == 3) ? "BRrank > 0 and BRrank":
+						  (styleid == 4) ? "PErank" : "BErank"
+			pedbikelayer.setOptions({
+				query: {select: 'geometry',
+						from: pedbike,
+						where: county + " AND " + rankcol + " <= " + ranking},
+				styleId: styleid,
+				templateId: 5,
+			});
+			var rd = selectBox4.value;
+			(rd > 0) ? roadlayer.setMap(map) : roadlayer.setMap(null)
+			roadlayer.setOptions({
+				query: {select: 'geometry',
+						from: (rd == 1) ? pedroad : bikeroad,
+						where: county},
+			});
+			var crash = selectBox5.value;
+			(crash > 0) ? crashlayer.setMap(map) : crashlayer.setMap(null)
+			mode = (crash == 1) ? "Ped" : "Bike"
+			crashlayer.setOptions({
+				query: {select: 'geometry',
+						from: crashes,
+						where: county + " AND " + mode + " >0"},
+			});
+		}
+
+	</script>
+    <script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDny-AaZwZEw5j-jUcfwiBMS2fch0dg4dI&callback=initMap">
+    </script>
+  </body>
+</html>
