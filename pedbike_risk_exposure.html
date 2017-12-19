@@ -81,11 +81,90 @@
   <body>
     <div id="controls1" class="nicebox">
       <div><select id="county">
-		<option value=">0">All Counties</option>
-  		<option value="=65">Ingham</option>
-		<option value="=81">Kent</option>
-		<option value="=161">Washtenaw</option>
-		<option value="=163">Wayne</option>
+		<option value="0">Michigan</option>
+		<option value='1'>Alcona</option>
+		<option value='3'>Alger</option>
+		<option value='5'>Allegan</option>
+		<option value='7'>Alpena</option>
+		<option value='9'>Antrim</option>
+		<option value='11'>Arenac</option>
+		<option value='13'>Baraga</option>
+		<option value='15'>Barry</option>
+		<option value='17'>Bay</option>
+		<option value='19'>Benzie</option>
+		<option value='21'>Berrien</option>
+		<option value='23'>Branch</option>
+		<option value='25'>Calhoun</option>
+		<option value='27'>Cass</option>
+		<option value='29'>Charlevoix</option>
+		<option value='31'>Cheboygan</option>
+		<option value='33'>Chippewa</option>
+		<option value='35'>Clare</option>
+		<option value='37'>Clinton</option>
+		<option value='39'>Crawford</option>
+		<option value='41'>Delta</option>
+		<option value='43'>Dickinson</option>
+		<option value='45'>Eaton</option>
+		<option value='47'>Emmet</option>
+		<option value='49'>Genesee</option>
+		<option value='51'>Gladwin</option>
+		<option value='53'>Gogebic</option>
+		<option value='55'>Grand Traverse</option>
+		<option value='57'>Gratiot</option>
+		<option value='59'>Hillsdale</option>
+		<option value='61'>Houghton</option>
+		<option value='63'>Huron</option>
+		<option value='65'>Ingham</option>
+		<option value='67'>Ionia</option>
+		<option value='69'>Iosco</option>
+		<option value='71'>Iron</option>
+		<option value='73'>Isabella</option>
+		<option value='75'>Jackson</option>
+		<option value='77'>Kalamazoo</option>
+		<option value='79'>Kalkaska</option>
+		<option value='81'>Kent</option>
+		<option value='83'>Keweenaw</option>
+		<option value='85'>Lake</option>
+		<option value='87'>Lapeer</option>
+		<option value='89'>Leelanau</option>
+		<option value='91'>Lenawee</option>
+		<option value='93'>Livingston</option>
+		<option value='95'>Luce</option>
+		<option value='97'>Mackinac</option>
+		<option value='99'>Macomb</option>
+		<option value='101'>Manistee</option>
+		<option value='103'>Marquette</option>
+		<option value='105'>Mason</option>
+		<option value='107'>Mecosta</option>
+		<option value='109'>Menominee</option>
+		<option value='111'>Midland</option>
+		<option value='113'>Missaukee</option>
+		<option value='115'>Monroe</option>
+		<option value='117'>Montcalm</option>
+		<option value='119'>Montmorency</option>
+		<option value='121'>Muskegon</option>
+		<option value='123'>Newaygo</option>
+		<option value='125'>Oakland</option>
+		<option value='127'>Oceana</option>
+		<option value='129'>Ogemaw</option>
+		<option value='131'>Ontonagon</option>
+		<option value='133'>Osceola</option>
+		<option value='135'>Oscoda</option>
+		<option value='137'>Otsego</option>
+		<option value='139'>Ottawa</option>
+		<option value='141'>Presque Isle</option>
+		<option value='143'>Roscommon</option>
+		<option value='145'>Saginaw</option>
+		<option value='147'>St. Clair</option>
+		<option value='149'>St. Joseph</option>
+		<option value='151'>Sanilac</option>
+		<option value='153'>Schoolcraft</option>
+		<option value='155'>Shiawassee</option>
+		<option value='157'>Tuscola</option>
+		<option value='159'>Van Buren</option>
+		<option value='161'>Washtenaw</option>
+		<option value='163'>Wayne</option>
+		<option value='165'>Wexford</option>
 	  </select></div>
     </div>
 	<div id="controls2" class="nicebox">
@@ -123,21 +202,23 @@
     <script>
 		// global variables
 		var map;
-		//var pedbike = "1XQm2mKsjmpjbQ-g9jXK01lqxuQm59BeSt2-Z_rNB";
-		var pedroad = "1d4JszU1lOfgEIeb3meW_Igves9F54mXD8BoKSkXY";
-		var bikeroad = "1mSGXLW5LiPI6w35BoxtvKRuABc_iDhuibDraaOKO";
+		// 10 fusion tables
 		var crashes = "18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1";
 		var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
 		var pedbike_NLP = "1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5";
 		var pedbike_SLP = "1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX";
+		var pedroad_UP = "14eKQojT991dai5TvIvJzAvu6AKDLoKI7VNF7S_A7"
+		var pedroad_North = "1BJKaPQQbg7XvM4KYu9RmbzWcvw3eaFfec7BSgby_"
+		var pedroad_South = "1nqaUzvbB45QTq1cj6KNQrKSUmSiZ6_GANl76H9JE"
+		var bikeroad_UP = "19U2mXFwBjrkkECtAfp1f3CGVhD1cmfKi_Z90eJpZ"
+		var bikeroad_North = "11WyCtfELo_D6cuLUi-UemJIcff-96FFCaqSnOtVQ"
+		var bikeroad_South = "1SL9-b8xpaLirz_wNHifOdSF0HC8C8uED9LepGOmO"
+		
 		var selectBox1 = document.getElementById('county');
 		var selectBox2 = document.getElementById('ranking');
 		var selectBox3 = document.getElementById('riskexp');
 		var selectBox4 = document.getElementById('roadlayer');
 		var selectBox5 = document.getElementById('crashlayer');
-		//var UP = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153]
-		//var NLP = [1,7,9,11,17,19,29,31,35,39,47,51,55,57,69,73,79,85,89,101,105,107,111,113,117,119,121,123,127,129,133,135,137,141,143,165]	
-		//var SLP = [145,157,151,63,139,81,67,37,155,49,87,147,5,15,45,65,93,125,99,159,77,25,75,161,163,21,27,149,23,59,91,115]		
 		selectBox3.value = 2
 		
 		function initMap() {
@@ -177,9 +258,21 @@
 				options: {styleId: 2,
 						  templateId: 2},
 			});
-			roadlayer = new google.maps.FusionTablesLayer({
+			roadlayerSouth = new google.maps.FusionTablesLayer({
 				query: {select: 'geometry',
-						from: pedroad},
+						from: pedroad_South},
+				options: {styleId: 2,
+						  templateId: 2},
+			});
+			roadlayerNorth = new google.maps.FusionTablesLayer({
+				query: {select: 'geometry',
+						from: pedroad_North},
+				options: {styleId: 2,
+						  templateId: 2},
+			});
+			roadlayerUP = new google.maps.FusionTablesLayer({
+				query: {select: 'geometry',
+						from: pedroad_UP},
 				options: {styleId: 2,
 						  templateId: 2},
 			});
@@ -210,6 +303,7 @@
 						  (styleid == 4) ? "PErank" : "BErank"
 
 			var county = selectBox1.value;
+			county = (county == 0) ? ">"+county : "="+county
 			pedbikelayerSLP.setOptions({
 				query: {select: 'geometry',
 						from: pedbike_SLP,
@@ -233,11 +327,29 @@
 			});
 			
 			var rd = selectBox4.value;
-			(rd > 0) ? roadlayer.setMap(map) : roadlayer.setMap(null)
-			roadlayer.setOptions({
+			if (rd > 0) {
+				roadlayerSouth.setMap(map)
+				roadlayerNorth.setMap(map)
+				roadlayerUP.setMap(map)
+			}else{
+				roadlayerSouth.setMap(null)
+				roadlayerNorth.setMap(null)
+				roadlayerUP.setMap(null)
+			} 
+			roadlayerSouth.setOptions({
 				query: {select: 'geometry',
-						from: (rd == 1) ? pedroad : bikeroad,
-						where: county},
+						from: (rd == 1) ? pedroad_South : bikeroad_South,
+						where: "fips " + county},
+			});
+			roadlayerNorth.setOptions({
+				query: {select: 'geometry',
+						from: (rd == 1) ? pedroad_North : bikeroad_North,
+						where: "fips " + county},
+			});
+			roadlayerUP.setOptions({
+				query: {select: 'geometry',
+						from: (rd == 1) ? pedroad_UP : bikeroad_UP,
+						where: "fips " + county},
 			});
 			
 			var crash = selectBox5.value;
