@@ -81,11 +81,11 @@
   <body>
     <div id="controls1" class="nicebox">
       <div><select id="county">
-		<option value="fips IN (65,81,161,163)">4 Counties</option>
-  		<option value="fips=65">Ingham</option>
-		<option value="fips=81">Kent</option>
-		<option value="fips=161">Washtenaw</option>
-		<option value="fips=163">Wayne</option>
+		<option value=">0">All Counties</option>
+  		<option value="=65">Ingham</option>
+		<option value="=81">Kent</option>
+		<option value="=161">Washtenaw</option>
+		<option value="=163">Wayne</option>
 	  </select></div>
     </div>
 	<div id="controls2" class="nicebox">
@@ -103,7 +103,7 @@
   		<option value="10">10</option>
 		<option value="25">25</option>
 		<option value="100">100</option>
-	  </select></div>	  
+	  </select></div>
     </div>
 	<div id="controls4" class="nicebox">
 	  <div><select id="roadlayer">
@@ -123,15 +123,21 @@
     <script>
 		// global variables
 		var map;
-		var pedbike = "1XQm2mKsjmpjbQ-g9jXK01lqxuQm59BeSt2-Z_rNB";
+		//var pedbike = "1XQm2mKsjmpjbQ-g9jXK01lqxuQm59BeSt2-Z_rNB";
 		var pedroad = "1d4JszU1lOfgEIeb3meW_Igves9F54mXD8BoKSkXY";
 		var bikeroad = "1mSGXLW5LiPI6w35BoxtvKRuABc_iDhuibDraaOKO";
 		var crashes = "18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1";
+		var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
+		var pedbike_NLP = "1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5";
+		var pedbike_SLP = "1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX";
 		var selectBox1 = document.getElementById('county');
 		var selectBox2 = document.getElementById('ranking');
 		var selectBox3 = document.getElementById('riskexp');
 		var selectBox4 = document.getElementById('roadlayer');
 		var selectBox5 = document.getElementById('crashlayer');
+		//var UP = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153]
+		//var NLP = [1,7,9,11,17,19,29,31,35,39,47,51,55,57,69,73,79,85,89,101,105,107,111,113,117,119,121,123,127,129,133,135,137,141,143,165]	
+		//var SLP = [145,157,151,63,139,81,67,37,155,49,87,147,5,15,45,65,93,125,99,159,77,25,75,161,163,21,27,149,23,59,91,115]		
 		selectBox3.value = 2
 		
 		function initMap() {
@@ -147,13 +153,29 @@
 				options: {styleId: 2,
 						  templateId: 2},
 			});
-			pedbikelayer = new google.maps.FusionTablesLayer({
+			pedbikelayerSLP = new google.maps.FusionTablesLayer({
 				map: map,
 				query: {select: 'geometry',
-						from: pedbike,
+						from: pedbike_SLP,
 						where: "PRrank > 0"},
 				options: {styleId: 2,
-						  templateId: 5},
+						  templateId: 2},
+			});
+			pedbikelayerNLP = new google.maps.FusionTablesLayer({
+				map: map,
+				query: {select: 'geometry',
+						from: pedbike_NLP,
+						where: "PRrank > 0"},
+				options: {styleId: 2,
+						  templateId: 2},
+			});
+			pedbikelayerUP = new google.maps.FusionTablesLayer({
+				map: map,
+				query: {select: 'geometry',
+						from: pedbike_UP,
+						where: "PRrank > 0"},
+				options: {styleId: 2,
+						  templateId: 2},
 			});
 			roadlayer = new google.maps.FusionTablesLayer({
 				query: {select: 'geometry',
@@ -171,20 +193,45 @@
 		}
 
 		function newSelection () {
-			var county = selectBox1.value;
-			var ranking = selectBox2.value;
 			var styleid  = selectBox3.value;
-			(styleid > 1) ? pedbikelayer.setMap(map) : pedbikelayer.setMap(null)
+			if (styleid > 1) {
+				pedbikelayerSLP.setMap(map)
+				pedbikelayerNLP.setMap(map)
+				pedbikelayerUP.setMap(map)
+			}else{
+				pedbikelayerSLP.setMap(null)
+				pedbikelayerNLP.setMap(null)
+				pedbikelayerUP.setMap(null)
+			}				
+			var ranking = selectBox2.value;
+
 			var rankcol = (styleid == 2) ? "PRrank > 0 AND PRrank":
 						  (styleid == 3) ? "BRrank > 0 and BRrank":
 						  (styleid == 4) ? "PErank" : "BErank"
-			pedbikelayer.setOptions({
+
+			var county = selectBox1.value;
+			pedbikelayerSLP.setOptions({
 				query: {select: 'geometry',
-						from: pedbike,
-						where: county + " AND " + rankcol + " <= " + ranking},
+						from: pedbike_SLP,
+						where: "fips" + county + " AND " + rankcol + " <= " + ranking},
 				styleId: styleid,
-				templateId: 5,
+				templateId: 2,
 			});
+			pedbikelayerNLP.setOptions({
+				query: {select: 'geometry',
+						from: pedbike_NLP,
+						where: "fips" + county + " AND " + rankcol + " <= " + ranking},
+				styleId: styleid,
+				templateId: 2,
+			});
+			pedbikelayerUP.setOptions({
+				query: {select: 'geometry',
+						from: pedbike_UP,
+						where: "fips" + county + " AND " + rankcol + " <= " + ranking},
+				styleId: styleid,
+				templateId: 2,
+			});
+			
 			var rd = selectBox4.value;
 			(rd > 0) ? roadlayer.setMap(map) : roadlayer.setMap(null)
 			roadlayer.setOptions({
@@ -192,13 +239,14 @@
 						from: (rd == 1) ? pedroad : bikeroad,
 						where: county},
 			});
+			
 			var crash = selectBox5.value;
 			(crash > 0) ? crashlayer.setMap(map) : crashlayer.setMap(null)
 			mode = (crash == 1) ? "Ped" : "Bike"
 			crashlayer.setOptions({
 				query: {select: 'geometry',
 						from: crashes,
-						where: county + " AND " + mode + " >0"},
+						where: "fips " + county + " AND " + mode + " >0"},
 			});
 		}
 
