@@ -21,4 +21,4 @@ MODT Project with Dr. Robert Hampshire
 - [South Michigan](https://fusiontables.google.com/DataSource?docid=1nqaUzvbB45QTq1cj6KNQrKSUmSiZ6_GANl76H9JE#rows:id=1)
 
 ### Crashes
-[Crashes](https://fusiontables.google.com/DataSource?docid=18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1#rows:id=1)
+- [Michigan](https://fusiontables.google.com/DataSource?docid=18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1#rows:id=1)
