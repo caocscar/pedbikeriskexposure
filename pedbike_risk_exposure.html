@@ -76,6 +76,29 @@
           width: 110px;
           height: 20px;
         }
+		#legendwrapper{
+			position: absolute;
+			right: 50px;
+			bottom: 20px;
+			background-color: white;
+			z-index: 10;
+		}
+		.mapLegend{
+			width: 150px;
+			height: 150px;
+			display: inline-block;
+		}
+		#spazLegend rect{
+			fill-opacity: 0.5;
+			stroke:#666;
+		}
+		#roadLegend line{
+			stroke-width: 5px;
+			stroke-opacity: 0.8;
+		}
+		.legendTitle{
+			font-weight: 700;
+		}
 	</style>
   </head>
   <body>
@@ -198,10 +221,20 @@
   		<option value="2">Bike Crashes</option>
 	  </select></div>	  
     </div>
-    <div id="map"></div>
+	<div id="legendwrapper">
+		<div id="spazLegend" class="mapLegend"></div>
+		<div id="roadLegend" class="mapLegend"></div>
+	</div>
+
+	<div id="map"></div>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.min.js"></script>
     <script>
 		// global variables
 		var map;
+        var spazLegend = $('#spazLegend');
+        var roadLegend = $('#roadLegend');
 		// 10 fusion tables
 		var crashes = "18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1";
 		var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
@@ -219,9 +252,32 @@
 		var selectBox3 = document.getElementById('riskexp');
 		var selectBox4 = document.getElementById('roadlayer');
 		var selectBox5 = document.getElementById('crashlayer');
-		selectBox3.value = 2
-		
-		function initMap() {
+		selectBox3.value = 2;
+		selectBox4.value = 0;
+		var styleid = selectBox3.value;
+		var rd = selectBox4.value;
+
+
+        var PRbins = [0.5, 1, 5, 10];
+        var PRcolours = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
+
+        var PEbins = [2, 20, 60, 234];
+        var PEcolours = ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c'];
+
+        var BRbins = [0.5, 1, 5, 10];
+        var BRcolours = ['#ffffd4','#fed98e','#fe9929','#d95f0e','#993404'];
+
+        var BEbins = [0.5, 6, 20, 84];
+        var BEcolours = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
+
+        var pedbins = [14, 52, 87, 490];
+        var pedcols = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+
+        var bikebins = [7, 36, 66, 400];
+        var bikecols = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+
+
+        function initMap() {
 			map = new google.maps.Map(document.getElementById('map'), {
 				zoom: 12,
 				center: {lat: 42.25, lng: -83.7},
@@ -233,6 +289,7 @@
 						from: crashes},
 				options: {styleId: 2,
 						  templateId: 2},
+
 			});
 			pedbikelayerSLP = new google.maps.FusionTablesLayer({
 				map: map,
@@ -276,6 +333,8 @@
 				options: {styleId: 2,
 						  templateId: 2},
 			});
+//			init legend
+			drawLegend(styleid,rd);
 
 			// callback function for div elements (dropdowns)
 			google.maps.event.addDomListener(selectBox1, 'change', newSelection);
@@ -286,7 +345,7 @@
 		}
 
 		function newSelection () {
-			var styleid  = selectBox3.value;
+			styleid  = selectBox3.value;
 			if (styleid > 1) {
 				pedbikelayerSLP.setMap(map)
 				pedbikelayerNLP.setMap(map)
@@ -326,7 +385,7 @@
 				templateId: 2,
 			});
 			
-			var rd = selectBox4.value;
+			rd = selectBox4.value;
 			if (rd > 0) {
 				roadlayerSouth.setMap(map)
 				roadlayerNorth.setMap(map)
@@ -360,7 +419,111 @@
 						from: crashes,
 						where: "fips " + county + " AND " + mode + " >0"},
 			});
+//			draw legend
+            drawLegend(styleid,rd);
+
 		}
+
+		function drawLegend(styleid,rd){
+            console.log(styleid,rd);
+            if (styleid == 0 && rd == 0){
+				spazLegend.hide();
+				roadLegend.hide();
+			} else if (styleid == 0){
+                spazLegend.hide();
+				roadLegend.show();
+				drawroadLegend(rd);
+			} else if (rd == 0){
+                spazLegend.show();
+                roadLegend.hide();
+				drawSpazLegend(styleid);
+			} else {
+                spazLegend.show();
+                roadLegend.show();
+                drawroadLegend(rd);
+                drawSpazLegend(styleid);
+            }
+        }
+
+        function drawSpazLegend(styleid){
+            if (styleid==2){
+				var colorScale = d3.scaleThreshold().domain(PRbins).range(PRcolours);
+				var title = "Pedestrian Risk";
+            } else if (styleid==3){
+                var colorScale = d3.scaleThreshold().domain(BRbins).range(BRcolours);
+                var title = "Bike Risk";
+            } else if (styleid==4){
+                var colorScale = d3.scaleThreshold().domain(PEbins).range(PEcolours);
+                var title = "Pedestrian Exposure";
+            } else if (styleid==5){
+                var colorScale = d3.scaleThreshold().domain(BEbins).range(BEcolours);
+                var title = "Bike Exposure";
+            }
+            d3.select("#spazLegend").select("svg").remove();
+            var legendsvg = d3.select("#spazLegend").append("svg");
+            legendsvg.append("g")
+                .attr("class","dynamicLegend")
+                .attr("transform", "translate(10,30)");
+
+            var legendOptions = d3.legendColor()
+                .labelFormat(d3.format(""))
+                .title(title)
+                .labels(generateLabels)
+                .shapeWidth(20)
+                .scale(colorScale);
+            legendsvg.select('.dynamicLegend').call(legendOptions);
+		}
+
+		function drawroadLegend(rd){
+            if (rd==1){
+                var colorScale = d3.scaleThreshold().domain(pedbins).range(pedcols);
+				var title = "Pedestrian - Road";
+            } else if (rd==2){
+                var colorScale = d3.scaleThreshold().domain(bikebins).range(bikecols);
+                var title = "Bike - Road";
+			}
+            d3.select("#roadLegend").select("svg").remove();
+            var legendsvg = d3.select("#roadLegend").append("svg");
+            legendsvg.append("g")
+                .attr("class","dynamicLegend")
+                .attr("transform", "translate(10,30)");
+            var legendOptions = d3.legendColor()
+                .labelFormat(d3.format(""))
+                .title(title)
+                .labels(generateLabels)
+                .shape("line")
+                .shapeWidth(20)
+				.shapePadding(3.8)
+                .scale(colorScale);
+            legendsvg.select('.dynamicLegend').call(legendOptions);
+		}
+
+		function generateLabels({ i, genLength, generatedLabels}){
+		    if (styleid==2){
+		        var max=50;
+			} else if (styleid==3){
+                var max = 50;
+			} else if (styleid==4){
+                var max = 2400;
+            } else if (styleid==5){
+                var max = 1100;
+			}
+			if (rd==1){
+                var max =1100;
+			} else if (rd==2){
+			    var max=900;
+			}
+            if (i === 0 ) {
+                return generatedLabels[i]
+                    .replace('NaN to', '0 to');
+            } else if (i === genLength - 1) {
+                return `${generatedLabels[genLength - 1]
+                    .replace(' to NaN', ' to '+max)}`
+            }
+            return generatedLabels[i]
+
+		}
+
 
 	</script>
     <script async defer
