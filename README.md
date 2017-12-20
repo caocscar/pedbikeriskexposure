@@ -1,10 +1,14 @@
 # Pedestrian Bike Risk Exposure
 
-MODT Project with Dr. Robert Hampshire
+MDOT Project with Dr. Robert Hampshire
+
+## Summary
+- 10 Fusion Tables
+- 7 Fusion Table Layers (5 Layer Limit)
+- 3 Effective Map Layers
+- 2 Filters (County, Ranking)
 
 ## List of Fusion Tables
-10 in Total
-
 ### Bike Ped Risk Exposure
 - [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n#rows:id=1)
 - [Northern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5#rows:id=1)
