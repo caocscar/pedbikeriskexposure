@@ -9,6 +9,7 @@
 			height: 100%;
 			padding: 0;
 			margin: 0;
+			font-family: "Roboto", "Arial", sans-serif;
 		}
 		#map {
 			height: 100%;
@@ -18,7 +19,6 @@
 		.nicebox {
           position: absolute;
           text-align: center;
-          font-family: "Roboto", "Arial", sans-serif;
           font-size: 13px;
           z-index: 5;
           box-shadow: 0 4px 6px -4px #333;
@@ -82,12 +82,20 @@
 			bottom: 20px;
 			background-color: white;
 			z-index: 10;
+			padding:5px;
+			-webkit-box-shadow: 4px 4px 11px 2px rgba(0,0,0,0.5);
+			-moz-box-shadow: 4px 4px 11px 2px rgba(0,0,0,0.5);
+			box-shadow: 4px 4px 11px 2px rgba(0,0,0,0.5);
+
 		}
 		.mapLegend{
+			padding:5px;
 			width: 150px;
 			height: 150px;
 			display: inline-block;
+			border:#666 solid 1px;
 		}
+
 		#spazLegend rect{
 			fill-opacity: 0.5;
 			stroke:#666;
@@ -98,7 +106,13 @@
 		}
 		.legendTitle{
 			font-weight: 700;
+			font-size: 15px;
 		}
+
+		#roadLegend .legendCells{
+			transform: translate(0, 26px);
+		}
+
 	</style>
   </head>
   <body>
@@ -425,7 +439,6 @@
 		}
 
 		function drawLegend(styleid,rd){
-            console.log(styleid,rd);
             if (styleid == 0 && rd == 0){
 				spazLegend.hide();
 				roadLegend.hide();
@@ -463,12 +476,12 @@
             var legendsvg = d3.select("#spazLegend").append("svg");
             legendsvg.append("g")
                 .attr("class","dynamicLegend")
-                .attr("transform", "translate(10,30)");
+                .attr("transform", "translate(10,25)");
 
             var legendOptions = d3.legendColor()
                 .labelFormat(d3.format(""))
                 .title(title)
-                .labels(generateLabels)
+                .labels(generateSpazLabels)
                 .shapeWidth(20)
                 .scale(colorScale);
             legendsvg.select('.dynamicLegend').call(legendOptions);
@@ -486,19 +499,18 @@
             var legendsvg = d3.select("#roadLegend").append("svg");
             legendsvg.append("g")
                 .attr("class","dynamicLegend")
-                .attr("transform", "translate(10,30)");
+                .attr("transform", "translate(10,25)");
             var legendOptions = d3.legendColor()
                 .labelFormat(d3.format(""))
                 .title(title)
-                .labels(generateLabels)
+                .labels(generateRoadLabels)
                 .shape("line")
                 .shapeWidth(20)
-				.shapePadding(3.8)
                 .scale(colorScale);
             legendsvg.select('.dynamicLegend').call(legendOptions);
 		}
 
-		function generateLabels({ i, genLength, generatedLabels}){
+		function generateSpazLabels({ i, genLength, generatedLabels}){
 		    if (styleid==2){
 		        var max=50;
 			} else if (styleid==3){
@@ -508,11 +520,6 @@
             } else if (styleid==5){
                 var max = 1100;
 			}
-			if (rd==1){
-                var max =1100;
-			} else if (rd==2){
-			    var max=900;
-			}
             if (i === 0 ) {
                 return generatedLabels[i]
                     .replace('NaN to', '0 to');
@@ -521,10 +528,23 @@
                     .replace(' to NaN', ' to '+max)}`
             }
             return generatedLabels[i]
-
 		}
 
-
+        function generateRoadLabels({ i, genLength, generatedLabels}){
+            if (rd==1){
+                var max =1100;
+            } else if (rd==2){
+                var max=900;
+            }
+            if (i === 0 ) {
+                return generatedLabels[i]
+                    .replace('NaN to', '0 to');
+            } else if (i === genLength - 1) {
+                return `${generatedLabels[genLength - 1]
+                    .replace(' to NaN', ' to '+max)}`
+            }
+            return generatedLabels[i]
+        }
 	</script>
     <script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDny-AaZwZEw5j-jUcfwiBMS2fch0dg4dI&callback=initMap">
