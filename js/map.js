@@ -19,7 +19,7 @@ $(".menu-link").click(function(){
 $('#radios').radiosToSlider();
 
 // 10 fusion tables
-var crashes = "18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1";
+var crashes = "1nkg4MnAolr8UEyzBFEnNyovEoEVJnSK_qZvHv6xj";
 var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
 var pedbike_NLP = "1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5";
 var pedbike_SLP = "1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX";
