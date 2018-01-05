@@ -1,0 +1,459 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    position: relative;
+    -webkit-text-size-adjust: none;
+    overflow-x: hidden;
+}
+
+#map{
+    height: 100%;
+}
+
+#menu {
+    background:linear-gradient(0deg, #d3cce3, #e9e4f0);
+    height: 100%;
+    left: -380px;
+    top:0;
+    position: fixed;
+    width: 380px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -o-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+    -webkit-transition: 0.30s ease;
+    -moz-transition: 0.30s ease;
+    -o-transition: 0.30s ease;
+    transition: 0.30s ease;
+}
+
+#menu.active {
+    -webkit-transform: translate(380px, 0px);
+    -moz-transform: translate(380px, 0px);
+    -o-transform: translate(380px, 0px);
+    -ms-transform: translate(380px, 0px);
+    transform: translate(380px, 0px);
+}
+
+.container {
+    height:100%;
+    width: 100%;
+    -webkit-transform: translate(0px, 0px);
+    -moz-transform: translate(0px, 0px);
+    -o-transform: translate(0px, 0px);
+    -ms-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+    -webkit-transition: 0.30s ease;
+    -moz-transition: 0.30s ease;
+    -o-transition: 0.30s ease;
+    transition: 0.30s ease;
+}
+
+.container.active {
+    -webkit-transform: translate(380px, 0px);
+    -moz-transform: translate(380px, 0px);
+    -o-transform: translate(380px, 0px);
+    -ms-transform: translate(380px, 0px);
+    transform: translate(380px, 0px);
+}
+
+.menu-content{
+    padding-top:50px;
+    padding-left: 40px;
+    top:0;
+}
+
+
+.menu-content p{
+    font-weight: 700;
+}
+
+.ui-wrap{
+    margin-bottom: 40px;
+    /*visibility: hidden;*/
+}
+
+/*@keyframes slideInLeft {*/
+    /*from {*/
+        /*transform: translate3d(-100%, 0, 0);*/
+
+        /*visibility: visible;*/
+    /*}*/
+
+    /*to {*/
+
+        /*transform: translate3d(0, 0, 0);*/
+    /*}*/
+/*}*/
+
+/*.slideInLeft {*/
+    /*animation-name: slideInLeft;*/
+    /*animation-duration: 250ms;*/
+    /*visibility: visible !important;*/
+/*}*/
+
+.menu-btn {
+    z-index: 1000;
+    background-color:black;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: .5s ease-in-out;
+    -moz-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    cursor: pointer;
+}
+
+.menu-btn span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 30px;
+    background: ghostwhite;
+    opacity: 1;
+    left: 10px;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: .25s ease-in-out;
+    -moz-transition: .25s ease-in-out;
+    -o-transition: .25s ease-in-out;
+    transition: .25s ease-in-out;
+}
+
+.menu-btn {
+    text-decoration: none;
+    color: #000;
+}
+
+.menu-btn span:nth-child(1) {
+    top: 13px;
+    -webkit-transform-origin: left center;
+    -moz-transform-origin: left center;
+    -o-transform-origin: left center;
+    transform-origin: left center;
+}
+
+.menu-btn span:nth-child(2) {
+    top: 23px;
+    -webkit-transform-origin: left center;
+    -moz-transform-origin: left center;
+    -o-transform-origin: left center;
+    transform-origin: left center;
+}
+
+.menu-btn span:nth-child(3) {
+    top: 33px;
+    -webkit-transform-origin: left center;
+    -moz-transform-origin: left center;
+    -o-transform-origin: left center;
+    transform-origin: left center;
+}
+
+/* Icon Animation */
+.active .menu-btn span:nth-child(1) {
+    -webkit-transform: translateY(9px) rotate(45deg);
+    -moz-transform: translateY(9px) rotate(45deg);
+    -o-transform: translateY(9px) rotate(45deg);
+    transform: translateY(9px) rotate(45deg);
+
+}
+
+.active .menu-btn span:nth-child(2) {
+    opacity: 1;
+}
+
+.active .menu-btn  span:nth-child(3) {
+    -webkit-transform: translateY(-9px) rotate(-45deg);
+    -moz-transform: translateY(-9px) rotate(-45deg);
+    -o-transform: translateY(-9px) rotate(-45deg);
+    transform: translateY(-9px) rotate(-45deg);
+
+}
+
+#menu.active {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.search-box,.close-icon {
+    position: relative;
+    padding: 10px;
+}
+
+.search-box {
+    height: 30px;
+    width: 280px;
+    padding: 20px 12px;
+    background-color: #fff;
+    border: 0 none;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    -webkit-transition: -webkit-box-shadow 0.3s ease-in;
+    transition: -webkit-box-shadow 0.3s ease-in;
+    outline: 0 none;
+}
+
+.search-box:focus {
+    -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.close-icon {
+    border:1px solid transparent;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    outline: 0;
+    cursor: pointer;
+}
+.close-icon:after {
+    content: "X";
+    display: block;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    background-color: #FA9595;
+    z-index:1;
+    right: 35px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    padding: 2px;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    font-weight: normal;
+    font-size: 12px;
+    box-shadow: 0 0 2px #E50F0F;
+    cursor: pointer;
+}
+
+.search-box:not(:valid) ~ .close-icon {
+    display: none;
+}
+
+.ui-autocomplete {
+    z-index: 1000;
+    max-height: 150px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+    -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.ui-menu-item-wrapper {
+    color: #333;
+    padding: 5px 7px;
+    font-size: 14px;
+    line-height: 1.5;
+    border: 1px solid #fff;
+}
+.ui-menu-item-wrapper.ui-state-active {
+    margin: 0;
+    background-color: #ededed;
+    border-color: #ededed;
+    color: #333;
+}
+
+.ui-autocomplete.animated {
+    -webkit-animation-duration: 0.7s;
+    animation-duration: 0.7s;
+}
+
+.toggle {
+    display:-webkit-box;
+    display:-ms-flexbox;
+    display:flex;
+    position:relative;
+    width:7.5rem;
+    height:2.5rem;
+    background:white;
+    -ms-flex-item-align:center;
+    align-self:center;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.toggle:after, .toggle:before {
+    -webkit-box-flex:1;
+    -ms-flex:1;
+    flex:1;
+    text-align:center;
+    line-height:2.5rem;
+}
+
+.toggle:after {
+    content:"Yes";
+}
+.toggle:before {
+    content:"No";
+}
+
+.toggle input {
+    display:none;
+}
+
+.toggle label {
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    -webkit-perspective:1000;
+    perspective:1000;
+    cursor:pointer;
+}
+
+.card {
+    position:relative;
+    background:#93f9b9;
+    -webkit-transition:.4s;
+    transition:.4s;
+    width:50%;
+    height:2.5rem;
+    pointer-events:none;
+}
+
+input:checked + label .card { background:#ff9966; }
+
+.flip {
+    -webkit-transform:perspective(200) rotateY(0);
+    transform:perspective(200) rotateY(0);
+    -webkit-transform-origin:center right;
+    transform-origin:center right;
+    -webkit-transform-style:preserve-3d;
+    transform-style:preserve-3d;
+}
+
+input:checked + label .flip {
+    -webkit-transform:perspective(200) rotateY(180deg);
+    transform:perspective(200) rotateY(180deg);
+}
+
+.list {
+    list-style: none;
+    padding: .5rem 1rem;
+    border-left: 0.1875rem solid #108dc7;
+}
+
+.list__item {
+    margin: 0 0 .5rem 0;
+    padding: 0;
+}
+
+.label--radio {
+    position: relative;
+    margin: .5rem;
+    line-height: 135%;
+    cursor: pointer;
+}
+
+.radio {
+    position: relative;
+    margin: 0 1rem 0 0;
+    cursor: pointer;
+}
+.radio:before {
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+    -moz-transition: -moz-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+    transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+    -webkit-transform: scale(0, 0);
+    -moz-transform: scale(0, 0);
+    -ms-transform: scale(0, 0);
+    -o-transform: scale(0, 0);
+    transform: scale(0, 0);
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0.125rem;
+    z-index: 1;
+    width: 0.75rem;
+    height: 0.75rem;
+    background: #108dc7;
+    border-radius: 50%;
+}
+.radio:checked:before {
+    -webkit-transform: scale(1, 1);
+    -moz-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    -o-transform: scale(1, 1);
+    transform: scale(1, 1);
+}
+.radio:after {
+    content: "";
+    position: absolute;
+    top: -0.25rem;
+    left: -0.125rem;
+    width: 1rem;
+    height: 1rem;
+    background: #fff;
+    border: 2px solid #f2f2f2;
+    border-radius: 50%;
+}
+
+.radiowrap{
+    width: 280px;
+
+}
+
+.legendwrapper{
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    background-color: white;
+    z-index: 10;
+    padding:5px;
+    -webkit-box-shadow: 4px 4px 11px 2px rgba(0,0,0,0.5);
+    -moz-box-shadow: 4px 4px 11px 2px rgba(0,0,0,0.5);
+    box-shadow: 4px 4px 11px 2px rgba(0,0,0,0.5);
+
+}
+.mapLegend{
+    padding:5px;
+    width: 150px;
+    height: 150px;
+    display: inline-block;
+    border:#666 solid 1px;
+}
+
+#spazLegend rect{
+    fill-opacity: 0.5;
+    stroke:#666;
+}
+#roadLegend line{
+    stroke-width: 5px;
+    stroke-opacity: 0.8;
+}
+.legendTitle{
+    font-weight: 700;
+    font-size: 16px;
+}
+
+#roadLegend .legendCells{
+    transform: translate(0,28px);
+}

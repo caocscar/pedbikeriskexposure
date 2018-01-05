@@ -1,0 +1,166 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>PedBike Risk Exposure</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="css/radios-to-slider.min.css">
+    <link rel="stylesheet" href="css/introjs.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<div class="container">
+    <a class="menu-btn menu-link animated bounceInDown" id="step1">
+        <span></span>
+        <span></span>
+        <span></span>
+    </a>
+    <div id="map"></div>
+    <div class="legendwrapper" id="step2" >
+        <div id="spazLegend" class="mapLegend" ></div>
+        <div id="roadLegend" class="mapLegend"></div>
+    </div>
+</div>
+
+<nav id="menu">
+    <div class="menu-content">
+        <h2>FILTERS</h2>
+
+        <div class="ui-wrap">
+            <form>
+                <p>Select a county:</p>
+
+                    <input name="search" class="search-box" required type="text" id="county" placeholder="Type 'Michigan' or a county name...">
+                    <button class="close-icon" type="reset"></button>
+
+            </form>
+        </div>
+
+        <div class="ui-wrap">
+        <p>Show Super PAZ?</p>
+            <div class="toggle">
+                <input id="spaz" type="checkbox"/>
+                <label for="spaz">
+                    <div class="card flip"></div>
+                </label>
+            </div>
+
+            <div class="riskex spaz">
+                <p>Select a Super PAZ variable:</p>
+                <ul class="list">
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio" name="rb" class="radio spaz selector" id="rb1" value="2">
+                            Pedestrian Risk
+                        </label>
+                    </li>
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio"  name="rb" class="radio spaz selector" id="rb2" value="3">
+                            Bike Risk
+                        </label>
+                    </li>
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio"  name="rb" class="radio spaz selector" id="rb3" value="4">
+                            Pedestrian Exposure
+                        </label>
+                    </li>
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio"  name="rb" class="radio spaz selector" id="rb4" value="5">
+                            Bike Exposure
+                        </label>
+                    </li>
+                </ul>
+                <p>Show Super PAZs in the top:</p>
+                <div class="radiowrap">
+                    <div id="radios">
+                        <input id="rb9" name="rb3" type="radio" value="10">
+                        <label for="rb9">10</label>
+                        <input id="rb10" name="rb3" type="radio" value="25">
+                        <label for="rb10">25</label>
+                        <input id="rb11" name="rb3" type="radio" value="100">
+                        <label for="rb11">100</label>
+                        <input id="rb12" name="rb3" type="radio" value="99999" checked>
+                        <label for="rb12">All</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-wrap">
+
+        <p>Show road segments?</p>
+            <div class="toggle">
+                <input id="road" type="checkbox" />
+                <label for="road">
+                    <div class="card flip"></div>
+                </label>
+            </div>
+            <div class="riskex road">
+                <p>Select a road variable:</p>
+                <ul class="list">
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio" name="rb1" class="radio road selector" id="rb5" value="1">
+                            Pedestrian - Roads
+                        </label>
+                    </li>
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio"  name="rb1" class="radio road selector" id="rb6" value="2">
+                            Bike - Roads
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="ui-wrap">
+            <p>Show crash points?</p>
+            <div class="toggle">
+                <input id="crash" type="checkbox" />
+                <label for="crash">
+                    <div class="card flip"></div>
+                </label>
+            </div>
+
+            <div class="riskex crash">
+                <p>Select a crash variable:</p>
+                <ul class="list">
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio" name="rb2" class="radio crash selector" id="rb7" value="Ped">
+                            Pedestrian Crashes
+                        </label>
+                    </li>
+                    <li class="list__item">
+                        <label class="label--radio">
+                            <input type="radio"  name="rb2" class="radio crash selector" id="rb8" value="Bike">
+                            Bike Crashes
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="lib/jquery.radios-to-slider.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.min.js"></script>
+<script src="lib/intro.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDny-AaZwZEw5j-jUcfwiBMS2fch0dg4dI"></script>
+<script src="js/map.js"></script>
+
+</body>
+</html>
