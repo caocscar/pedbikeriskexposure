@@ -440,7 +440,3 @@ input:checked + label .card {
     font-weight: 700;
     font-size: 16px;
 }
-
-#roadLegend .legendCells{
-    transform: translate(0,28px);
-}

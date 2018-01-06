@@ -562,6 +562,8 @@ function drawroadLegend(roadid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
+    legendsvg.select('.legendCells').attr('transform','translate(0, 28)')
+
 }
 
 function generateSpazLabels(legendOpts){
