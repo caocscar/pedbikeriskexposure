@@ -9,17 +9,13 @@ var roadLegend = $('#roadLegend');
 $(".menu-link").click(function(){
     $("#menu").toggleClass("active");
     $(".container").toggleClass("active");
-    // $('.ui-wrap').each(function (i) {
-    //     var that = this;
-    //     setTimeout(function () {$(that).toggleClass("slideInLeft");},(i+1)*150);
-    // })
 });
 
 //generate radio slider
 $('#radios').radiosToSlider();
 
 // 10 fusion tables
-var crashes = "18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1";
+var crashes = "1nkg4MnAolr8UEyzBFEnNyovEoEVJnSK_qZvHv6xj";
 var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
 var pedbike_NLP = "1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5";
 var pedbike_SLP = "1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX";
@@ -82,23 +78,17 @@ var hideCrash = $('#crash').prop("checked");
 
 spazChecker.on("click",function () {
     hideSpaz = !hideSpaz;
-    $('.riskex.spaz').slideToggle('1500',"easeInCubic", function () {
-        // Animation complete.
-    });
+    $('.riskex.spaz').slideToggle("fast");
 });
 
 roadChecker.on("click",function () {
     hideRoad = !hideRoad;
-    $('.riskex.road').slideToggle('1500',"easeInCubic", function () {
-        // Animation complete.
-    });
+    $('.riskex.road').slideToggle("fast");
 });
 
 crashChecker.on("click",function () {
     hideCrash = !hideCrash;
-    $('.riskex.crash').slideToggle('1500',"easeInCubic", function () {
-        // Animation complete.
-    });
+    $('.riskex.crash').slideToggle("fast");
 });
 
 
@@ -189,89 +179,89 @@ function initAutocomplete(){
 //            search box data source
     var countyNames = [
         "Michigan",
-        "Alcona County",
-        "Alger County",
-        "Allegan County",
-        "Alpena County",
-        "Antrim County",
-        "Arenac County",
-        "Baraga County",
-        "Barry County",
-        "Bay County",
-        "Benzie County",
-        "Berrien County",
-        "Branch County",
-        "Calhoun County",
-        "Cass County",
-        "Charlevoix County",
-        "Cheboygan County",
-        "Chippewa County",
-        "Clare County",
-        "Clinton County",
-        "Crawford County",
-        "Delta County",
-        "Dickinson County",
-        "Eaton County",
-        "Emmet County",
-        "Genesee County",
-        "Gladwin County",
-        "Gogebic County",
-        "Grand Traverse County",
-        "Gratiot County",
-        "Hillsdale County",
-        "Houghton County",
-        "Huron County",
-        "Ingham County",
-        "Ionia County",
-        "Iosco County",
-        "Iron County",
-        "Isabella County",
-        "Jackson County",
-        "Kalamazoo County",
-        "Kalkaska County",
-        "Kent County",
-        "Keweenaw County",
-        "Lake County",
-        "Lapeer County",
-        "Leelanau County",
-        "Lenawee County",
-        "Livingston County",
-        "Luce County",
-        "Mackinac County",
-        "Macomb County",
-        "Manistee County",
-        "Marquette County",
-        "Mason County",
-        "Mecosta County",
-        "Menominee County",
-        "Midland County",
-        "Missaukee County",
-        "Monroe County",
-        "Montcalm County",
-        "Montmorency County",
-        "Muskegon County",
-        "Newaygo County",
-        "Oakland County",
-        "Oceana County",
-        "Ogemaw County",
-        "Ontonagon County",
-        "Osceola County",
-        "Oscoda County",
-        "Otsego County",
-        "Ottawa County",
-        "Presque Isle County",
-        "Roscommon County",
-        "Saginaw County",
-        "Sanilac County",
-        "Schoolcraft County",
-        "Shiawassee County",
-        "St. Clair County",
-        "St. Joseph County",
-        "Tuscola County",
-        "Van Buren County",
-        "Washtenaw County",
-        "Wayne County",
-        "Wexford County"
+        "Alcona",
+        "Alger",
+        "Allegan",
+        "Alpena",
+        "Antrim",
+        "Arenac",
+        "Baraga",
+        "Barry",
+        "Bay",
+        "Benzie",
+        "Berrien",
+        "Branch",
+        "Calhoun",
+        "Cass",
+        "Charlevoix",
+        "Cheboygan",
+        "Chippewa",
+        "Clare",
+        "Clinton",
+        "Crawford",
+        "Delta",
+        "Dickinson",
+        "Eaton",
+        "Emmet",
+        "Genesee",
+        "Gladwin",
+        "Gogebic",
+        "Grand Traverse",
+        "Gratiot",
+        "Hillsdale",
+        "Houghton",
+        "Huron",
+        "Ingham",
+        "Ionia",
+        "Iosco",
+        "Iron",
+        "Isabella",
+        "Jackson",
+        "Kalamazoo",
+        "Kalkaska",
+        "Kent",
+        "Keweenaw",
+        "Lake",
+        "Lapeer",
+        "Leelanau",
+        "Lenawee",
+        "Livingston",
+        "Luce",
+        "Mackinac",
+        "Macomb",
+        "Manistee",
+        "Marquette",
+        "Mason",
+        "Mecosta",
+        "Menominee",
+        "Midland",
+        "Missaukee",
+        "Monroe",
+        "Montcalm",
+        "Montmorency",
+        "Muskegon",
+        "Newaygo",
+        "Oakland",
+        "Oceana",
+        "Ogemaw",
+        "Ontonagon",
+        "Osceola",
+        "Oscoda",
+        "Otsego",
+        "Ottawa",
+        "Presque Isle",
+        "Roscommon",
+        "Saginaw",
+        "Sanilac",
+        "Schoolcraft",
+        "Shiawassee",
+        "St. Clair",
+        "St. Joseph",
+        "Tuscola",
+        "Van Buren",
+        "Washtenaw",
+        "Wayne",
+        "Wexford"
     ];
 
 
@@ -285,20 +275,39 @@ function initAutocomplete(){
 
     countySelector.autocomplete({
         minLength: 0,
-        source: countyNames,
+        source: function (request, response) {
+            var matches = $.map(countyNames, function (acItem) {
+                if (acItem.toUpperCase().indexOf(request.term.toUpperCase()) === 0) {
+                    return acItem;
+                }
+            });
+            response(matches);
+        },
         focus: function( event, ui ) {
-            $( "#county" ).val( ui.item.value);
+            countySelector.val( ui.item.value);
             return false;
         },
         // event triggered when drop-down option selected
         select: function( event, ui ) {
-            $( "#county" ).val( ui.item.value);
+            countySelector.val( ui.item.value);
             selectedCounty = ui.item.value;
             updateMap();
             return false;
         },
+
         animation: "flipInX"
     });
+
+    countySelector.keypress(function(event){
+        if(event.keyCode == 13){
+            event.preventDefault();
+        }
+    });
+
+    countySelector.on('click focus', function() {
+        this.value = '';
+    });
+
     $('.ui-autocomplete').appendTo($('.nav'));
 }
 
@@ -555,7 +564,7 @@ function drawroadLegend(roadid){
     legendsvg.select('.dynamicLegend').call(legendOptions);
 }
 
-function generateSpazLabels({ i, genLength, generatedLabels}){
+function generateSpazLabels(legendOpts){
     if (styleid==2){
         var max=50;
     } else if (styleid==3){
@@ -565,30 +574,30 @@ function generateSpazLabels({ i, genLength, generatedLabels}){
     } else if (styleid==5){
         var max = 1100;
     }
-    if (i === 0 ) {
-        return generatedLabels[i]
+    if (legendOpts.i === 0 ) {
+        return legendOpts.generatedLabels[legendOpts.i]
             .replace('NaN to', '0 to');
-    } else if (i === genLength - 1) {
-        return `${generatedLabels[genLength - 1]
-            .replace(' to NaN', ' to '+max)}`
+    } else if (legendOpts.i === legendOpts.genLength - 1) {
+        return legendOpts.generatedLabels[legendOpts.i]
+            .replace(' to NaN', ' to '+max);
     }
-    return generatedLabels[i]
+    return legendOpts.generatedLabels[legendOpts.i];
 }
 
-function generateRoadLabels({ i, genLength, generatedLabels}){
+function generateRoadLabels(legendOpts){
     if (roadid==1){
         var max =1100;
     } else if (roadid==2){
         var max=900;
     }
-    if (i === 0 ) {
-        return generatedLabels[i]
+    if (legendOpts.i === 0 ) {
+        return legendOpts.generatedLabels[legendOpts.i]
             .replace('NaN to', '0 to');
-    } else if (i === genLength - 1) {
-        return `${generatedLabels[genLength - 1]
-            .replace(' to NaN', ' to '+max)}`
+    } else if (legendOpts.i === legendOpts.genLength - 1) {
+        return legendOpts.generatedLabels[legendOpts.i]
+            .replace(' to NaN', ' to '+max);
     }
-    return generatedLabels[i]
+    return legendOpts.generatedLabels[legendOpts.i];
 }
 
 function show_intro() {

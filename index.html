@@ -33,10 +33,10 @@
 
         <div class="ui-wrap">
             <form>
-                <p>Select a county:</p>
+                <p>Search for a county:</p>
 
                     <input name="search" class="search-box" required type="text" id="county" placeholder="Type 'Michigan' or a county name...">
-                    <button class="close-icon" type="reset"></button>
+                    <!--<button class="close-icon" type="reset"></button>-->
 
             </form>
         </div>
@@ -46,7 +46,7 @@
             <div class="toggle">
                 <input id="spaz" type="checkbox"/>
                 <label for="spaz">
-                    <div class="card flip"></div>
+                    <div class="card"></div>
                 </label>
             </div>
 
@@ -54,28 +54,21 @@
                 <p>Select a Super PAZ variable:</p>
                 <ul class="list">
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio" name="rb" class="radio spaz selector" id="rb1" value="2">
-                            Pedestrian Risk
-                        </label>
+                        <input type="radio" name="rb" class="radio spaz selector" id="rb1" value="2">
+                        <label for="rb1" >Pedestrian Risk</label>
                     </li>
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio"  name="rb" class="radio spaz selector" id="rb2" value="3">
-                            Bike Risk
-                        </label>
+                        <input type="radio"  name="rb" class="radio spaz selector" id="rb2" value="3">
+                        <label for="rb2" >Bike Risk</label>
+
                     </li>
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio"  name="rb" class="radio spaz selector" id="rb3" value="4">
-                            Pedestrian Exposure
-                        </label>
+                        <input type="radio"  name="rb" class="radio spaz selector" id="rb3" value="4">
+                        <label for="rb3" >Pedestrian Exposure</label>
                     </li>
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio"  name="rb" class="radio spaz selector" id="rb4" value="5">
-                            Bike Exposure
-                        </label>
+                        <input type="radio"  name="rb" class="radio spaz selector" id="rb4" value="5">
+                        <label for="rb4" >Bike Exposure</label>
                     </li>
                 </ul>
                 <p>Show Super PAZs in the top:</p>
@@ -107,16 +100,12 @@
                 <p>Select a road variable:</p>
                 <ul class="list">
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio" name="rb1" class="radio road selector" id="rb5" value="1">
-                            Pedestrian - Roads
-                        </label>
+                        <input type="radio" name="rb1" class="radio road selector" id="rb5" value="1">
+                        <label for="rb5">Pedestrian - Roads</label>
                     </li>
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio"  name="rb1" class="radio road selector" id="rb6" value="2">
-                            Bike - Roads
-                        </label>
+                        <input type="radio"  name="rb1" class="radio road selector" id="rb6" value="2">
+                        <label for="rb6">Bike - Roads</label>
                     </li>
                 </ul>
             </div>
@@ -134,16 +123,12 @@
                 <p>Select a crash variable:</p>
                 <ul class="list">
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio" name="rb2" class="radio crash selector" id="rb7" value="Ped">
-                            Pedestrian Crashes
-                        </label>
+                        <input type="radio" name="rb2" class="radio crash selector" id="rb7" value="pedestrian">
+                        <label for="rb7">Pedestrian Crashes</label>
                     </li>
                     <li class="list__item">
-                        <label class="label--radio">
-                            <input type="radio"  name="rb2" class="radio crash selector" id="rb8" value="Bike">
-                            Bike Crashes
-                        </label>
+                        <input type="radio"  name="rb2" class="radio crash selector" id="rb8" value="bike">
+                        <label for="rb8">Bike Crashes</label>
                     </li>
                 </ul>
             </div>
