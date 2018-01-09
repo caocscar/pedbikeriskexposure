@@ -11,8 +11,84 @@ $(".menu-link").click(function(){
     $(".container").toggleClass("active");
 });
 
+//generate dropdown menu
+var countOption = $('.old-select option').size();
+
+function openSelect(){
+    var heightSelect = $('.new-select').height();
+    var j=1;
+    $('.new-select .new-option').each(function(){
+        $(this).addClass('reveal');
+        $(this).css({
+            'box-shadow':'0 1px 1px rgba(0,0,0,0.1)',
+            'left':'0',
+            'right':'0',
+            'top': j*(heightSelect+1)+'px'
+        });
+        j++;
+    });
+}
+
+function closeSelect(){
+    var i=0;
+    $('.new-select .new-option').each(function(){
+        $(this).removeClass('reveal');
+        if(i<countOption-3){
+            $(this).css('top',0);
+            $(this).css('box-shadow','none');
+        }
+        else if(i===countOption-3){
+            $(this).css('top','3px');
+        }
+        else if(i===countOption-2){
+            $(this).css({
+                'top':'7px',
+                'left':'2px',
+                'right':'2px'
+            });
+        }
+        else if(i===countOption-1){
+            $(this).css({
+                'top':'11px',
+                'left':'4px',
+                'right':'4px'
+            });
+        }
+        i++;
+    });
+}
+
+if($('.old-select option[selected]').size() === 1){
+    $('.selection p span').html($('.old-select option[selected]').html());
+}
+else{
+    $('.selection p span').html($('.old-select option:first-child').html());
+}
+
+$('.old-select option').each(function(){
+    newValue = $(this).val();
+    newHTML = $(this).html();
+    $('.new-select').append('<div class="new-option" data-value="'+newValue+'"><p>'+newHTML+'</p></div>');
+});
+
+var reverseIndex = countOption;
+$('.new-select .new-option').each(function(){
+    $(this).css('z-index',reverseIndex);
+    reverseIndex = reverseIndex-1;
+});
+
+closeSelect();
+
+
+$('.selection').click(function(){
+    $(this).toggleClass('open');
+    if($(this).hasClass('open')===true){openSelect();}
+    else{closeSelect();}
+});
+
 //generate radio slider
 $('#radios').radiosToSlider();
+
 
 // 10 fusion tables
 var crashes = "1nkg4MnAolr8UEyzBFEnNyovEoEVJnSK_qZvHv6xj";
@@ -49,9 +125,7 @@ var bikecols = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
 //initial filter state
 var countySelector = $('#county');
 var spazChecker = $('label[for="spaz"]');
-var spazSelector = $('.spaz.selector');
-
-// var rankingSelector = $('.ranking.selector');
+var spazSelector = $('.new-option');
 var rankingSelector = $('#radios');
 
 var roadChecker = $('label[for="road"]');
@@ -72,6 +146,10 @@ $('.riskex.road').hide();
 $('#crash').prop("checked",true);
 $('.riskex.crash').hide();
 
+$('#school').prop("checked",true);
+$('#bar').prop("checked",true);
+
+
 var hideSpaz = $('#spaz').prop("checked");
 var hideRoad = $('#road').prop("checked");
 var hideCrash = $('#crash').prop("checked");
@@ -91,14 +169,31 @@ crashChecker.on("click",function () {
     $('.riskex.crash').slideToggle("fast");
 });
 
+var styleid = 2;
+var roadid = 0;
 
-$('#rb1').prop("checked",true);
+// Selection
+spazSelector.click(function(){
+    styleid = $(this).data('value');
+
+    // Selection New Select
+    $('.selection p span').html($(this).find('p').html());
+    $('.selection').click();
+
+    // Selection Old Select
+    $('.old-select option[selected]').removeAttr('selected');
+    $('.old-select option[value="'+styleid+'"]').attr('selected','');
+
+
+});
+
 $('#rb5').prop("checked",true);
 $('#rb7').prop("checked",true);
 rankingSelector.attr('data-value',99999);
+$('.old-select option[value="'+styleid+'"]').prop("selected",true);
 
-var styleid = 2;
-var roadid = 0;
+
+
 
 function initAutocomplete(){
     $.widget("ui.autocomplete", $.ui.autocomplete, {
@@ -407,7 +502,7 @@ function updateMap(){
         pedbikelayerSLP.setMap(map);
         pedbikelayerNLP.setMap(map);
         pedbikelayerUP.setMap(map);
-        styleid = $('.spaz.selector:checked').val();
+        styleid = $('.old-select option[selected="selected"]').val();
     }
 
     if (hideRoad) {
@@ -428,10 +523,12 @@ function updateMap(){
         crashlayer.setMap(map);
     }
 
+    console.log(styleid);
+
     var ranking = rankingSelector.attr("data-value");
 
     var rankcol = (styleid == 2) ? "PRrank > 0 AND PRrank":
-        (styleid == 3) ? "BRrank > 0 and BRrank":
+            (styleid == 3) ? "BRrank > 0 and BRrank":
             (styleid == 4) ? "PErank" : "BErank";
 
     var county = county_id[selectedCounty];
@@ -530,7 +627,7 @@ function drawSpazLegend(styleid){
     var legendsvg = d3.select("#spazLegend").append("svg");
     legendsvg.append("g")
         .attr("class","dynamicLegend")
-        .attr("transform", "translate(5,20)");
+        .attr("transform", "translate(5,15)");
 
     var legendOptions = d3.legendColor()
         .labelFormat(d3.format(""))
@@ -539,6 +636,8 @@ function drawSpazLegend(styleid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
+    legendsvg.select('.legendCells').attr('transform','translate(0, 10)')
+
 }
 
 function drawroadLegend(roadid){
@@ -553,7 +652,7 @@ function drawroadLegend(roadid){
     var legendsvg = d3.select("#roadLegend").append("svg");
     legendsvg.append("g")
         .attr("class","dynamicLegend")
-        .attr("transform", "translate(5,20)");
+        .attr("transform", "translate(5,15)");
     var legendOptions = d3.legendColor()
         .labelFormat(d3.format(""))
         .title(title)
@@ -562,7 +661,7 @@ function drawroadLegend(roadid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
-    legendsvg.select('.legendCells').attr('transform','translate(0, 28)')
+    legendsvg.select('.legendCells').attr('transform','translate(0, 18)')
 
 }
 
