@@ -190,7 +190,8 @@ spazSelector.click(function(){
 $('#rb5').prop("checked",true);
 $('#rb7').prop("checked",true);
 rankingSelector.attr('data-value',99999);
-$('.old-select option[value="'+styleid+'"]').prop("selected",true);
+$('.old-select option[value="'+styleid+'"]').attr('selected','');
+
 
 
 
@@ -399,7 +400,7 @@ function initAutocomplete(){
         }
     });
 
-    countySelector.on('click focus', function() {
+    countySelector.on('focus', function() {
         this.value = '';
     });
 
@@ -523,7 +524,6 @@ function updateMap(){
         crashlayer.setMap(map);
     }
 
-    console.log(styleid);
 
     var ranking = rankingSelector.attr("data-value");
 
@@ -535,6 +535,9 @@ function updateMap(){
     county = (county == 0) ? ">"+county : "="+county;
 
     var crash = $('.crash.selector:checked').val();
+
+    console.log(selectedCounty,styleid);
+
 
     pedbikelayerSLP.setOptions({
         query: {select: 'geometry',
