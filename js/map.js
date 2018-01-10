@@ -9,14 +9,86 @@ var roadLegend = $('#roadLegend');
 $(".menu-link").click(function(){
     $("#menu").toggleClass("active");
     $(".container").toggleClass("active");
-    // $('.ui-wrap').each(function (i) {
-    //     var that = this;
-    //     setTimeout(function () {$(that).toggleClass("slideInLeft");},(i+1)*150);
-    // })
+});
+
+//generate dropdown menu
+var countOption = $('.old-select option').size();
+
+function openSelect(){
+    var heightSelect = $('.new-select').height();
+    var j=1;
+    $('.new-select .new-option').each(function(){
+        $(this).addClass('reveal');
+        $(this).css({
+            'box-shadow':'0 1px 1px rgba(0,0,0,0.1)',
+            'left':'0',
+            'right':'0',
+            'top': j*(heightSelect+1)+'px'
+        });
+        j++;
+    });
+}
+
+function closeSelect(){
+    var i=0;
+    $('.new-select .new-option').each(function(){
+        $(this).removeClass('reveal');
+        if(i<countOption-3){
+            $(this).css('top',0);
+            $(this).css('box-shadow','none');
+        }
+        else if(i===countOption-3){
+            $(this).css('top','3px');
+        }
+        else if(i===countOption-2){
+            $(this).css({
+                'top':'7px',
+                'left':'2px',
+                'right':'2px'
+            });
+        }
+        else if(i===countOption-1){
+            $(this).css({
+                'top':'11px',
+                'left':'4px',
+                'right':'4px'
+            });
+        }
+        i++;
+    });
+}
+
+if($('.old-select option[selected]').size() === 1){
+    $('.selection p span').html($('.old-select option[selected]').html());
+}
+else{
+    $('.selection p span').html($('.old-select option:first-child').html());
+}
+
+$('.old-select option').each(function(){
+    newValue = $(this).val();
+    newHTML = $(this).html();
+    $('.new-select').append('<div class="new-option" data-value="'+newValue+'"><p>'+newHTML+'</p></div>');
+});
+
+var reverseIndex = countOption;
+$('.new-select .new-option').each(function(){
+    $(this).css('z-index',reverseIndex);
+    reverseIndex = reverseIndex-1;
+});
+
+closeSelect();
+
+
+$('.selection').click(function(){
+    $(this).toggleClass('open');
+    if($(this).hasClass('open')===true){openSelect();}
+    else{closeSelect();}
 });
 
 //generate radio slider
 $('#radios').radiosToSlider();
+
 
 // 10 fusion tables
 var crashes = "1nkg4MnAolr8UEyzBFEnNyovEoEVJnSK_qZvHv6xj";
@@ -53,9 +125,7 @@ var bikecols = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
 //initial filter state
 var countySelector = $('#county');
 var spazChecker = $('label[for="spaz"]');
-var spazSelector = $('.spaz.selector');
-
-// var rankingSelector = $('.ranking.selector');
+var spazSelector = $('.new-option');
 var rankingSelector = $('#radios');
 
 var roadChecker = $('label[for="road"]');
@@ -76,39 +146,54 @@ $('.riskex.road').hide();
 $('#crash').prop("checked",true);
 $('.riskex.crash').hide();
 
+$('#school').prop("checked",true);
+$('#bar').prop("checked",true);
+
+
 var hideSpaz = $('#spaz').prop("checked");
 var hideRoad = $('#road').prop("checked");
 var hideCrash = $('#crash').prop("checked");
 
 spazChecker.on("click",function () {
     hideSpaz = !hideSpaz;
-    $('.riskex.spaz').slideToggle('1500',"easeInCubic", function () {
-        // Animation complete.
-    });
+    $('.riskex.spaz').slideToggle("fast");
 });
 
 roadChecker.on("click",function () {
     hideRoad = !hideRoad;
-    $('.riskex.road').slideToggle('1500',"easeInCubic", function () {
-        // Animation complete.
-    });
+    $('.riskex.road').slideToggle("fast");
 });
 
 crashChecker.on("click",function () {
     hideCrash = !hideCrash;
-    $('.riskex.crash').slideToggle('1500',"easeInCubic", function () {
-        // Animation complete.
-    });
+    $('.riskex.crash').slideToggle("fast");
 });
-
-
-$('#rb1').prop("checked",true);
-$('#rb5').prop("checked",true);
-$('#rb7').prop("checked",true);
-rankingSelector.attr('data-value',99999);
 
 var styleid = 2;
 var roadid = 0;
+
+// Selection
+spazSelector.click(function(){
+    styleid = $(this).data('value');
+
+    // Selection New Select
+    $('.selection p span').html($(this).find('p').html());
+    $('.selection').click();
+
+    // Selection Old Select
+    $('.old-select option[selected]').removeAttr('selected');
+    $('.old-select option[value="'+styleid+'"]').attr('selected','');
+
+
+});
+
+$('#rb5').prop("checked",true);
+$('#rb7').prop("checked",true);
+rankingSelector.attr('data-value',99999);
+$('.old-select option[value="'+styleid+'"]').prop("selected",true);
+
+
+
 
 function initAutocomplete(){
     $.widget("ui.autocomplete", $.ui.autocomplete, {
@@ -189,89 +274,89 @@ function initAutocomplete(){
 //            search box data source
     var countyNames = [
         "Michigan",
-        "Alcona County",
-        "Alger County",
-        "Allegan County",
-        "Alpena County",
-        "Antrim County",
-        "Arenac County",
-        "Baraga County",
-        "Barry County",
-        "Bay County",
-        "Benzie County",
-        "Berrien County",
-        "Branch County",
-        "Calhoun County",
-        "Cass County",
-        "Charlevoix County",
-        "Cheboygan County",
-        "Chippewa County",
-        "Clare County",
-        "Clinton County",
-        "Crawford County",
-        "Delta County",
-        "Dickinson County",
-        "Eaton County",
-        "Emmet County",
-        "Genesee County",
-        "Gladwin County",
-        "Gogebic County",
-        "Grand Traverse County",
-        "Gratiot County",
-        "Hillsdale County",
-        "Houghton County",
-        "Huron County",
-        "Ingham County",
-        "Ionia County",
-        "Iosco County",
-        "Iron County",
-        "Isabella County",
-        "Jackson County",
-        "Kalamazoo County",
-        "Kalkaska County",
-        "Kent County",
-        "Keweenaw County",
-        "Lake County",
-        "Lapeer County",
-        "Leelanau County",
-        "Lenawee County",
-        "Livingston County",
-        "Luce County",
-        "Mackinac County",
-        "Macomb County",
-        "Manistee County",
-        "Marquette County",
-        "Mason County",
-        "Mecosta County",
-        "Menominee County",
-        "Midland County",
-        "Missaukee County",
-        "Monroe County",
-        "Montcalm County",
-        "Montmorency County",
-        "Muskegon County",
-        "Newaygo County",
-        "Oakland County",
-        "Oceana County",
-        "Ogemaw County",
-        "Ontonagon County",
-        "Osceola County",
-        "Oscoda County",
-        "Otsego County",
-        "Ottawa County",
-        "Presque Isle County",
-        "Roscommon County",
-        "Saginaw County",
-        "Sanilac County",
-        "Schoolcraft County",
-        "Shiawassee County",
-        "St. Clair County",
-        "St. Joseph County",
-        "Tuscola County",
-        "Van Buren County",
-        "Washtenaw County",
-        "Wayne County",
-        "Wexford County"
+        "Alcona",
+        "Alger",
+        "Allegan",
+        "Alpena",
+        "Antrim",
+        "Arenac",
+        "Baraga",
+        "Barry",
+        "Bay",
+        "Benzie",
+        "Berrien",
+        "Branch",
+        "Calhoun",
+        "Cass",
+        "Charlevoix",
+        "Cheboygan",
+        "Chippewa",
+        "Clare",
+        "Clinton",
+        "Crawford",
+        "Delta",
+        "Dickinson",
+        "Eaton",
+        "Emmet",
+        "Genesee",
+        "Gladwin",
+        "Gogebic",
+        "Grand Traverse",
+        "Gratiot",
+        "Hillsdale",
+        "Houghton",
+        "Huron",
+        "Ingham",
+        "Ionia",
+        "Iosco",
+        "Iron",
+        "Isabella",
+        "Jackson",
+        "Kalamazoo",
+        "Kalkaska",
+        "Kent",
+        "Keweenaw",
+        "Lake",
+        "Lapeer",
+        "Leelanau",
+        "Lenawee",
+        "Livingston",
+        "Luce",
+        "Mackinac",
+        "Macomb",
+        "Manistee",
+        "Marquette",
+        "Mason",
+        "Mecosta",
+        "Menominee",
+        "Midland",
+        "Missaukee",
+        "Monroe",
+        "Montcalm",
+        "Montmorency",
+        "Muskegon",
+        "Newaygo",
+        "Oakland",
+        "Oceana",
+        "Ogemaw",
+        "Ontonagon",
+        "Osceola",
+        "Oscoda",
+        "Otsego",
+        "Ottawa",
+        "Presque Isle",
+        "Roscommon",
+        "Saginaw",
+        "Sanilac",
+        "Schoolcraft",
+        "Shiawassee",
+        "St. Clair",
+        "St. Joseph",
+        "Tuscola",
+        "Van Buren",
+        "Washtenaw",
+        "Wayne",
+        "Wexford"
     ];
 
 
@@ -285,20 +370,39 @@ function initAutocomplete(){
 
     countySelector.autocomplete({
         minLength: 0,
-        source: countyNames,
+        source: function (request, response) {
+            var matches = $.map(countyNames, function (acItem) {
+                if (acItem.toUpperCase().indexOf(request.term.toUpperCase()) === 0) {
+                    return acItem;
+                }
+            });
+            response(matches);
+        },
         focus: function( event, ui ) {
-            $( "#county" ).val( ui.item.value);
+            countySelector.val( ui.item.value);
             return false;
         },
         // event triggered when drop-down option selected
         select: function( event, ui ) {
-            $( "#county" ).val( ui.item.value);
+            countySelector.val( ui.item.value);
             selectedCounty = ui.item.value;
             updateMap();
             return false;
         },
+
         animation: "flipInX"
     });
+
+    countySelector.keypress(function(event){
+        if(event.keyCode == 13){
+            event.preventDefault();
+        }
+    });
+
+    countySelector.on('click focus', function() {
+        this.value = '';
+    });
+
     $('.ui-autocomplete').appendTo($('.nav'));
 }
 
@@ -398,7 +502,7 @@ function updateMap(){
         pedbikelayerSLP.setMap(map);
         pedbikelayerNLP.setMap(map);
         pedbikelayerUP.setMap(map);
-        styleid = $('.spaz.selector:checked').val();
+        styleid = $('.old-select option[selected="selected"]').val();
     }
 
     if (hideRoad) {
@@ -419,10 +523,12 @@ function updateMap(){
         crashlayer.setMap(map);
     }
 
+    console.log(styleid);
+
     var ranking = rankingSelector.attr("data-value");
 
     var rankcol = (styleid == 2) ? "PRrank > 0 AND PRrank":
-        (styleid == 3) ? "BRrank > 0 and BRrank":
+            (styleid == 3) ? "BRrank > 0 and BRrank":
             (styleid == 4) ? "PErank" : "BErank";
 
     var county = county_id[selectedCounty];
@@ -521,7 +627,7 @@ function drawSpazLegend(styleid){
     var legendsvg = d3.select("#spazLegend").append("svg");
     legendsvg.append("g")
         .attr("class","dynamicLegend")
-        .attr("transform", "translate(5,20)");
+        .attr("transform", "translate(5,15)");
 
     var legendOptions = d3.legendColor()
         .labelFormat(d3.format(""))
@@ -530,6 +636,8 @@ function drawSpazLegend(styleid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
+    legendsvg.select('.legendCells').attr('transform','translate(0, 10)')
+
 }
 
 function drawroadLegend(roadid){
@@ -544,7 +652,7 @@ function drawroadLegend(roadid){
     var legendsvg = d3.select("#roadLegend").append("svg");
     legendsvg.append("g")
         .attr("class","dynamicLegend")
-        .attr("transform", "translate(5,20)");
+        .attr("transform", "translate(5,15)");
     var legendOptions = d3.legendColor()
         .labelFormat(d3.format(""))
         .title(title)
@@ -553,9 +661,11 @@ function drawroadLegend(roadid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
+    legendsvg.select('.legendCells').attr('transform','translate(0, 18)')
+
 }
 
-function generateSpazLabels({ i, genLength, generatedLabels}){
+function generateSpazLabels(legendOpts){
     if (styleid==2){
         var max=50;
     } else if (styleid==3){
@@ -565,30 +675,30 @@ function generateSpazLabels({ i, genLength, generatedLabels}){
     } else if (styleid==5){
         var max = 1100;
     }
-    if (i === 0 ) {
-        return generatedLabels[i]
+    if (legendOpts.i === 0 ) {
+        return legendOpts.generatedLabels[legendOpts.i]
             .replace('NaN to', '0 to');
-    } else if (i === genLength - 1) {
-        return `${generatedLabels[genLength - 1]
-            .replace(' to NaN', ' to '+max)}`
+    } else if (legendOpts.i === legendOpts.genLength - 1) {
+        return legendOpts.generatedLabels[legendOpts.i]
+            .replace(' to NaN', ' to '+max);
     }
-    return generatedLabels[i]
+    return legendOpts.generatedLabels[legendOpts.i];
 }
 
-function generateRoadLabels({ i, genLength, generatedLabels}){
+function generateRoadLabels(legendOpts){
     if (roadid==1){
         var max =1100;
     } else if (roadid==2){
         var max=900;
     }
-    if (i === 0 ) {
-        return generatedLabels[i]
+    if (legendOpts.i === 0 ) {
+        return legendOpts.generatedLabels[legendOpts.i]
             .replace('NaN to', '0 to');
-    } else if (i === genLength - 1) {
-        return `${generatedLabels[genLength - 1]
-            .replace(' to NaN', ' to '+max)}`
+    } else if (legendOpts.i === legendOpts.genLength - 1) {
+        return legendOpts.generatedLabels[legendOpts.i]
+            .replace(' to NaN', ' to '+max);
     }
-    return generatedLabels[i]
+    return legendOpts.generatedLabels[legendOpts.i];
 }
 
 function show_intro() {
