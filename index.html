@@ -32,47 +32,22 @@
 <nav id="menu">
     <div class="menu-content">
         <h2>FILTERS</h2>
-
         <div class="ui-wrap">
             <form>
                 <p>Search for a county:</p>
-
                     <input name="search" class="search-box" required type="text" id="county" placeholder="Type 'Michigan' or a county name...">
-                    <!--<button class="close-icon" type="reset"></button>-->
-
             </form>
         </div>
-
         <div class="ui-wrap">
-        <p>Show Super PAZ?</p>
+            <p>Show Super PAZ?</p>
             <div class="toggle">
                 <input id="spaz" type="checkbox"/>
                 <label for="spaz">
                     <div class="card"></div>
                 </label>
             </div>
-
             <div class="riskex spaz">
                 <p>Select a Super PAZ variable:</p>
-                <!--<ul class="list">-->
-                    <!--<li class="list__item">-->
-                        <!--<input type="radio" name="rb" class="radio spaz selector" id="rb1" value="2">-->
-                        <!--<label for="rb1" >Pedestrian Risk</label>-->
-                    <!--</li>-->
-                    <!--<li class="list__item">-->
-                        <!--<input type="radio"  name="rb" class="radio spaz selector" id="rb2" value="3">-->
-                        <!--<label for="rb2" >Bike Risk</label>-->
-
-                    <!--</li>-->
-                    <!--<li class="list__item">-->
-                        <!--<input type="radio"  name="rb" class="radio spaz selector" id="rb3" value="4">-->
-                        <!--<label for="rb3" >Pedestrian Exposure</label>-->
-                    <!--</li>-->
-                    <!--<li class="list__item">-->
-                        <!--<input type="radio"  name="rb" class="radio spaz selector" id="rb4" value="5">-->
-                        <!--<label for="rb4" >Bike Exposure</label>-->
-                    <!--</li>-->
-                <!--</ul>-->
                 <div class="selection-wrap">
                     <select class="old-select">
                         <option value="2">Pedestrian Risk</option>
@@ -82,7 +57,6 @@
                         <option value="6">Pedestrian Index of Environment (PIE)</option>
                         <option value="7">Bike Index of Environment (BIE)</option>
                     </select>
-
                     <div class="new-select">
                         <div class="selection">
                             <p>
@@ -108,10 +82,8 @@
                 </div>
             </div>
         </div>
-
         <div class="ui-wrap">
-
-        <p>Show road segments?</p>
+            <p>Show road segments?</p>
             <div class="toggle">
                 <input id="road" type="checkbox" />
                 <label for="road">
@@ -140,16 +112,15 @@
                     <div class="card flip"></div>
                 </label>
             </div>
-
             <div class="riskex crash">
                 <p>Select a crash variable:</p>
                 <ul class="list">
                     <li class="list__item">
-                        <input type="radio" name="rb2" class="radio crash selector" id="rb7" value="pedestrian">
+                        <input type="radio" name="rb2" class="radio crash selector" id="rb7" value="'pedestrian'">
                         <label for="rb7">Pedestrian Crashes</label>
                     </li>
                     <li class="list__item">
-                        <input type="radio"  name="rb2" class="radio crash selector" id="rb8" value="bike">
+                        <input type="radio"  name="rb2" class="radio crash selector" id="rb8" value="'bike'">
                         <label for="rb8">Bike Crashes</label>
                     </li>
                 </ul>
@@ -175,10 +146,7 @@
         </div>
 
     </div>
-
 </nav>
-
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="lib/jquery.radios-to-slider.min.js"></script>

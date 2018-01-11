@@ -549,7 +549,6 @@ input:checked + label .card {
 
 .new-option.reveal:hover {
     background-color: #93f9b9;
-    /*color: #f5f5f5;*/
 }
 
 .selection-wrap{
@@ -567,16 +566,11 @@ input:checked + label .card {
     padding:2px;
 }
 .mapLegend{
-    width: 150px;
     height: 130px;
     display: inline-block;
     vertical-align: bottom;
 }
 
-#roadLegend{
-    margin-left: 2px;
-    border-left:black solid 1px;
-}
 
 #spazLegend rect{
     fill-opacity: 0.5;

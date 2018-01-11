@@ -1,10 +1,3 @@
-// global variables
-var map;
-var county_id = {};
-var spazLegend = $('#spazLegend');
-var roadLegend = $('#roadLegend');
-
-
 //hide/show side menu
 $(".menu-link").click(function(){
     $("#menu").toggleClass("active");
@@ -89,9 +82,14 @@ $('.selection').click(function(){
 //generate radio slider
 $('#radios').radiosToSlider();
 
+// global variables
+var map;
+var county_id = {};
+var spazLegend = $('#spazLegend');
+var roadLegend = $('#roadLegend');
 
 // 10 fusion tables
-var crashes = "1nkg4MnAolr8UEyzBFEnNyovEoEVJnSK_qZvHv6xj";
+var crashes = "1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh";
 var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
 var pedbike_NLP = "1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5";
 var pedbike_SLP = "1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX";
@@ -127,11 +125,12 @@ var countySelector = $('#county');
 var spazChecker = $('label[for="spaz"]');
 var spazSelector = $('.new-option');
 var rankingSelector = $('#radios');
-
 var roadChecker = $('label[for="road"]');
 var roadSelector = $('.road.selector');
 var crashChecker = $('label[for="crash"]');
 var crashSelector = $('.crash.selector');
+var schoolChecker = $('label[for="school"]');
+var barChecker = $('label[for="bar"]');
 
 
 var selectedCounty = "Michigan";
@@ -153,6 +152,8 @@ $('#bar').prop("checked",true);
 var hideSpaz = $('#spaz').prop("checked");
 var hideRoad = $('#road').prop("checked");
 var hideCrash = $('#crash').prop("checked");
+var hideSchool = $('#school').prop("checked");
+var hideBar= $('#bar').prop("checked");
 
 spazChecker.on("click",function () {
     hideSpaz = !hideSpaz;
@@ -169,10 +170,17 @@ crashChecker.on("click",function () {
     $('.riskex.crash').slideToggle("fast");
 });
 
+barChecker.on("click",function () {
+    hideBar = !hideBar;
+});
+
+schoolChecker.on("click",function () {
+    hideSchool = !hideSchool;
+});
 var styleid = 2;
 var roadid = 0;
 
-// Selection
+// dropdown selection
 spazSelector.click(function(){
     styleid = $(this).data('value');
 
@@ -191,9 +199,6 @@ $('#rb5').prop("checked",true);
 $('#rb7').prop("checked",true);
 rankingSelector.attr('data-value',99999);
 $('.old-select option[value="'+styleid+'"]').attr('selected','');
-
-
-
 
 
 function initAutocomplete(){
@@ -410,14 +415,12 @@ function initAutocomplete(){
 
 
 function initMap() {
-
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: {lat: 42.25, lng: -83.7},
         mapTypeId: 'roadmap', // ['roadmap','satellite','hybrid','terrain'] are the 4 basemaps
     });
     // add fusion table layer
-
     pedbikelayerSLP = new google.maps.FusionTablesLayer({
         map: map,
         query: {select: 'geometry',
@@ -489,6 +492,8 @@ function initMap() {
     google.maps.event.addDomListener(spazChecker[0], 'click',updateMap);
     google.maps.event.addDomListener(roadChecker[0], 'click',updateMap);
     google.maps.event.addDomListener(crashChecker[0], 'click', updateMap);
+    google.maps.event.addDomListener(schoolChecker[0], 'click', updateMap);
+    google.maps.event.addDomListener(barChecker[0], 'click', updateMap);
 
 }
 
@@ -518,12 +523,11 @@ function updateMap(){
         roadid = $('.road.selector:checked').val();
     }
 
-    if(hideCrash){
+    if(hideCrash && hideSchool && hideBar){
         crashlayer.setMap(null);
     } else {
         crashlayer.setMap(map);
     }
-
 
     var ranking = rankingSelector.attr("data-value");
 
@@ -534,11 +538,17 @@ function updateMap(){
     var county = county_id[selectedCounty];
     county = (county == 0) ? ">"+county : "="+county;
 
-    var crash = $('.crash.selector:checked').val();
-
-    console.log(selectedCounty,styleid);
-
-
+    var crashType=[];
+    if (!hideCrash){
+        crashType.push($('.crash.selector:checked').val())
+    }
+    if (!hideSchool){
+        crashType.push("'schools'");
+    }
+    if (!hideBar){
+        crashType.push("'bars'")
+    }
+    var crashFilter =  " AND type IN (" + crashType.join(",") + ")";
     pedbikelayerSLP.setOptions({
         query: {select: 'geometry',
             from: pedbike_SLP,
@@ -562,28 +572,23 @@ function updateMap(){
     roadlayerSouth.setOptions({
         query: {select: 'geometry',
             from: (roadid == 1) ? pedroad_South : bikeroad_South,
-            // from: eval(roadType+"road_South"),
             where: "fips " + county},
     });
     roadlayerNorth.setOptions({
         query: {select: 'geometry',
             from: (roadid == 1) ? pedroad_North : bikeroad_North,
-            // from: eval(roadType+"road_North"),
             where: "fips " + county},
     });
     roadlayerUP.setOptions({
         query: {select: 'geometry',
             from: (roadid == 1) ? pedroad_UP : bikeroad_UP,
-            // from: eval(roadType+"road_UP"),
             where: "fips " + county},
     });
-
-
 
     crashlayer.setOptions({
         query: {select: 'geometry',
             from: crashes,
-            where: "fips " + county + " AND " + crash + " =1"},
+            where: "fips " + county + crashFilter},
     });
 
 
@@ -639,7 +644,15 @@ function drawSpazLegend(styleid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
-    legendsvg.select('.legendCells').attr('transform','translate(0, 10)')
+    legendsvg.select('.legendCells').attr('transform','translate(0, 10)');
+    var titleW = $('#spazLegend text.legendTitle')[0].getBBox().width;
+    var cellW = $('#spazLegend g.legendCells')[0].getBBox().width;
+    if (titleW>cellW){
+        var legendW = titleW;
+    } else {
+        var legendW = cellW;
+    }
+    $('#spazLegend').width(legendW+8);
 
 }
 
@@ -664,7 +677,21 @@ function drawroadLegend(roadid){
         .shapeWidth(20)
         .scale(colorScale);
     legendsvg.select('.dynamicLegend').call(legendOptions);
-    legendsvg.select('.legendCells').attr('transform','translate(0, 18)')
+    legendsvg.select('.legendCells').attr('transform','translate(0, 18)');
+    var titleW = $('#roadLegend text.legendTitle')[0].getBBox().width;
+    var cellW = $('#roadLegend g.legendCells')[0].getBBox().width;
+    if (titleW>cellW){
+        var legendW = titleW;
+    } else {
+        var legendW = cellW;
+    }
+    $('#roadLegend').width(legendW+8);
+    if (!hideSpaz) {
+        $('#roadLegend').css('border-left', 'solid 1px black');
+    } else {
+        $('#roadLegend').css('border-left', 'none');
+    }
+
 
 }
 
