@@ -10,9 +10,9 @@ MDOT Project with Dr. Robert Hampshire
 
 ## List of Fusion Tables
 ### Bike Ped Risk Exposure
-- [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n#rows:id=1)
-- [Northern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5#rows:id=1)
-- [Southern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX#rows:id=1)
+- [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=1-UHF-iYspegDQPUq7jNiWTlK-SWhuk1ctmMtqytZ#rows:id=1)
+- [Northern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1OqhzXKCG0djAh9-Zn_F_llmgrqyPRviquZg3lhZC#rows:id=1)
+- [Southern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1FZIAUJuVrDLWCY5zn0QromPQ29k4snJmr08m7l8r#rows:id=1)
 		
 ### Bike Road Segments
 - [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=19U2mXFwBjrkkECtAfp1f3CGVhD1cmfKi_Z90eJpZ#rows:id=1)
@@ -24,5 +24,5 @@ MDOT Project with Dr. Robert Hampshire
 - [North & Central Michigan](https://fusiontables.google.com/DataSource?docid=1BJKaPQQbg7XvM4KYu9RmbzWcvw3eaFfec7BSgby_#rows:id=1)
 - [South Michigan](https://fusiontables.google.com/DataSource?docid=1nqaUzvbB45QTq1cj6KNQrKSUmSiZ6_GANl76H9JE#rows:id=1)
 
-### Crashes
-- [Michigan](https://fusiontables.google.com/DataSource?docid=18lbdW3PLwmxhDRq4vtq2ren4yytKvRitLB801-v1#rows:id=1)
+### Points of Interest (Crashes, Schools, Bars)
+- [Michigan](https://fusiontables.google.com/DataSource?docid=1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh#rows:id=1)
