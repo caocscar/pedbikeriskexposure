@@ -90,9 +90,9 @@ var roadLegend = $('#roadLegend');
 
 // 10 fusion tables
 var crashes = "1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh";
-var pedbike_UP = "1-hG45XDxYXVXay6Rawwn_wdnJ0kxvxMKHB4zsu4n";
-var pedbike_NLP = "1ep3obncnepmwZmsd6bW90Gi5YsuOn_2SFnfOEe-5";
-var pedbike_SLP = "1XAXEliIqHYq_GJ2rLUtS00w4CVAU3bXTLYZ-qpOX";
+var pedbike_UP = "1-UHF-iYspegDQPUq7jNiWTlK-SWhuk1ctmMtqytZ";
+var pedbike_NLP = "1OqhzXKCG0djAh9-Zn_F_llmgrqyPRviquZg3lhZC";
+var pedbike_SLP = "1FZIAUJuVrDLWCY5zn0QromPQ29k4snJmr08m7l8r";
 var pedroad_UP = "14eKQojT991dai5TvIvJzAvu6AKDLoKI7VNF7S_A7"
 var pedroad_North = "1BJKaPQQbg7XvM4KYu9RmbzWcvw3eaFfec7BSgby_"
 var pedroad_South = "1nqaUzvbB45QTq1cj6KNQrKSUmSiZ6_GANl76H9JE"
@@ -118,6 +118,12 @@ var pedcols = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
 
 var bikebins = [7, 36, 66, 400];
 var bikecols = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+
+var PIEbins = [8,22, 31, 43];
+var PIEcolours = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+
+var BIEbins = [11, 16, 35, 55];
+var BIEcolours = ['#ffffb2','#fecc5c','#fd8d3c','#f03b20','#bd0026']
 
 
 //initial filter state
@@ -540,15 +546,16 @@ function updateMap(){
 
     var crashType=[];
     if (!hideCrash){
-        crashType.push($('.crash.selector:checked').val())
+        crashType.push("'"+$(".crash.selector:checked").val()+"'")
     }
     if (!hideSchool){
-        crashType.push("'schools'");
+        crashType.push("'"+"schools"+"'");
     }
     if (!hideBar){
-        crashType.push("'bars'")
+        crashType.push("'"+"bars"+"'")
     }
-    var crashFilter =  " AND type IN (" + crashType.join(",") + ")";
+    var crashFilter =  " AND type IN (" +crashType.join(",") + ")";
+
     pedbikelayerSLP.setOptions({
         query: {select: 'geometry',
             from: pedbike_SLP,
@@ -630,6 +637,12 @@ function drawSpazLegend(styleid){
     } else if (styleid==5){
         var colorScale = d3.scaleThreshold().domain(BEbins).range(BEcolours);
         var title = "Bike Exposure";
+    } else if (styleid==6){
+        var colorScale = d3.scaleThreshold().domain(PIEbins).range(PIEcolours);
+        var title = "PIE";
+    }  else if (styleid==7){
+        var colorScale = d3.scaleThreshold().domain(BIEbins).range(BIEcolours);
+        var title = "BIE";
     }
     d3.select("#spazLegend").select("svg").remove();
     var legendsvg = d3.select("#spazLegend").append("svg");
@@ -704,6 +717,10 @@ function generateSpazLabels(legendOpts){
         var max = 2400;
     } else if (styleid==5){
         var max = 1100;
+    } else if (styleid==6){
+        var max = 75;
+    } else if (styleid==7){
+        var max = 99;
     }
     if (legendOpts.i === 0 ) {
         return legendOpts.generatedLabels[legendOpts.i]
