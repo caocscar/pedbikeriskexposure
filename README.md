@@ -26,3 +26,10 @@ MDOT Project with Dr. Robert Hampshire
 
 ### Points of Interest (Crashes, Schools, Bars)
 - [Michigan](https://fusiontables.google.com/DataSource?docid=1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh#rows:id=1)
+
+Point Type|NAICS Code|Title|Description
+---|---|---|---
+Schools|611110|Elementary and Secondary Schools|This industry comprises establishments primarily engaged in furnishing academic courses and associated course work that comprise a basic preparatory education. A basic preparatory education ordinarily constitutes kindergarten through 12th grade. This industry includes school boards and school districts.
+Schools|611310|Colleges, Universities, and Professional Schools|This industry comprises establishments primarily engaged in furnishing academic courses and granting degrees at baccalaureate or graduate levels. The requirement for admission is at least a high school diploma or equivalent general academic training. Instruction may be provided in diverse settings, such as the establishment's or client's training facilities, educational institutions, the workplace, or the home, and through diverse means, such as correspondence, television, the Internet, or other electronic and distance-learning methods. The training provided by these establishments may include the use of simulators and simulation methods.
+Schools|624410|Child Day Care Services|This industry comprises establishments primarily engaged in providing day care of infants or children. These establishments generally care for preschool children, but may care for older children when they are not in school and may also offer pre-kindergarten and/or kindergarten educational programs.
+Bars|722410|Drinking Places (Alcoholic Beverages)|This industry comprises establishments known as bars, taverns, nightclubs, or drinking places primarily engaged in preparing and serving alcoholic beverages for immediate consumption. These establishments may also provide limited food services.
