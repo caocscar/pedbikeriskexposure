@@ -27,9 +27,9 @@ MDOT Project with Dr. Robert Hampshire
 ### Points of Interest (Crashes, Schools, Bars)
 - [Michigan](https://fusiontables.google.com/DataSource?docid=1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh#rows:id=1)
 
-Point Type|NAICS Code|Title
+NAICS Code|Point Type|Title
 ---|---|---
-Schools|611110|Elementary and Secondary Schools
-Schools|611310|Colleges, Universities, and Professional Schools
-Schools|624410|Child Day Care Services
-Bars|722410|Drinking Places (Alcoholic Beverages)
+611110|Schools|Elementary and Secondary Schools
+611310|Schools|Colleges, Universities, and Professional Schools
+624410|Schools|Child Day Care Services
+722410|Bars|Drinking Places (Alcoholic Beverages)
