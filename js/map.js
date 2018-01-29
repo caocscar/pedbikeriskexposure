@@ -78,52 +78,74 @@ $('.selection').click(function(){
     if($(this).hasClass('open')===true){openSelect();}
     else{closeSelect();}
 });
-
 //generate radio slider
 $('#radios').radiosToSlider();
+
 
 // global variables
 var map;
 var county_id = {};
 var spazLegend = $('#spazLegend');
 var roadLegend = $('#roadLegend');
+var crashLegend = $('#crashLegend');
 
 // 10 fusion tables
-var crashes = "1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh";
-var pedbike_UP = "1-UHF-iYspegDQPUq7jNiWTlK-SWhuk1ctmMtqytZ";
-var pedbike_NLP = "1OqhzXKCG0djAh9-Zn_F_llmgrqyPRviquZg3lhZC";
-var pedbike_SLP = "1FZIAUJuVrDLWCY5zn0QromPQ29k4snJmr08m7l8r";
-var pedroad_UP = "14eKQojT991dai5TvIvJzAvu6AKDLoKI7VNF7S_A7"
-var pedroad_North = "1BJKaPQQbg7XvM4KYu9RmbzWcvw3eaFfec7BSgby_"
-var pedroad_South = "1nqaUzvbB45QTq1cj6KNQrKSUmSiZ6_GANl76H9JE"
-var bikeroad_UP = "19U2mXFwBjrkkECtAfp1f3CGVhD1cmfKi_Z90eJpZ"
-var bikeroad_North = "11WyCtfELo_D6cuLUi-UemJIcff-96FFCaqSnOtVQ"
-var bikeroad_South = "1SL9-b8xpaLirz_wNHifOdSF0HC8C8uED9LepGOmO"
+var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
+var pedbike_Superior = "1pp4Axxd5C8U7RByKuZsidxmSulBH7YSDTWn25ohQ";
+var pedbike_NorthBay = "12Vn0EY7_LJm_kHKsjUnJO4luY-4cekMha6QCiPoG";
+var pedbike_GMUS = "1pL3uVpWWEVwXZLUs-LvfSMFSBwd-KL94bT7qxUm9";
+var pedroad_SuperNorthBay = "1xmTwYnMVqWloOCs2r4CaXLSmmSUAORhTbK4oHJN7";
+var pedroad_GrandSW = "1M8aJiDnW-DYfP3JGfoWaKS2TtqakFrAGmzyu1az4";
+var pedroad_UniMetro = "1MhIuLV6ryl1C6wcIhYqyLG7JkdSCu38Vq1lGO8w5";
+var bikeroad_SuperNorthBay = "1jG6XplSByvnOTrKJsu240CvPj47fi-Buo5CG733v";
+var bikeroad_GrandSW = "1uVriSHt8mBMmp2-M90TrXHpWeY0KKTuiogaq3p_4";
+var bikeroad_UniMetro = "1KaSmG9GnL0svhfGWIOyg_PMJvBFCKp3bbwZSc1md";
 
 //legend colors
-var PRbins = [0.5, 1, 5, 10];
+var PRbins = [0.2, 1, 5, 12];
 var PRcolours = ['#f2f0f7','#cbc9e2','#9e9ac8','#756bb1','#54278f'];
 
-var PEbins = [2, 20, 60, 234];
+var PEbins = [4, 20, 80, 200];
 var PEcolours = ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c'];
 
-var BRbins = [0.5, 1, 5, 10];
-var BRcolours = ['#ffffd4','#fed98e','#fe9929','#d95f0e','#993404'];
+var BRbins = [0.2, 1, 4, 9];
+var BRcolours =  ['#fee5d9','#fcae91','#fb6a4a','#de2d26','#a50f15'];
 
-var BEbins = [0.5, 6, 20, 84];
+var BEbins = [4, 15, 45, 85];
 var BEcolours = ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'];
 
 var pedbins = [14, 52, 87, 490];
-var pedcols = ['#edf8e9','#bae4b3','#74c476','#31a354','#006d2c'];
+var pedcols = ['#feebe2','#fbb4b9','#f768a1','#c51b8a','#7a0177'];
 
 var bikebins = [7, 36, 66, 400];
-var bikecols = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+var bikecols = ['#f1eef6','#d7b5d8','#df65b0','#dd1c77','#980043'];
 
-var PIEbins = [8,22, 31, 43];
+var PIEbins = [8, 22, 31, 43];
 var PIEcolours = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
 
 var BIEbins = [11, 16, 35, 55];
-var BIEcolours = ['#ffffb2','#fecc5c','#fd8d3c','#f03b20','#bd0026']
+var BIEcolours = ['#ffffb2','#fecc5c','#fd8d3c','#f03b20','#bd0026'];
+
+var NMRbins = [0.3, 2, 7, 16];
+var NMRcolours = ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c'];
+
+var NMEbins = [5, 30, 115, 265];
+var NMEcolours = ['#feedde','#fdbe85','#fd8d3c','#e6550d','#a63603'];
+
+
+//county grouping
+var Superior = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,1],
+    NorthBay = [1,7,9,19,29,31,39,47,55,69,79,89,101,113,119,129,135,137,141,143,165,
+        11,17,35,49,51,57,63,73,87,111,145,147,151,155,157,2,4],
+    GMUS = [5,15,67,81,85,105,107,117,121,123,127,133,139,
+        99,125,163,
+        37,45,59,65,75,91,93,115,161,
+        21,23,25,27,77,149,159,3,5,6,7],
+    SuperNorthBay = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,
+        1,7,9,19,29,31,39,47,55,69,79,89,101,113,119,129,135,137,141,143,165,
+        11,17,35,49,51,57,63,73,87,111,145,147,151,155,157,1,2,4],
+    GrandSW = [5,15,67,81,85,105,107,117,121,123,127,133,139,21,23,25,27,77,149,159,3,5],
+    UniMetro = [37,45,59,65,75,91,93,115,161, 99,125,163,6,7];
 
 
 //initial filter state
@@ -135,12 +157,16 @@ var roadChecker = $('label[for="road"]');
 var roadSelector = $('.road.selector');
 var crashChecker = $('label[for="crash"]');
 var crashSelector = $('.crash.selector');
-var schoolChecker = $('label[for="school"]');
-var barChecker = $('label[for="bar"]');
+var locationChecker = $('label[for="location"]');
+var locationSelector = $('.location.selector');
 
 
-var selectedCounty = "Michigan";
+
+
+var selectedCounty = "Washtenaw";
 countySelector.val(selectedCounty);
+
+
 
 $('#spaz').prop("checked",false);
 $('.riskex.spaz').show();
@@ -151,15 +177,14 @@ $('.riskex.road').hide();
 $('#crash').prop("checked",true);
 $('.riskex.crash').hide();
 
-$('#school').prop("checked",true);
-$('#bar').prop("checked",true);
+$('#location').prop("checked",true);
+$('.riskex.location').hide();
 
 
 var hideSpaz = $('#spaz').prop("checked");
 var hideRoad = $('#road').prop("checked");
 var hideCrash = $('#crash').prop("checked");
-var hideSchool = $('#school').prop("checked");
-var hideBar= $('#bar').prop("checked");
+var hideLocation = $('#location').prop("checked");
 
 spazChecker.on("click",function () {
     hideSpaz = !hideSpaz;
@@ -176,15 +201,17 @@ crashChecker.on("click",function () {
     $('.riskex.crash').slideToggle("fast");
 });
 
-barChecker.on("click",function () {
-    hideBar = !hideBar;
-});
 
-schoolChecker.on("click",function () {
-    hideSchool = !hideSchool;
+locationChecker.on("click",function () {
+    hideLocation = !hideLocation;
+    $('.riskex.location').slideToggle("fast");
+
 });
 var styleid = 2;
 var roadid = 0;
+
+var selected_var = $('.old-select option[value="'+styleid+'"]').html();
+fillVar();
 
 // dropdown selection
 spazSelector.click(function(){
@@ -197,17 +224,59 @@ spazSelector.click(function(){
     // Selection Old Select
     $('.old-select option[selected]').removeAttr('selected');
     $('.old-select option[value="'+styleid+'"]').attr('selected','');
-
-
+    selected_var = $('.old-select option[value="'+styleid+'"]').html();
+    fillVar();
 });
 
 $('#rb5').prop("checked",true);
-$('#rb7').prop("checked",true);
 rankingSelector.attr('data-value',99999);
+var ranking = rankingSelector.attr("data-value");
+fillRank();
 $('.old-select option[value="'+styleid+'"]').attr('selected','');
 
+//make sure at least one checkbox is checked
+crashSelector.prop("checked",true);
 
-function initAutocomplete(){
+crashSelector.each(function() {
+    $(this).data("originallyChecked", $(this).is(":checked"));
+});
+
+crashSelector.click(function () {
+    var stateChange = !($(this).data("originallyChecked") === $(this).is(":checked"));
+    var removedCB;
+    if(stateChange){
+        removedCB=$(this);
+    }
+
+    var checked = $('.crash.selector:checked').length>0;
+    if (!checked){
+        alert("Please select at least one crash type.");
+        removedCB.prop("checked",true)
+    }
+});
+
+//make sure at least one checkbox is checked
+locationSelector.prop("checked",true);
+
+locationSelector.each(function() {
+    $(this).data("originallyChecked", $(this).is(":checked"));
+});
+
+locationSelector.click(function () {
+    var stateChange = !($(this).data("originallyChecked") === $(this).is(":checked"));
+    var removedCB;
+    if(stateChange){
+        removedCB=$(this);
+    }
+
+    var checked = $('.location.selector:checked').length>0;
+    if (!checked){
+        alert("Please select at least one point of interest.");
+        removedCB.prop("checked",true)
+    }
+});
+
+function initAutocomplete(mapCenter){
     $.widget("ui.autocomplete", $.ui.autocomplete, {
 
         // extend default options
@@ -285,7 +354,13 @@ function initAutocomplete(){
 
 //            search box data source
     var countyNames = [
-        "Michigan",
+        "Superior - MDOT region",
+        "North - MDOT region",
+        "Grand - MDOT region",
+        "Bay - MDOT region",
+        "Southwest - MDOT region",
+        "University - MDOT region",
+        "Metro - MDOT region",
         "Alcona",
         "Alger",
         "Allegan",
@@ -368,16 +443,17 @@ function initAutocomplete(){
         "Van Buren",
         "Washtenaw",
         "Wayne",
-        "Wexford"
+        "Wexford",
     ];
 
 
     for (var i=0;i<countyNames.length;i++){
-        if (i == 0){
-            county_id[countyNames[i]]=0;
+        if (i<7){
+            county_id[countyNames[i]]=i+1;
         } else {
-            county_id[countyNames[i]]=2*i-1;
+            county_id[countyNames[i]] = 2 * (i - 7) + 1;
         }
+
     }
 
     countySelector.autocomplete({
@@ -399,6 +475,16 @@ function initAutocomplete(){
             countySelector.val( ui.item.value);
             selectedCounty = ui.item.value;
             updateMap();
+            if (~selectedCounty.indexOf("MDOT")){
+                map.setZoom(10);
+                var region = selectedCounty.replace(" - MDOT region","");
+                center = mapCenter[region];
+            } else {
+                map.setZoom(11);
+                center = mapCenter[selectedCounty];
+            }
+            mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
+            map.panTo(mapCenterCoords);
             return false;
         },
 
@@ -420,58 +506,55 @@ function initAutocomplete(){
 
 
 
-function initMap() {
+function initMap(center) {
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: {lat: 42.25, lng: -83.7},
-        mapTypeId: 'roadmap', // ['roadmap','satellite','hybrid','terrain'] are the 4 basemaps
+        zoom: 11,
+        center:center,
+        mapTypeId: 'roadmap',
     });
     // add fusion table layer
-    pedbikelayerSLP = new google.maps.FusionTablesLayer({
-        map: map,
-        query: {select: 'geometry',
-            from: pedbike_SLP,
-            where: "PRrank > 0"},
-        options: {styleId: 2,
-            templateId: 2},
-    });
-    pedbikelayerNLP = new google.maps.FusionTablesLayer({
-        map: map,
-        query: {select: 'geometry',
-            from: pedbike_NLP,
-            where: "PRrank > 0"},
-        options: {styleId: 2,
-            templateId: 2},
-    });
-    pedbikelayerUP = new google.maps.FusionTablesLayer({
-        map: map,
-        query: {select: 'geometry',
-            from: pedbike_UP,
-            where: "PRrank > 0"},
-        options: {styleId: 2,
-            templateId: 2},
-    });
-    roadlayerSouth = new google.maps.FusionTablesLayer({
-        query: {select: 'geometry',
-            from: pedroad_South},
-        options: {styleId: 2,
-            templateId: 2},
-    });
-    roadlayerNorth = new google.maps.FusionTablesLayer({
-        query: {select: 'geometry',
-            from: pedroad_North},
-        options: {styleId: 2,
-            templateId: 2},
-    });
-    roadlayerUP = new google.maps.FusionTablesLayer({
-        query: {select: 'geometry',
-            from: pedroad_UP},
-        options: {styleId: 2,
-            templateId: 2},
-    });
     crashlayer = new google.maps.FusionTablesLayer({
         query: {select: 'geometry',
             from: crashes},
+        options: {styleId: 2,
+            templateId: 2},
+
+    });
+    pedbikelayerGMUS = new google.maps.FusionTablesLayer({
+        map: map,
+        query: {select: 'geometry',
+            from: pedbike_GMUS,
+            where: "PRrank > 0 and fips = 161"},
+        options: {styleId: 2,
+            templateId: 2},
+    });
+    pedbikelayerNorthBay = new google.maps.FusionTablesLayer({
+        query: {select: 'geometry',
+            from: pedbike_NorthBay},
+        options: {styleId: 2,
+            templateId: 2},
+    });
+    pedbikelayerSuperior = new google.maps.FusionTablesLayer({
+        query: {select: 'geometry',
+            from: pedbike_Superior},
+        options: {styleId: 2,
+            templateId: 2},
+    });
+    roadlayerUniMetro = new google.maps.FusionTablesLayer({
+        query: {select: 'geometry',
+            from: pedroad_UniMetro},
+        options: {styleId: 2,
+            templateId: 2},
+    });
+    roadlayerGrandSW = new google.maps.FusionTablesLayer({
+        query: {select: 'geometry',
+            from: pedroad_GrandSW},
+        options: {styleId: 2,
+            templateId: 2},
+    });
+    roadlayerSuperNorthBay = new google.maps.FusionTablesLayer({
+        query: {select: 'geometry',
+            from: pedroad_SuperNorthBay},
         options: {styleId: 2,
             templateId: 2},
     });
@@ -495,111 +578,155 @@ function initMap() {
         google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
+    locationSelector.each(function (i,obj) {
+        google.maps.event.addDomListener(obj, 'click', updateMap);
+    });
+
     google.maps.event.addDomListener(spazChecker[0], 'click',updateMap);
     google.maps.event.addDomListener(roadChecker[0], 'click',updateMap);
     google.maps.event.addDomListener(crashChecker[0], 'click', updateMap);
-    google.maps.event.addDomListener(schoolChecker[0], 'click', updateMap);
-    google.maps.event.addDomListener(barChecker[0], 'click', updateMap);
+    google.maps.event.addDomListener(locationChecker[0], 'click', updateMap);
 
 }
 
 
 function updateMap(){
+    var countyfips = county_id[selectedCounty];
+    var countyFilter;
+    if (~selectedCounty.indexOf("MDOT")){
+        countyFilter = "Rid = " + countyfips;
+    } else {
+        countyFilter = "fips = " + countyfips;
+    }
+    console.log(countyfips)
+
     if (hideSpaz) {
-        pedbikelayerSLP.setMap(null);
-        pedbikelayerNLP.setMap(null);
-        pedbikelayerUP.setMap(null);
+        pedbikelayerSuperior.setMap(null);
+        pedbikelayerNorthBay.setMap(null);
+        pedbikelayerGMUS.setMap(null);
         styleid = 0;
     }else{
-        pedbikelayerSLP.setMap(map);
-        pedbikelayerNLP.setMap(map);
-        pedbikelayerUP.setMap(map);
+        if (~GMUS.indexOf(countyfips)) {
+            pedbikelayerGMUS.setMap(map);
+            pedbikelayerNorthBay.setMap(null);
+            pedbikelayerSuperior.setMap(null);
+        }else if (~NorthBay.indexOf(countyfips)) {
+            pedbikelayerNorthBay.setMap(map);
+            pedbikelayerGMUS.setMap(null);
+            pedbikelayerSuperior.setMap(null);
+        }else if (~Superior.indexOf(countyfips)) {
+            pedbikelayerSuperior.setMap(map);
+            pedbikelayerGMUS.setMap(null);
+            pedbikelayerNorthBay.setMap(null);
+        }
         styleid = $('.old-select option[selected="selected"]').val();
     }
 
     if (hideRoad) {
-        roadlayerSouth.setMap(null);
-        roadlayerNorth.setMap(null);
-        roadlayerUP.setMap(null);
+        roadlayerUniMetro.setMap(null);
+        roadlayerGrandSW.setMap(null);
+        roadlayerSuperNorthBay.setMap(null);
         roadid = 0;
     }else{
-        roadlayerSouth.setMap(map);
-        roadlayerNorth.setMap(map);
-        roadlayerUP.setMap(map);
+        if (~UniMetro.indexOf(countyfips)) {
+            roadlayerUniMetro.setMap(map);
+            roadlayerGrandSW.setMap(null);
+            roadlayerSuperNorthBay.setMap(null);
+        }else if (~GrandSW.indexOf(countyfips)) {
+            roadlayerGrandSW.setMap(map);
+            roadlayerUniMetro.setMap(null);
+            roadlayerSuperNorthBay.setMap(null);
+        }else if (~SuperNorthBay.indexOf(countyfips)) {
+            roadlayerSuperNorthBay.setMap(map);
+            roadlayerUniMetro.setMap(null);
+            roadlayerGrandSW.setMap(null);
+        }
         roadid = $('.road.selector:checked').val();
     }
 
-    if(hideCrash && hideSchool && hideBar){
+    if(hideCrash && hideLocation){
         crashlayer.setMap(null);
     } else {
         crashlayer.setMap(map);
     }
 
-    var ranking = rankingSelector.attr("data-value");
+    ranking = rankingSelector.attr("data-value");
+    fillRank();
 
-    var rankcol = (styleid == 2) ? "PRrank > 0 AND PRrank":
-            (styleid == 3) ? "BRrank > 0 and BRrank":
-            (styleid == 4) ? "PErank" : "BErank";
+    var rankcol = (styleid == 2) ? "PRrank" :
+                    (styleid == 3) ? "BRrank" :
+                    (styleid == 4) ? "PErank" :
+                    (styleid == 5) ? "BErank" :
+                    (styleid == 6) ? "PIErank" :
+                    (styleid == 7) ? "BIErank" :
+                    (styleid == 8) ? "NMRrank" : "NMErank";
 
-    var county = county_id[selectedCounty];
-    county = (county == 0) ? ">"+county : "="+county;
+    var county_ranking_filter = countyFilter + " AND " + rankcol + " >0 AND " + rankcol + " <= " + ranking;
 
-    var crashType=[];
+    var poiType=[];
     if (!hideCrash){
-        crashType.push("'"+$(".crash.selector:checked").val()+"'")
+        crashSelector.each(function () {
+            if (this.checked){
+                poiType.push("'"+this.value+"'")
+            }
+        });
     }
-    if (!hideSchool){
-        crashType.push("'"+"schools"+"'");
+    if (!hideLocation){
+        locationSelector.each(function () {
+            if (this.checked){
+                poiType.push("'"+this.value+"'")
+            }
+        });
     }
-    if (!hideBar){
-        crashType.push("'"+"bars"+"'")
-    }
-    var crashFilter =  " AND type IN (" +crashType.join(",") + ")";
 
-    pedbikelayerSLP.setOptions({
-        query: {select: 'geometry',
-            from: pedbike_SLP,
-            where: "fips" + county + " AND " + rankcol + " <= " + ranking},
-        styleId: styleid
-    });
-    pedbikelayerNLP.setOptions({
-        query: {select: 'geometry',
-            from: pedbike_NLP,
-            where: "fips" + county + " AND " + rankcol + " <= " + ranking},
-        styleId: styleid
-    });
-    pedbikelayerUP.setOptions({
-        query: {select: 'geometry',
-            from: pedbike_UP,
-            where: "fips" + county + " AND " + rankcol + " <= " + ranking},
-        styleId: styleid
-    });
+    var poiFilter =  " AND type IN (" +poiType.join(",") + ")";
 
+    drawPointLegend(poiType);
 
-    roadlayerSouth.setOptions({
+    pedbikelayerGMUS.setOptions({
         query: {select: 'geometry',
-            from: (roadid == 1) ? pedroad_South : bikeroad_South,
-            where: "fips " + county},
+            from: pedbike_GMUS,
+            where: county_ranking_filter},
+        styleId: styleid,
+        templateId: 2,
     });
-    roadlayerNorth.setOptions({
+    pedbikelayerNorthBay.setOptions({
         query: {select: 'geometry',
-            from: (roadid == 1) ? pedroad_North : bikeroad_North,
-            where: "fips " + county},
+            from: pedbike_NorthBay,
+            where: county_ranking_filter},
+        styleId: styleid,
+        templateId: 2,
     });
-    roadlayerUP.setOptions({
+    pedbikelayerSuperior.setOptions({
         query: {select: 'geometry',
-            from: (roadid == 1) ? pedroad_UP : bikeroad_UP,
-            where: "fips " + county},
+            from: pedbike_Superior,
+            where: county_ranking_filter},
+        styleId: styleid,
+        templateId: 2
+    });
+    roadlayerUniMetro.setOptions({
+        query: {select: 'geometry',
+            from: (roadid == 1) ? pedroad_UniMetro : bikeroad_UniMetro,
+            where: countyFilter},
+    });
+    roadlayerGrandSW.setOptions({
+        query: {select: 'geometry',
+            from: (roadid == 1) ? pedroad_GrandSW : bikeroad_GrandSW,
+            where: countyFilter},
+    });
+    roadlayerSuperNorthBay.setOptions({
+        query: {select: 'geometry',
+            from: (roadid == 1) ? pedroad_SuperNorthBay : bikeroad_SuperNorthBay,
+            where: countyFilter},
     });
 
     crashlayer.setOptions({
         query: {select: 'geometry',
             from: crashes,
-            where: "fips " + county + crashFilter},
+            where: countyFilter+ poiFilter}
     });
 
 
-    //update legend
     drawLegend(styleid,roadid);
 
 }
@@ -643,6 +770,12 @@ function drawSpazLegend(styleid){
     }  else if (styleid==7){
         var colorScale = d3.scaleThreshold().domain(BIEbins).range(BIEcolours);
         var title = "BIE";
+    } else if (styleid==8){
+        var colorScale = d3.scaleThreshold().domain(NMRbins).range(NMRcolours);
+        var title = "Non-Motorized Risk";
+    } else if (styleid==9){
+        var colorScale = d3.scaleThreshold().domain(NMEbins).range(NMEcolours);
+        var title = "Non-Motorized Exposure";
     }
     d3.select("#spazLegend").select("svg").remove();
     var legendsvg = d3.select("#spazLegend").append("svg");
@@ -669,13 +802,100 @@ function drawSpazLegend(styleid){
 
 }
 
+function drawPointLegend(poi){
+
+    if (poi.length==0){
+        crashLegend.hide();
+    } else {
+        var legendData=[["Pedestrian Crash","img/pedestrian.png"],["Bike Crash","img/bike.png"],
+            ["School","img/schools.png"],["Bar","img/bars.png"]];
+        crashLegend.show();
+        d3.select("#crashLegend").select("svg").remove();
+        var legendsvg = d3.select("#crashLegend").append("svg");
+        var legend = legendsvg.append("g")
+            .attr("class","dynamicLegend")
+            .attr("transform", "translate(5,15)");
+
+
+        var legendTitle = legend.append("text").attr("class","legendTitLe").text("Locations");
+
+        var legendCells = legend.append("g").attr("class","legendCells");
+
+        var cellH = 108;
+        var cellPadding = 5;
+        var paddingTop = 8;
+        var cellNum = legendData.length;
+        var iconH = (cellH+cellPadding)/cellNum-cellPadding;
+
+
+        var legendRect = legendCells.selectAll("g")
+            .data(legendData)
+            .enter()
+            .append("g")
+            .attr("transform", function(d,i){
+                if (d[0]==="Bar"){
+                    return "translate(0,"+ (paddingTop +i * (cellPadding+iconH)) + ')';
+                } else {
+                    return "translate("+ (-iconH/8) + "," + (paddingTop +i * (cellPadding+iconH)) + ')';
+                }
+
+            });
+
+
+
+        legendRect.append('svg:image')
+            .attr("xlink:href",  function(d) {return  d[1]})
+            .attr("height",function (d) {
+                return iconH;
+            })
+            .attr("width",function (d) {
+                if (d[0]==="Bar"){
+                    return iconH*2/3;
+                } else {
+                    return iconH;
+                }
+            });
+
+        legendRect.append("text")
+            .attr("x",function (d) {
+                if (d[0]=="Bar"){
+                    return iconH-3;
+                }
+                return iconH;
+
+            })
+            .attr("y",iconH/2+cellPadding)
+            .text(function (d) {
+                return d[0];
+            });
+
+
+
+        var titleW = legendTitle.node().getBBox().width;
+        var cellW = legendCells.node().getBBox().width;
+        if (titleW>cellW){
+            var legendW = titleW;
+        } else {
+            var legendW = cellW;
+        }
+
+        crashLegend.width(legendW+5);
+        if (!hideCrash || !hideLocation) {
+            $('#crashLegend').css('border-left', 'solid 1px black');
+        } else {
+            $('#crashLegend').css('border-left', 'none');
+        }
+
+    }
+}
+
 function drawroadLegend(roadid){
     if (roadid==1){
         var colorScale = d3.scaleThreshold().domain(pedbins).range(pedcols);
-        var title = "Pedestrian - Road";
+        var title = "Pedestrian Exposure";
     } else if (roadid==2){
         var colorScale = d3.scaleThreshold().domain(bikebins).range(bikecols);
-        var title = "Bike - Road";
+        var title = "Bike Exposure";
     }
     d3.select("#roadLegend").select("svg").remove();
     var legendsvg = d3.select("#roadLegend").append("svg");
@@ -710,24 +930,36 @@ function drawroadLegend(roadid){
 
 function generateSpazLabels(legendOpts){
     if (styleid==2){
-        var max=50;
+        var min = 0.1;
+        var max = 50;
     } else if (styleid==3){
+        var min = 0.1;
         var max = 50;
     } else if (styleid==4){
+        var min = 1;
         var max = 2400;
     } else if (styleid==5){
+        var min = 1;
         var max = 1100;
     } else if (styleid==6){
+        var min = 0;
         var max = 75;
     } else if (styleid==7){
+        var min = 0;
         var max = 99;
+    } else if (styleid==8){
+        var min = 0.1;
+        var max = 70;
+    } else if (styleid==9){
+        var min = 1;
+        var max = 3500;
     }
     if (legendOpts.i === 0 ) {
         return legendOpts.generatedLabels[legendOpts.i]
-            .replace('NaN to', '0 to');
+            .replace('NaN to', min + ' to');
     } else if (legendOpts.i === legendOpts.genLength - 1) {
         return legendOpts.generatedLabels[legendOpts.i]
-            .replace(' to NaN', ' to '+max);
+            .replace(' to NaN', ' to '+ max);
     }
     return legendOpts.generatedLabels[legendOpts.i];
 }
@@ -775,9 +1007,51 @@ function show_intro() {
     intro.start()
 }
 
+function fillRank() {
+    if (ranking == 99999){
+        $('#variable_rank').html("all");
+    } else if (ranking==100){
+        $('#variable_rank').html("top 100");
+    } else if (ranking==25){
+        $('#variable_rank').html("top 25");
+    } else {
+        $('#variable_rank').html("top 10");
+    }
+}
 
-$(window).load(function() {
-        initMap();
-        initAutocomplete();
-        show_intro();
-});
+function fillVar() {
+    if (styleid==6){
+        selected_var = "PIE";
+    } else if (styleid==7){
+        selected_var = "BIE";
+    }
+    $('#variable').html(selected_var);
+}
+
+
+function ready(error,counties,mdot) {
+    if(error) { console.log(error); }
+    var mapCenter = {};
+    var countyFeatures = counties.features;
+    var MDOTFeatures = mdot.features;
+    countyFeatures.forEach(function (county) {
+        mapCenter[county.properties.NAME] = d3.geoCentroid(county);
+    });
+    MDOTFeatures.forEach(function (region) {
+        mapCenter[region.properties.REG_NAME] = d3.geoCentroid(region);
+    });
+    var center = mapCenter[selectedCounty];
+    var mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
+
+    show_intro();
+    initMap(mapCenterCoords);
+    initAutocomplete(mapCenter);
+
+}
+
+d3.queue()
+    .defer(d3.json,"data/counties.json")
+    .defer(d3.json,"data/MDOT_Regions_simplified.json")
+    .await(ready);
+
+
