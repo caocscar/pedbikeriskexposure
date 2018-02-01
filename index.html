@@ -2,8 +2,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <title>PedBike Risk Exposure</title>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+    <title>Pedestrian and Bicyclist Safety Risk Assessment Tool</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
@@ -31,8 +31,10 @@
 </div>
 
 <nav id="menu">
+    <div class="title">
+        <h2>Pedestrian and Bicyclist Safety Risk Assessment Tool</h2>
+    </div>
     <div class="menu-content">
-        <h2>FILTERS</h2>
         <div class="ui-wrap">
             <form>
                 <p>Search for a county or a MDOT region:</p>
@@ -40,17 +42,21 @@
             </form>
         </div>
         <div class="ui-wrap">
-            <p>
-                <span>Show PAZ?</span>
-                <span class="tool-tip" data-tooltip-title="Pedestrian Analysis Zone (PAZ) is a 400-meters-by-400-meters unit of analysis." data-tooltip-position="right">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </span>
-            </p>
-       <div class="toggle">
-                <input id="spaz" type="checkbox"/>
-                <label for="spaz">
-                    <div class="card"></div>
-                </label>
+            <div class="hint">
+                <p>
+                    <span>Show PAZ?</span>
+                    <span class="tool-tip" data-tooltip-title="Pedestrian Analysis Zone (PAZ) is a 400-meters-by-400-meters unit of analysis." data-tooltip-position="bottom">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="hint">
+                <div class="toggle">
+                    <input id="spaz" type="checkbox"/>
+                    <label for="spaz">
+                        <div class="card"></div>
+                    </label>
+                </div>
             </div>
             <div class="riskex spaz">
                 <p>Select a PAZ variable:</p>
@@ -91,17 +97,21 @@
             </div>
         </div>
         <div class="ui-wrap">
-            <p>
-                <span>Show road segments?</span>
-                <span class="tool-tip" data-tooltip-title="Pedestrian/bike exposure (trips per day)." data-tooltip-position="bottom">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </span>
-            </p>
-            <div class="toggle">
-                <input id="road" type="checkbox" />
-                <label for="road">
-                    <div class="card flip"></div>
-                </label>
+            <div class="hint">
+                <p>
+                    <span>Show road segments?</span>
+                    <span class="tool-tip" data-tooltip-title="Pedestrian/bike exposure (trips per day)." data-tooltip-position="bottom">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="hint">
+                <div class="toggle">
+                    <input id="road" type="checkbox" />
+                    <label for="road">
+                        <div class="card flip"></div>
+                    </label>
+                </div>
             </div>
             <div class="riskex road">
                 <p>Select a road variable:</p>
@@ -120,15 +130,19 @@
             </div>
         </div>
         <div class="ui-wrap">
-            <p>Show crash locations?</p>
-            <div class="toggle">
-                <input id="crash" type="checkbox" />
-                <label for="crash">
-                    <div class="card flip"></div>
-                </label>
+            <div class="hint">
+                <p>Show crash locations?</p>
+            </div>
+            <div class="hint margin">
+                <div class="toggle">
+                    <input id="crash" type="checkbox" />
+                    <label for="crash">
+                        <div class="card flip"></div>
+                    </label>
+                </div>
             </div>
             <div class="riskex crash">
-                <p>Select a crash type:</p>
+                <p>Select crash type:</p>
                 <ul class="list">
                     <li class="list__item">
                         <input type="checkbox" id="cb1" name="cb" class="cb crash selector" value="pedestrian">
@@ -142,14 +156,19 @@
             </div>
         </div>
         <div class="ui-wrap">
-            <p>Show points of interest?</p>
-            <div class="toggle">
-                <input id="location" type="checkbox" />
-                <label for="location">
-                    <div class="card flip"></div>
-                </label>
+            <div class="hint">
+                <p>Show points of interest?</p>
+            </div>
+            <div class="hint margin">
+                <div class="toggle">
+                    <input id="location" type="checkbox" />
+                    <label for="location">
+                        <div class="card flip"></div>
+                    </label>
+                </div>
             </div>
             <div class="riskex location">
+                <p>Select point type:</p>
                 <ul class="list">
                     <li class="list__item">
                         <input type="checkbox" id="cb3" name="cb2" class="cb location selector" value="schools">

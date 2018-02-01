@@ -880,7 +880,7 @@ function drawPointLegend(poi){
         }
 
         crashLegend.width(legendW+5);
-        if (!hideCrash || !hideLocation) {
+        if (!hideSpaz || !hideRoad) {
             $('#crashLegend').css('border-left', 'solid 1px black');
         } else {
             $('#crashLegend').css('border-left', 'none');
