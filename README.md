@@ -1,31 +1,30 @@
-# Pedestrian Bike Risk Exposure
+# Pedestrian and Bicyclist Safety Risk Assessment Tool
 
-MDOT Project with Dr. Robert Hampshire
+MDOT Project with Dr. Robert Hampshire and Dr. Lisa Molnar
 
 ## Summary
 - 10 Fusion Tables
-- 7 Fusion Table Layers (5 Layer Limit)
-- 3 Effective Map Layers
-- 2 Filters (County, Ranking)
+- 3 Fusion Table Layers (5 Layer Limit)
+- 3 Filters (County, Ranking, Points of Interests)
 
 ## List of Fusion Tables
-### Bike Ped Risk Exposure
-- [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=1-UHF-iYspegDQPUq7jNiWTlK-SWhuk1ctmMtqytZ#rows:id=1)
-- [Northern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1OqhzXKCG0djAh9-Zn_F_llmgrqyPRviquZg3lhZC#rows:id=1)
-- [Southern Lower Peninsula](https://fusiontables.google.com/DataSource?docid=1FZIAUJuVrDLWCY5zn0QromPQ29k4snJmr08m7l8r#rows:id=1)
+### Bike Ped Risk Exposure (by MDOT Regions)
+- [Superior](https://fusiontables.google.com/DataSource?docid=1pp4Axxd5C8U7RByKuZsidxmSulBH7YSDTWn25ohQ#rows:id=1)
+- [North, Bay](https://fusiontables.google.com/DataSource?docid=12Vn0EY7_LJm_kHKsjUnJO4luY-4cekMha6QCiPoG#rows:id=1)
+- [Grand, Metro, University, Southwest](https://fusiontables.google.com/DataSource?docid=1pL3uVpWWEVwXZLUs-LvfSMFSBwd-KL94bT7qxUm9#rows:id=1)
 		
 ### Bike Road Segments
-- [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=19U2mXFwBjrkkECtAfp1f3CGVhD1cmfKi_Z90eJpZ#rows:id=1)
-- [North & Central Michigan](https://fusiontables.google.com/DataSource?docid=11WyCtfELo_D6cuLUi-UemJIcff-96FFCaqSnOtVQ#rows:id=1)
-- [South Michigan](https://fusiontables.google.com/DataSource?docid=1SL9-b8xpaLirz_wNHifOdSF0HC8C8uED9LepGOmO#rows:id=1)
+- [Superior, North, Bay](https://fusiontables.google.com/DataSource?docid=1jG6XplSByvnOTrKJsu240CvPj47fi-Buo5CG733v#rows:id=1)
+- [Grand, Southwest](https://fusiontables.google.com/DataSource?docid=1uVriSHt8mBMmp2-M90TrXHpWeY0KKTuiogaq3p_4#rows:id=1)
+- [University, Metro](https://fusiontables.google.com/DataSource?docid=1KaSmG9GnL0svhfGWIOyg_PMJvBFCKp3bbwZSc1md#rows:id=1)
 
 ### Pedestrian Road Segments
-- [Upper Peninsula](https://fusiontables.google.com/DataSource?docid=14eKQojT991dai5TvIvJzAvu6AKDLoKI7VNF7S_A7#rows:id=1)
-- [North & Central Michigan](https://fusiontables.google.com/DataSource?docid=1BJKaPQQbg7XvM4KYu9RmbzWcvw3eaFfec7BSgby_#rows:id=1)
-- [South Michigan](https://fusiontables.google.com/DataSource?docid=1nqaUzvbB45QTq1cj6KNQrKSUmSiZ6_GANl76H9JE#rows:id=1)
+- [Superior, North, Bay](https://fusiontables.google.com/DataSource?docid=1xmTwYnMVqWloOCs2r4CaXLSmmSUAORhTbK4oHJN7#rows:id=1)
+- [Grand, Southwest](https://fusiontables.google.com/DataSource?docid=1M8aJiDnW-DYfP3JGfoWaKS2TtqakFrAGmzyu1az4#rows:id=1)
+- [University, Metro](https://fusiontables.google.com/DataSource?docid=1MhIuLV6ryl1C6wcIhYqyLG7JkdSCu38Vq1lGO8w5#rows:id=1)
 
 ### Points of Interest (Crashes, Schools, Bars)
-- [Michigan](https://fusiontables.google.com/DataSource?docid=1OAsa07ucu8Kdj1MQSTUlJWLXX22W975G7hH_C0Kh#rows:id=1)
+- [Michigan](https://fusiontables.google.com/DataSource?docid=1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh#rows:id=1)
 
 NAICS Code|Point Type|Title
 ---|---|---
