@@ -8,14 +8,14 @@ MDOT Project with Dr. Robert Hampshire and Dr. Lisa Molnar
 - 3 Filters (County, Ranking, Points of Interests)
 
 ## List of Fusion Tables
-### Bike Ped Risk Exposure (by MDOT Regions)
+### Bike Ped Risk Exposure
 MDOT Regions|Map|Bicycle/Pedestrian
 :---:|---|:---:
 Superior|![Superior](img/superior.png)|[fusion table](https://fusiontables.google.com/DataSource?docid=1pp4Axxd5C8U7RByKuZsidxmSulBH7YSDTWn25ohQ)
 North, Bay|![North, Bay](img/north_bay.png)|[fusion table](https://fusiontables.google.com/DataSource?docid=12Vn0EY7_LJm_kHKsjUnJO4luY-4cekMha6QCiPoG)
 Grand, Metro, University, Southwest|![GMUS](img/GMUS.png)|[fusion table](https://fusiontables.google.com/DataSource?docid=1pL3uVpWWEVwXZLUs-LvfSMFSBwd-KL94bT7qxUm9)
 		
-### Road Segments (by MDOT Regions)
+### Road Segments
 MDOT Regions|Map|Bicycle|Pedestrian
 :---:|---|---|---
 Superior, North, Bay|![Superior, North, Bay](img/superior_north_bay.png)|[fusion table](https://fusiontables.google.com/DataSource?docid=1jG6XplSByvnOTrKJsu240CvPj47fi-Buo5CG733v)|[fusion table](https://fusiontables.google.com/DataSource?docid=1xmTwYnMVqWloOCs2r4CaXLSmmSUAORhTbK4oHJN7)
