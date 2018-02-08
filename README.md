@@ -26,6 +26,8 @@ University, Metro|[link](https://fusiontables.google.com/DataSource?docid=1KaSmG
 - [Michigan](https://fusiontables.google.com/DataSource?docid=1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh#rows:id=1)  
 ![MI](img/MDOT.png)
 
+The table belows illustrates the NAICS code that was used to classify schools and bars from our Reference USA dataset.
+
 NAICS Code|Point Type|Title
 ---|---|---
 611110|Schools|Elementary and Secondary Schools
