@@ -161,12 +161,8 @@ var locationChecker = $('label[for="location"]');
 var locationSelector = $('.location.selector');
 
 
-
-
 var selectedCounty = "Washtenaw";
 countySelector.val(selectedCounty);
-
-
 
 $('#spaz').prop("checked",false);
 $('.riskex.spaz').show();
@@ -474,7 +470,9 @@ function initAutocomplete(mapCenter){
         select: function( event, ui ) {
             countySelector.val( ui.item.value);
             selectedCounty = ui.item.value;
-            updateMap();
+            updateSpaz();
+            updateRoad();
+            updatePoint();
             if (~selectedCounty.indexOf("MDOT")){
                 map.setZoom(10);
                 var region = selectedCounty.replace(" - MDOT region","");
@@ -503,8 +501,6 @@ function initAutocomplete(mapCenter){
 
     $('.ui-autocomplete').appendTo($('.nav'));
 }
-
-
 
 function initMap(center) {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -563,42 +559,34 @@ function initMap(center) {
     drawLegend(styleid,roadid);
 
     spazSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateMap);
+        google.maps.event.addDomListener(obj, 'click', updateSpaz);
     });
 
     rankingSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateMap);
+        google.maps.event.addDomListener(obj, 'click', updateSpaz);
     });
 
     roadSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateMap);
+        google.maps.event.addDomListener(obj, 'click', updateRoad);
     });
 
     crashSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateMap);
+        google.maps.event.addDomListener(obj, 'click', updatePoint);
     });
 
     locationSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateMap);
+        google.maps.event.addDomListener(obj, 'click', updatePoint);
     });
 
-    google.maps.event.addDomListener(spazChecker[0], 'click',updateMap);
-    google.maps.event.addDomListener(roadChecker[0], 'click',updateMap);
-    google.maps.event.addDomListener(crashChecker[0], 'click', updateMap);
-    google.maps.event.addDomListener(locationChecker[0], 'click', updateMap);
+    google.maps.event.addDomListener(spazChecker[0], 'click',updateSpaz);
+    google.maps.event.addDomListener(roadChecker[0], 'click',updateRoad);
+    google.maps.event.addDomListener(crashChecker[0], 'click', updatePoint);
+    google.maps.event.addDomListener(locationChecker[0], 'click', updatePoint);
 
 }
 
-
-function updateMap(){
-    var countyfips = county_id[selectedCounty];
-    var countyFilter;
-    if (~selectedCounty.indexOf("MDOT")){
-        countyFilter = "Rid = " + countyfips;
-    } else {
-        countyFilter = "fips = " + countyfips;
-    }
-    console.log(countyfips)
+function updateSpaz() {
+    var countyFilter = generateCountyFilter();
 
     if (hideSpaz) {
         pedbikelayerSuperior.setMap(null);
@@ -622,34 +610,6 @@ function updateMap(){
         styleid = $('.old-select option[selected="selected"]').val();
     }
 
-    if (hideRoad) {
-        roadlayerUniMetro.setMap(null);
-        roadlayerGrandSW.setMap(null);
-        roadlayerSuperNorthBay.setMap(null);
-        roadid = 0;
-    }else{
-        if (~UniMetro.indexOf(countyfips)) {
-            roadlayerUniMetro.setMap(map);
-            roadlayerGrandSW.setMap(null);
-            roadlayerSuperNorthBay.setMap(null);
-        }else if (~GrandSW.indexOf(countyfips)) {
-            roadlayerGrandSW.setMap(map);
-            roadlayerUniMetro.setMap(null);
-            roadlayerSuperNorthBay.setMap(null);
-        }else if (~SuperNorthBay.indexOf(countyfips)) {
-            roadlayerSuperNorthBay.setMap(map);
-            roadlayerUniMetro.setMap(null);
-            roadlayerGrandSW.setMap(null);
-        }
-        roadid = $('.road.selector:checked').val();
-    }
-
-    if(hideCrash && hideLocation){
-        crashlayer.setMap(null);
-    } else {
-        crashlayer.setMap(map);
-    }
-
     ranking = rankingSelector.attr("data-value");
     fillRank();
 
@@ -662,26 +622,6 @@ function updateMap(){
                     (styleid == 8) ? "NMRrank" : "NMErank";
 
     var county_ranking_filter = countyFilter + " AND " + rankcol + " >0 AND " + rankcol + " <= " + ranking;
-
-    var poiType=[];
-    if (!hideCrash){
-        crashSelector.each(function () {
-            if (this.checked){
-                poiType.push("'"+this.value+"'")
-            }
-        });
-    }
-    if (!hideLocation){
-        locationSelector.each(function () {
-            if (this.checked){
-                poiType.push("'"+this.value+"'")
-            }
-        });
-    }
-
-    var poiFilter =  " AND type IN (" +poiType.join(",") + ")";
-
-    drawPointLegend(poiType);
 
     pedbikelayerGMUS.setOptions({
         query: {select: 'geometry',
@@ -704,6 +644,36 @@ function updateMap(){
         styleId: styleid,
         templateId: 2
     });
+
+    drawLegend(styleid,roadid);
+
+}
+
+
+function updateRoad(){
+    var countyFilter = generateCountyFilter();
+    if (hideRoad) {
+        roadlayerUniMetro.setMap(null);
+        roadlayerGrandSW.setMap(null);
+        roadlayerSuperNorthBay.setMap(null);
+        roadid = 0;
+    }else{
+        if (~UniMetro.indexOf(countyfips)) {
+            roadlayerUniMetro.setMap(map);
+            roadlayerGrandSW.setMap(null);
+            roadlayerSuperNorthBay.setMap(null);
+        }else if (~GrandSW.indexOf(countyfips)) {
+            roadlayerGrandSW.setMap(map);
+            roadlayerUniMetro.setMap(null);
+            roadlayerSuperNorthBay.setMap(null);
+        }else if (~SuperNorthBay.indexOf(countyfips)) {
+            roadlayerSuperNorthBay.setMap(map);
+            roadlayerUniMetro.setMap(null);
+            roadlayerGrandSW.setMap(null);
+        }
+        roadid = $('.road.selector:checked').val();
+    }
+
     roadlayerUniMetro.setOptions({
         query: {select: 'geometry',
             from: (roadid == 1) ? pedroad_UniMetro : bikeroad_UniMetro,
@@ -720,15 +690,55 @@ function updateMap(){
             where: countyFilter},
     });
 
+    drawLegend(styleid,roadid);
+}
+
+function updatePoint() {
+    var countyFilter = generateCountyFilter();
+
+    if(hideCrash && hideLocation){
+        crashlayer.setMap(null);
+    } else {
+        crashlayer.setMap(map);
+    }
+
+    var poiType=[];
+    if (!hideCrash){
+        crashSelector.each(function () {
+            if (this.checked){
+                poiType.push("'"+this.value+"'")
+            }
+        });
+    }
+    if (!hideLocation){
+        locationSelector.each(function () {
+            if (this.checked){
+                poiType.push("'"+this.value+"'")
+            }
+        });
+    }
+
+    var poiFilter =  " AND type IN (" +poiType.join(",") + ")";
+
     crashlayer.setOptions({
         query: {select: 'geometry',
             from: crashes,
-            where: countyFilter+ poiFilter}
+            where: countyFilter + poiFilter}
     });
 
+    drawPointLegend(poiType);
 
-    drawLegend(styleid,roadid);
+}
 
+function generateCountyFilter(){
+    var countyfips = county_id[selectedCounty];
+    var countyfilter;
+    if (~selectedCounty.indexOf("MDOT")){
+        countyfilter = "Rid = " + countyfips;
+    } else {
+        countyfilter = "fips = " + countyfips;
+    }
+    return countyfilter;
 }
 
 function drawLegend(styleid,rd){
@@ -1044,8 +1054,8 @@ function ready(error,counties,mdot) {
     var mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
 
     show_intro();
-    initMap(mapCenterCoords);
     initAutocomplete(mapCenter);
+    initMap(mapCenterCoords);
 
 }
 
