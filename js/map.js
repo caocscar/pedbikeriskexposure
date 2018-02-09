@@ -88,6 +88,7 @@ var county_id = {};
 var spazLegend = $('#spazLegend');
 var roadLegend = $('#roadLegend');
 var crashLegend = $('#crashLegend');
+var countyfips
 
 // 10 fusion tables
 var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
@@ -731,7 +732,7 @@ function updatePoint() {
 }
 
 function generateCountyFilter(){
-    var countyfips = county_id[selectedCounty];
+    countyfips = county_id[selectedCounty];
     var countyfilter;
     if (~selectedCounty.indexOf("MDOT")){
         countyfilter = "Rid = " + countyfips;
