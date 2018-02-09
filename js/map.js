@@ -587,8 +587,13 @@ function initMap(center) {
 }
 
 function updateSpaz() {
-    var countyFilter = generateCountyFilter();
-
+    var countyfips = county_id[selectedCounty];
+    var countyFilter;
+    if (~selectedCounty.indexOf("MDOT")){
+        countyFilter = "Rid = " + countyfips;
+    } else {
+        countyFilter = "fips = " + countyfips;
+    }
     if (hideSpaz) {
         pedbikelayerSuperior.setMap(null);
         pedbikelayerNorthBay.setMap(null);
@@ -652,7 +657,13 @@ function updateSpaz() {
 
 
 function updateRoad(){
-    var countyFilter = generateCountyFilter();
+    var countyfips = county_id[selectedCounty];
+    var countyFilter;
+    if (~selectedCounty.indexOf("MDOT")){
+        countyFilter = "Rid = " + countyfips;
+    } else {
+        countyFilter = "fips = " + countyfips;
+    }
     if (hideRoad) {
         roadlayerUniMetro.setMap(null);
         roadlayerGrandSW.setMap(null);
@@ -695,8 +706,13 @@ function updateRoad(){
 }
 
 function updatePoint() {
-    var countyFilter = generateCountyFilter();
-
+    var countyfips = county_id[selectedCounty];
+    var countyFilter;
+    if (~selectedCounty.indexOf("MDOT")){
+        countyFilter = "Rid = " + countyfips;
+    } else {
+        countyFilter = "fips = " + countyfips;
+    }
     if(hideCrash && hideLocation){
         crashlayer.setMap(null);
     } else {
@@ -729,17 +745,6 @@ function updatePoint() {
 
     drawPointLegend(poiType);
 
-}
-
-function generateCountyFilter(){
-    countyfips = county_id[selectedCounty];
-    var countyfilter;
-    if (~selectedCounty.indexOf("MDOT")){
-        countyfilter = "Rid = " + countyfips;
-    } else {
-        countyfilter = "fips = " + countyfips;
-    }
-    return countyfilter;
 }
 
 function drawLegend(styleid,rd){
