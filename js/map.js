@@ -88,6 +88,7 @@ var county_id = {};
 var spazLegend = $('#spazLegend');
 var roadLegend = $('#roadLegend');
 var crashLegend = $('#crashLegend');
+var countyfips
 
 // 10 fusion tables
 var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
@@ -746,7 +747,6 @@ function updatePoint() {
 
 }
 
-
 function drawLegend(styleid,rd){
     if (styleid == 0 && rd == 0){
         spazLegend.hide();
@@ -896,14 +896,9 @@ function drawPointLegend(poi){
         }
 
         crashLegend.width(legendW+5);
-        console.log(hideSpaz,hideRoad)
-        if (!hideSpaz) {
+        if (!hideSpaz || !hideRoad) {
             $('#crashLegend').css('border-left', 'solid 1px black');
-        }
-        if (!hideRoad){
-            $('#crashLegend').css('border-left', 'solid 1px black');
-        }
-        if (hideSpaz && hideRoad) {
+        } else {
             $('#crashLegend').css('border-left', 'none');
         }
 
