@@ -434,11 +434,11 @@ function initAutocomplete(mapCenter){
         "Presque Isle",
         "Roscommon",
         "Saginaw",
+        "St. Clair",
+        "St. Joseph",
         "Sanilac",
         "Schoolcraft",
         "Shiawassee",
-        "St. Clair",
-        "St. Joseph",
         "Tuscola",
         "Van Buren",
         "Washtenaw",
@@ -598,7 +598,6 @@ function updateMap(){
     } else {
         countyFilter = "fips = " + countyfips;
     }
-    console.log(countyfips)
 
     if (hideSpaz) {
         pedbikelayerSuperior.setMap(null);
@@ -803,7 +802,6 @@ function drawSpazLegend(styleid){
 }
 
 function drawPointLegend(poi){
-
     if (poi.length==0){
         crashLegend.hide();
     } else {
