@@ -88,7 +88,6 @@ var county_id = {};
 var spazLegend = $('#spazLegend');
 var roadLegend = $('#roadLegend');
 var crashLegend = $('#crashLegend');
-var countyfips
 
 // 10 fusion tables
 var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
@@ -162,8 +161,12 @@ var locationChecker = $('label[for="location"]');
 var locationSelector = $('.location.selector');
 
 
+
+
 var selectedCounty = "Washtenaw";
 countySelector.val(selectedCounty);
+
+
 
 $('#spaz').prop("checked",false);
 $('.riskex.spaz').show();
@@ -471,9 +474,7 @@ function initAutocomplete(mapCenter){
         select: function( event, ui ) {
             countySelector.val( ui.item.value);
             selectedCounty = ui.item.value;
-            updateSpaz();
-            updateRoad();
-            updatePoint();
+            updateMap();
             if (~selectedCounty.indexOf("MDOT")){
                 map.setZoom(10);
                 var region = selectedCounty.replace(" - MDOT region","");
@@ -502,6 +503,8 @@ function initAutocomplete(mapCenter){
 
     $('.ui-autocomplete').appendTo($('.nav'));
 }
+
+
 
 function initMap(center) {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -560,34 +563,42 @@ function initMap(center) {
     drawLegend(styleid,roadid);
 
     spazSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateSpaz);
+        google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
     rankingSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateSpaz);
+        google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
     roadSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updateRoad);
+        google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
     crashSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updatePoint);
+        google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
     locationSelector.each(function (i,obj) {
-        google.maps.event.addDomListener(obj, 'click', updatePoint);
+        google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
-    google.maps.event.addDomListener(spazChecker[0], 'click',updateSpaz);
-    google.maps.event.addDomListener(roadChecker[0], 'click',updateRoad);
-    google.maps.event.addDomListener(crashChecker[0], 'click', updatePoint);
-    google.maps.event.addDomListener(locationChecker[0], 'click', updatePoint);
+    google.maps.event.addDomListener(spazChecker[0], 'click',updateMap);
+    google.maps.event.addDomListener(roadChecker[0], 'click',updateMap);
+    google.maps.event.addDomListener(crashChecker[0], 'click', updateMap);
+    google.maps.event.addDomListener(locationChecker[0], 'click', updateMap);
 
 }
 
-function updateSpaz() {
-    var countyFilter = generateCountyFilter();
+
+function updateMap(){
+    var countyfips = county_id[selectedCounty];
+    var countyFilter;
+    if (~selectedCounty.indexOf("MDOT")){
+        countyFilter = "Rid = " + countyfips;
+    } else {
+        countyFilter = "fips = " + countyfips;
+    }
+    console.log(countyfips)
 
     if (hideSpaz) {
         pedbikelayerSuperior.setMap(null);
@@ -611,48 +622,6 @@ function updateSpaz() {
         styleid = $('.old-select option[selected="selected"]').val();
     }
 
-    ranking = rankingSelector.attr("data-value");
-    fillRank();
-
-    var rankcol = (styleid == 2) ? "PRrank" :
-                    (styleid == 3) ? "BRrank" :
-                    (styleid == 4) ? "PErank" :
-                    (styleid == 5) ? "BErank" :
-                    (styleid == 6) ? "PIErank" :
-                    (styleid == 7) ? "BIErank" :
-                    (styleid == 8) ? "NMRrank" : "NMErank";
-
-    var county_ranking_filter = countyFilter + " AND " + rankcol + " >0 AND " + rankcol + " <= " + ranking;
-
-    pedbikelayerGMUS.setOptions({
-        query: {select: 'geometry',
-            from: pedbike_GMUS,
-            where: county_ranking_filter},
-        styleId: styleid,
-        templateId: 2,
-    });
-    pedbikelayerNorthBay.setOptions({
-        query: {select: 'geometry',
-            from: pedbike_NorthBay,
-            where: county_ranking_filter},
-        styleId: styleid,
-        templateId: 2,
-    });
-    pedbikelayerSuperior.setOptions({
-        query: {select: 'geometry',
-            from: pedbike_Superior,
-            where: county_ranking_filter},
-        styleId: styleid,
-        templateId: 2
-    });
-
-    drawLegend(styleid,roadid);
-
-}
-
-
-function updateRoad(){
-    var countyFilter = generateCountyFilter();
     if (hideRoad) {
         roadlayerUniMetro.setMap(null);
         roadlayerGrandSW.setMap(null);
@@ -675,33 +644,24 @@ function updateRoad(){
         roadid = $('.road.selector:checked').val();
     }
 
-    roadlayerUniMetro.setOptions({
-        query: {select: 'geometry',
-            from: (roadid == 1) ? pedroad_UniMetro : bikeroad_UniMetro,
-            where: countyFilter},
-    });
-    roadlayerGrandSW.setOptions({
-        query: {select: 'geometry',
-            from: (roadid == 1) ? pedroad_GrandSW : bikeroad_GrandSW,
-            where: countyFilter},
-    });
-    roadlayerSuperNorthBay.setOptions({
-        query: {select: 'geometry',
-            from: (roadid == 1) ? pedroad_SuperNorthBay : bikeroad_SuperNorthBay,
-            where: countyFilter},
-    });
-
-    drawLegend(styleid,roadid);
-}
-
-function updatePoint() {
-    var countyFilter = generateCountyFilter();
-
     if(hideCrash && hideLocation){
         crashlayer.setMap(null);
     } else {
         crashlayer.setMap(map);
     }
+
+    ranking = rankingSelector.attr("data-value");
+    fillRank();
+
+    var rankcol = (styleid == 2) ? "PRrank" :
+        (styleid == 3) ? "BRrank" :
+            (styleid == 4) ? "PErank" :
+                (styleid == 5) ? "BErank" :
+                    (styleid == 6) ? "PIErank" :
+                        (styleid == 7) ? "BIErank" :
+                            (styleid == 8) ? "NMRrank" : "NMErank";
+
+    var county_ranking_filter = countyFilter + " AND " + rankcol + " >0 AND " + rankcol + " <= " + ranking;
 
     var poiType=[];
     if (!hideCrash){
@@ -721,25 +681,54 @@ function updatePoint() {
 
     var poiFilter =  " AND type IN (" +poiType.join(",") + ")";
 
+    drawPointLegend(poiType);
+
+    pedbikelayerGMUS.setOptions({
+        query: {select: 'geometry',
+            from: pedbike_GMUS,
+            where: county_ranking_filter},
+        styleId: styleid,
+        templateId: 2,
+    });
+    pedbikelayerNorthBay.setOptions({
+        query: {select: 'geometry',
+            from: pedbike_NorthBay,
+            where: county_ranking_filter},
+        styleId: styleid,
+        templateId: 2,
+    });
+    pedbikelayerSuperior.setOptions({
+        query: {select: 'geometry',
+            from: pedbike_Superior,
+            where: county_ranking_filter},
+        styleId: styleid,
+        templateId: 2
+    });
+    roadlayerUniMetro.setOptions({
+        query: {select: 'geometry',
+            from: (roadid == 1) ? pedroad_UniMetro : bikeroad_UniMetro,
+            where: countyFilter},
+    });
+    roadlayerGrandSW.setOptions({
+        query: {select: 'geometry',
+            from: (roadid == 1) ? pedroad_GrandSW : bikeroad_GrandSW,
+            where: countyFilter},
+    });
+    roadlayerSuperNorthBay.setOptions({
+        query: {select: 'geometry',
+            from: (roadid == 1) ? pedroad_SuperNorthBay : bikeroad_SuperNorthBay,
+            where: countyFilter},
+    });
+
     crashlayer.setOptions({
         query: {select: 'geometry',
             from: crashes,
-            where: countyFilter + poiFilter}
+            where: countyFilter+ poiFilter}
     });
 
-    drawPointLegend(poiType);
 
-}
+    drawLegend(styleid,roadid);
 
-function generateCountyFilter(){
-    countyfips = county_id[selectedCounty];
-    var countyfilter;
-    if (~selectedCounty.indexOf("MDOT")){
-        countyfilter = "Rid = " + countyfips;
-    } else {
-        countyfilter = "fips = " + countyfips;
-    }
-    return countyfilter;
 }
 
 function drawLegend(styleid,rd){
@@ -1055,8 +1044,8 @@ function ready(error,counties,mdot) {
     var mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
 
     show_intro();
-    initAutocomplete(mapCenter);
     initMap(mapCenterCoords);
+    initAutocomplete(mapCenter);
 
 }
 
@@ -1064,5 +1053,4 @@ d3.queue()
     .defer(d3.json,"data/counties.json")
     .defer(d3.json,"data/MDOT_Regions_simplified.json")
     .await(ready);
-
 
