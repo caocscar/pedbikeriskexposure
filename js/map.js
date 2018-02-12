@@ -134,18 +134,20 @@ var NMEcolours = ['#feedde','#fdbe85','#fd8d3c','#e6550d','#a63603'];
 
 
 //county grouping
-var Superior = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,1],
+var Superior = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,-1],
     NorthBay = [1,7,9,19,29,31,39,47,55,69,79,89,101,113,119,129,135,137,141,143,165,
-        11,17,35,49,51,57,63,73,87,111,145,147,151,155,157,2,4],
+        11,17,35,49,51,57,63,73,87,111,145,147,151,155,157,-2,-4],
     GMUS = [5,15,67,81,85,105,107,117,121,123,127,133,139,
         99,125,163,
         37,45,59,65,75,91,93,115,161,
-        21,23,25,27,77,149,159,3,5,6,7],
+        21,23,25,27,77,149,159,-3,-5,-6,-7],
     SuperNorthBay = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,
         1,7,9,19,29,31,39,47,55,69,79,89,101,113,119,129,135,137,141,143,165,
-        11,17,35,49,51,57,63,73,87,111,145,147,151,155,157,1,2,4],
-    GrandSW = [5,15,67,81,85,105,107,117,121,123,127,133,139,21,23,25,27,77,149,159,3,5],
-    UniMetro = [37,45,59,65,75,91,93,115,161, 99,125,163,6,7];
+        11,17,35,49,51,57,63,73,87,111,145,147,151,155,157,-1,-2,-4],
+    GrandSW = [5,15,67,81,85,105,107,117,121,123,127,133,139,
+        21,23,25,27,77,149,159,-3,-5],
+    UniMetro = [37,45,59,65,75,91,93,115,161,
+        99,125,163,-6,-7];
 
 
 //initial filter state
@@ -434,11 +436,11 @@ function initAutocomplete(mapCenter){
         "Presque Isle",
         "Roscommon",
         "Saginaw",
+        "St. Clair",
+        "St. Joseph",
         "Sanilac",
         "Schoolcraft",
         "Shiawassee",
-        "St. Clair",
-        "St. Joseph",
         "Tuscola",
         "Van Buren",
         "Washtenaw",
@@ -449,7 +451,7 @@ function initAutocomplete(mapCenter){
 
     for (var i=0;i<countyNames.length;i++){
         if (i<7){
-            county_id[countyNames[i]]=i+1;
+            county_id[countyNames[i]]=-(i+1);
         } else {
             county_id[countyNames[i]] = 2 * (i - 7) + 1;
         }
@@ -594,11 +596,10 @@ function updateMap(){
     var countyfips = county_id[selectedCounty];
     var countyFilter;
     if (~selectedCounty.indexOf("MDOT")){
-        countyFilter = "Rid = " + countyfips;
+        countyFilter = "Rid = " + countyfips*(-1);
     } else {
         countyFilter = "fips = " + countyfips;
     }
-    console.log(countyfips)
 
     if (hideSpaz) {
         pedbikelayerSuperior.setMap(null);
@@ -803,7 +804,6 @@ function drawSpazLegend(styleid){
 }
 
 function drawPointLegend(poi){
-
     if (poi.length==0){
         crashLegend.hide();
     } else {
