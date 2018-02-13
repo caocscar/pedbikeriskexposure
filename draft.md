@@ -1,3 +1,4 @@
+# Contents
 <!-- MarkdownTOC depth="3" autolink="true" autoanchor="true" bracket="round" -->
 
 - [Abstract Page](#abstract-page)
@@ -73,7 +74,7 @@ Michigan Department of Transportation and the Center for Advancing Transportatio
 <a name="introduction"></a>
 # Introduction
 
-Walking is ubiquitous. Even individuals with ambulatory challenges occasionally assume the role of pedestrians. However, pedestrians are vulnerable road users. They represent a growing percentage of total traffic fatalities and injuries in Michigan and nationwide. According to the National Highway Traffic Safety Administration (NHTSA), pedestrian fatalities and pedestrian injuries have increased 12.5% and 5.7%, respectively, from 2013 to 2015 in the United States *(2)(3)*. While the number of people who walk to work within the same period in Michigan increased by 4.2% *(4-6)* a more than proportionate increase in pedestrian fatalities was observed - 14.9%, an increase that translates to 1.71 pedestrian fatalities per 100,000 of the population in 2015, placing Michigan 19^th^ in the nation *(7)*. This trend suggests that increased attention be placed on pedestrian safety. The present paper provides an attempt in addressing pedestrian safety by introducing a practice ready framework that incorporates a model of pedestrian exposure in measuring pedestrian crash risk.
+Walking is ubiquitous. Even individuals with ambulatory challenges occasionally assume the role of pedestrians. However, pedestrians are vulnerable road users. They represent a growing percentage of total traffic fatalities and injuries in Michigan and nationwide. According to the National Highway Traffic Safety Administration (NHTSA), pedestrian fatalities and pedestrian injuries have increased 12.5% and 5.7%, respectively, from 2013 to 2015 in the United States *(2)(3)*. While the number of people who walk to work within the same period in Michigan increased by 4.2% *(4-6)* a more than proportionate increase in pedestrian fatalities was observed - 14.9%, an increase that translates to 1.71 pedestrian fatalities per 100,000 of the population in 2015, placing Michigan 19th in the nation *(7)*. This trend suggests that increased attention be placed on pedestrian safety. The present paper provides an attempt in addressing pedestrian safety by introducing a practice ready framework that incorporates a model of pedestrian exposure in measuring pedestrian crash risk.
 
 The federal government and many state transportation agencies are adopting and advocating data driven safety analysis (DDSA) *(8)*. The stated purpose of DDSA is
 
@@ -208,7 +209,7 @@ https://www.michigantrafficcrashfacts.org/
 <a name="mi-travel-counts-iii-mtc-iii"></a>
 ### MI Travel Counts III (MTC III)
 
-MI Travel Counts III (MTC III) is a travel survey conducted in 2015 by the Michigan Department of Transportation (MDOT)[^1]. MTC III contains samples 16,276 households across the state reporting their weekday trips. Each surveyed trip includes mode, origin and destination, travel time, activities at each destination, and also household characteristics. We randomly selected 90% of the travel survey trips to estimate the model, and retained the other 10% for model validation.
+MI Travel Counts III (MTC III) is a travel survey conducted in 2015 by the Michigan Department of Transportation ([MDOT](http://www.michigan.gov/mdot/0,1607,7-151-9615_51690---,00.html)). MTC III contains samples 16,276 households across the state reporting their weekday trips. Each surveyed trip includes mode, origin and destination, travel time, activities at each destination, and also household characteristics. We randomly selected 90% of the travel survey trips to estimate the model, and retained the other 10% for model validation.
 
 <img src="/media/image4.png" style="width:5.50556in;height:2.39514in" />
 
@@ -217,12 +218,12 @@ Figure 4 MI Counts Traveler and Household Data
 <a name="reference-usa"></a>
 ### Reference USA
 
-We rely on ReferenceUSA^Ⓡ^ [^2]for the location of businesses and employment data across the state *(28)*.
+We rely on [ReferenceUSA](www.referenceusa.com) for the location of businesses and employment data across the state *(28)*.
 
 <a name="highway-performance-monitoring-system-hpms"></a>
 ### Highway Performance Monitoring System (HPMS)
 
-The roadway geometry data are taken from the Highway Performance Monitoring System (HPMS) *(29)*[^3]. These data include number of lanes, road width, and segment length.
+The roadway geometry data are taken from the Highway Performance Monitoring System ([HPMS](https://www.fhwa.dot.gov/policyinformation/hpms.cfm)) *(29)*. These data include number of lanes, road width, and segment length.
 
 <a name="exposure-model"></a>
 ## Exposure Model
@@ -272,7 +273,7 @@ and
 
 Regarding, pedestrian destination choice, we assume that trips begin and end in the same PAZ. According to the MTC III survey, roughly 37 percent of the walk trips originate and terminate in the same PAZ. So, as a first order approximation, we make this assumption. The practitioner is free to implement a destination choice of her liking, such as the traditional gravity model or the hierarchical multinomial regression model of Clifton et al. *(32)*.
 
-**Synthetic Population **
+**Synthetic Population**
 
 Pedestrian exposure measures the intensity of pedestrian activities in each analysis zone. However, to measure exposure, it is essential for us to know the population for each PAZ first (i.e., synthetic population). The synthetic population is comprised of households and individuals associated with list of characteristics -- e.g., household size, number of vehicles, gender or age *(33)*. In our case, due to the limited level of detail regarding individual characteristics recorded by the travel survey, we only chose household characteristics to generate the synthetic population.
 
@@ -315,9 +316,9 @@ Figure 8 Route choice
 
 The basic idea of the pedestrian risk score is to make joint use of the observed number of pedestrian-vehicle crashes (historical data), and the predicted number of pedestrian-vehicle crashes for similar geographic areas. The pedestrian risk score for a PAZ is the expected number of crashes with higher risk scores been associated with geographical areas with higher expected number of crashes. The empirical Bayes estimate of the risk score for a PAZ is
 
-> (1)
+(1)  
 
-where is the number of observed crashed in the target PAZ , is the predicted number of crashes, overdispersion parameter \\(\phi\\) and \\(w\\)is
+where is the number of observed crashed in the target PAZ , is the predicted number of crashes, overdispersion parameter &phi; and &omega; is
 
 (2)
 
@@ -325,9 +326,9 @@ is between 0 and 1.
 
 We subsequently develop a SPF for the predicted number of pedestrian crashes. Our SPF includes not only the AADT, but also the pedestrian exposure and an interaction term between vehicle AADT and pedestrian exposure. The resulting negative binomial regression model specification is
 
-<img src="/media/image13.png" style="width:5.75417in;height:0.33333in" /> (3)
+<img src="/media/image13.png" style="width:5.75417in;height:0.33333in" /> 
 
-The regression coefficients a, c, b, d and the overdispersion parameter \\(\phi\\) are calculated via maximum likelihood estimation. In the next couple of sections, we provide more details on the development of the exposure measure used in the SPF.
+The regression coefficients a, c, b, d and the overdispersion parameter &phi; are calculated via maximum likelihood estimation. In the next couple of sections, we provide more details on the development of the exposure measure used in the SPF.
 
 <a name="experimental-design"></a>
 ## Experimental design
