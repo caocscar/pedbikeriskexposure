@@ -326,7 +326,7 @@ is between 0 and 1.
 
 We subsequently develop a SPF for the predicted number of pedestrian crashes. Our SPF includes not only the AADT, but also the pedestrian exposure and an interaction term between vehicle AADT and pedestrian exposure. The resulting negative binomial regression model specification is
 
-<img src="/media/image13.png" style="width:5.75417in;height:0.33333in" /> 
+(3) <img src="/media/image13.png" style="width:5.75417in;height:0.33333in" /> 
 
 The regression coefficients a, c, b, d and the overdispersion parameter &phi; are calculated via maximum likelihood estimation. In the next couple of sections, we provide more details on the development of the exposure measure used in the SPF.
 
