@@ -319,17 +319,17 @@ Figure 8 Route choice
 
 The basic idea of the pedestrian risk score is to make joint use of the observed number of pedestrian-vehicle crashes (historical data), and the predicted number of pedestrian-vehicle crashes for similar geographic areas. The pedestrian risk score for a PAZ is the expected number of crashes with higher risk scores been associated with geographical areas with higher expected number of crashes. The empirical Bayes estimate of the risk score for a PAZ is  
 
-<img src="/media/equation1.png" style="width:5.75417in;height:0.33333in" /> (1)
+<img src="/media/equation1.png" style="width:5.75417in;height:0.33333in" />
 
 where <img src="/media/y.png"> is the number of observed crashed in the target PAZ ,<img src="/media/mu.png"> is the predicted number of crashes, overdispersion parameter &phi; and &omega; is
 
-<img src="/media/equation2.png" style="width:5.75417in;height:0.33333in" /> (2)
+<img src="/media/equation2.png" style="width:5.75417in;height:0.33333in" />
 
 is between 0 and 1.
 
 We subsequently develop a SPF for the predicted number of pedestrian crashes. Our SPF includes not only the AADT, but also the pedestrian exposure and an interaction term between vehicle AADT and pedestrian exposure. The resulting negative binomial regression model specification is
 
-<img src="/media/image13.png" style="width:4in;height:0.33333in" /> (3)
+<img src="/media/image13.png"/>
 
 The regression coefficients a, c, b, d and the overdispersion parameter &phi; are calculated via maximum likelihood estimation. In the next couple of sections, we provide more details on the development of the exposure measure used in the SPF.
 
