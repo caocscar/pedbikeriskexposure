@@ -1,9 +1,19 @@
-# Contents
-<!-- MarkdownTOC depth="3" autolink="true" autoanchor="true" bracket="round" -->
+# Developing Michigan Pedestrian and Bicycle Safety Models
 
-- [Abstract Page](#abstract-page)
+#### Robert C. Hampshire 
+#### Lisa J. Molnar
+#### Alex Cao
+#### Yiming Cai
+#### Xiao Li
+#### Tayo Fabusuyi
+##### The University of Michigan Transportation Research Institute
+##### January 31, 2018
+#### Draft Final Report
+
+
+# Contents
+
 - [Acknowledgements and disclaimer](#acknowledgements-and-disclaimer)
-- [Executive Summary](#executive-summary)
 - [Introduction](#introduction)
 	- [Background](#background)
 		- [Objectives](#objectives)
@@ -56,10 +66,6 @@
 	- [Recommendations for implementation](#recommendations-for-implementation)
 - [References](#references)
 
-<!-- /MarkdownTOC -->
-<a name="abstract-page"></a>
-# Abstract Page 
-
 <a name="acknowledgements-and-disclaimer"></a>
 # Acknowledgements and disclaimer
 
@@ -67,9 +73,6 @@ The authors would like to thank Carissa McQuiston and Dean Kanitz from the Michi
 
 Michigan Department of Transportation and the Center for Advancing Transportation Leadership and Safety (ATLAS Center), a University Transportation Center and Collaboration between the University of Michigan Transportation Research Institute (UMTRI) and the Texas A&M Transportation Institute (TTI) sponsored by the US Department of Transportation, Research and Innovative Technology Administration (RITA) funded this research.
 
-
-<a name="executive-summary"></a>
-# Executive Summary 
 
 <a name="introduction"></a>
 # Introduction
@@ -316,17 +319,17 @@ Figure 8 Route choice
 
 The basic idea of the pedestrian risk score is to make joint use of the observed number of pedestrian-vehicle crashes (historical data), and the predicted number of pedestrian-vehicle crashes for similar geographic areas. The pedestrian risk score for a PAZ is the expected number of crashes with higher risk scores been associated with geographical areas with higher expected number of crashes. The empirical Bayes estimate of the risk score for a PAZ is
 
-(1)  
+<img src="/media/equation1.png" style="width:5.75417in;height:0.33333in" /> (1)
 
 where is the number of observed crashed in the target PAZ , is the predicted number of crashes, overdispersion parameter &phi; and &omega; is
 
-(2)
+<img src="/media/equation1.png" style="width:5.75417in;height:0.33333in" /> (2)
 
 is between 0 and 1.
 
 We subsequently develop a SPF for the predicted number of pedestrian crashes. Our SPF includes not only the AADT, but also the pedestrian exposure and an interaction term between vehicle AADT and pedestrian exposure. The resulting negative binomial regression model specification is
 
-(3) <img src="/media/image13.png" style="width:5.75417in;height:0.33333in" /> 
+<img src="/media/image13.png" style="width:5.75417in;height:0.33333in" /> (3)
 
 The regression coefficients a, c, b, d and the overdispersion parameter &phi; are calculated via maximum likelihood estimation. In the next couple of sections, we provide more details on the development of the exposure measure used in the SPF.
 
