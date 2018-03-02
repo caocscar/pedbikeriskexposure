@@ -1,93 +1,11 @@
-//hide/show side menu
-$(".menu-link").click(function(){
-    $("#menu").toggleClass("active");
-    $(".container").toggleClass("active");
-});
-
-//generate dropdown menu
-var countOption = $('.old-select option').size();
-
-function openSelect(){
-    var heightSelect = $('.new-select').height();
-    var j=1;
-    $('.new-select .new-option').each(function(){
-        $(this).addClass('reveal');
-        $(this).css({
-            'box-shadow':'0 1px 1px rgba(0,0,0,0.1)',
-            'left':'0',
-            'right':'0',
-            'top': j*(heightSelect+1)+'px'
-        });
-        j++;
-    });
-}
-
-function closeSelect(){
-    var i=0;
-    $('.new-select .new-option').each(function(){
-        $(this).removeClass('reveal');
-        if(i<countOption-3){
-            $(this).css('top',0);
-            $(this).css('box-shadow','none');
-        }
-        else if(i===countOption-3){
-            $(this).css('top','3px');
-        }
-        else if(i===countOption-2){
-            $(this).css({
-                'top':'7px',
-                'left':'2px',
-                'right':'2px'
-            });
-        }
-        else if(i===countOption-1){
-            $(this).css({
-                'top':'11px',
-                'left':'4px',
-                'right':'4px'
-            });
-        }
-        i++;
-    });
-}
-
-if($('.old-select option[selected]').size() === 1){
-    $('.selection p span').html($('.old-select option[selected]').html());
-}
-else{
-    $('.selection p span').html($('.old-select option:first-child').html());
-}
-
-$('.old-select option').each(function(){
-    newValue = $(this).val();
-    newHTML = $(this).html();
-    $('.new-select').append('<div class="new-option" data-value="'+newValue+'"><p>'+newHTML+'</p></div>');
-});
-
-var reverseIndex = countOption;
-$('.new-select .new-option').each(function(){
-    $(this).css('z-index',reverseIndex);
-    reverseIndex = reverseIndex-1;
-});
-
-closeSelect();
-
-
-$('.selection').click(function(){
-    $(this).toggleClass('open');
-    if($(this).hasClass('open')===true){openSelect();}
-    else{closeSelect();}
-});
-//generate radio slider
-$('#radios').radiosToSlider();
-
-
 // global variables
-var map;
+var map,selectedLayer,tableid,query;
 var county_id = {};
 var spazLegend = $('#spazLegend');
 var roadLegend = $('#roadLegend');
 var crashLegend = $('#crashLegend');
+var styleid = 2;
+var roadid = 0;
 
 // 10 fusion tables
 var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
@@ -150,10 +68,100 @@ var Superior = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,-1],
         99,125,163,-6,-7];
 
 
+
+//hide/show side menu
+$(".menu-link").click(function(){
+    $("#menu").toggleClass("active");
+    $(".container").toggleClass("active");
+});
+
+//dropdown components
+var dropy = {
+    $dropys: null,
+    openClass: 'open',
+    selectClass: 'selected',
+    init: function(){
+        var self = this;
+
+        self.$dropys = $('.dropy');
+        self.eventHandler();
+    },
+    eventHandler: function(){
+        var self = this;
+
+        // Opening a dropy
+        self.$dropys.find('.dropy__title').click(function(){
+            self.$dropys.removeClass(self.openClass);
+            $(this).parents('.dropy').addClass(self.openClass);
+        });
+
+        // Click on a dropy list
+        self.$dropys.find('.dropy__content ul li a').click(function(){
+            var $that = $(this);
+            var $dropy = $that.parents('.dropy');
+            var $input = $dropy.find('input');
+            var $title = $(this).parents('.dropy').find('.dropy__title span');
+
+            // Remove selected class
+            $dropy.find('.dropy__content a').each(function(){
+                $(this).removeClass(self.selectClass);
+            });
+
+            // Update selected value
+            $title.html($that.html());
+            $input.val($that.attr('data-value')).trigger('change')
+            if (inArray($input.val(), ["2","3","4","5","6","7"])){
+                if ($input.val()==6){
+                    $('#variable').html("PIE");
+                } else if ($input.val()==7){
+                    $('#variable').html("BIE");
+                } else {
+                    $('#variable').html($that.html());
+                }
+            }
+
+            function inArray(target, array)
+            {
+                for(var i = 0; i < array.length; i++)
+                {
+                    if(array[i] === target)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+
+            // If back to default, remove selected class else addclass on right element
+            if($that.hasClass('dropy__header')){
+                $title.removeClass(self.selectClass);
+                $title.html($title.attr('data-title'));
+            }
+            else{
+                $title.addClass(self.selectClass);
+                $that.addClass(self.selectClass);
+            }
+
+            // Close dropdown
+            $dropy.removeClass(self.openClass);
+        });
+
+        // Close all dropdown onclick on another element
+        $(document).bind('click', function(e){
+            if (! $(e.target).parents().hasClass('dropy')){ self.$dropys.removeClass(self.openClass); }
+        });
+    }
+};
+
+//generate radio slider
+$('#radios').radiosToSlider();
+
+
 //initial filter state
 var countySelector = $('#county');
 var spazChecker = $('label[for="spaz"]');
-var spazSelector = $('.new-option');
+var spazSelector = $('.spaz-selector');
 var rankingSelector = $('#radios');
 var roadChecker = $('label[for="road"]');
 var roadSelector = $('.road.selector');
@@ -161,80 +169,68 @@ var crashChecker = $('label[for="crash"]');
 var crashSelector = $('.crash.selector');
 var locationChecker = $('label[for="location"]');
 var locationSelector = $('.location.selector');
-
-
-
+var layerSelector = $('.layer-selector');
+var spazToggle = $('#spaz');
+var roadToggle = $('#road');
+var crashToggle = $('#crash');
+var locationToggle = $('#location');
+var spazFilters = $('.riskex.spaz');
+var roadFilters = $('.riskex.road');
+var crashFilters = $('.riskex.crash');
+var locationFilters = $('.riskex.location');
 
 var selectedCounty = "Washtenaw";
 countySelector.val(selectedCounty);
 
+spazToggle.prop("checked",false);
+spazFilters.show();
+
+roadToggle.prop("checked",true);
+roadFilters.hide();
+
+crashToggle.prop("checked",true);
+crashFilters.hide();
+
+locationToggle.prop("checked",true);
+locationFilters.hide();
 
 
-$('#spaz').prop("checked",false);
-$('.riskex.spaz').show();
-
-$('#road').prop("checked",true);
-$('.riskex.road').hide();
-
-$('#crash').prop("checked",true);
-$('.riskex.crash').hide();
-
-$('#location').prop("checked",true);
-$('.riskex.location').hide();
-
-
-var hideSpaz = $('#spaz').prop("checked");
-var hideRoad = $('#road').prop("checked");
-var hideCrash = $('#crash').prop("checked");
-var hideLocation = $('#location').prop("checked");
+var hideSpaz = spazToggle.prop("checked");
+var hideRoad = roadToggle.prop("checked");
+var hideCrash = crashToggle.prop("checked");
+var hideLocation = locationToggle.prop("checked");
 
 spazChecker.on("click",function () {
     hideSpaz = !hideSpaz;
-    $('.riskex.spaz').slideToggle("fast");
+    spazFilters.slideToggle("fast");
 });
 
 roadChecker.on("click",function () {
     hideRoad = !hideRoad;
-    $('.riskex.road').slideToggle("fast");
+    roadFilters.slideToggle("fast");
 });
 
 crashChecker.on("click",function () {
     hideCrash = !hideCrash;
-    $('.riskex.crash').slideToggle("fast");
+    crashFilters.slideToggle("fast");
 });
 
 
 locationChecker.on("click",function () {
     hideLocation = !hideLocation;
-    $('.riskex.location').slideToggle("fast");
-
+    locationFilters.slideToggle("fast");
 });
-var styleid = 2;
-var roadid = 0;
 
-var selected_var = $('.old-select option[value="'+styleid+'"]').html();
-fillVar();
-
-// dropdown selection
-spazSelector.click(function(){
-    styleid = $(this).data('value');
-
-    // Selection New Select
-    $('.selection p span').html($(this).find('p').html());
-    $('.selection').click();
-
-    // Selection Old Select
-    $('.old-select option[selected]').removeAttr('selected');
-    $('.old-select option[value="'+styleid+'"]').attr('selected','');
-    selected_var = $('.old-select option[value="'+styleid+'"]').html();
-    fillVar();
-});
+var initialPAZ = spazSelector.filter("[data-value='" + styleid + "']");
+initialPAZ.addClass("selected");
+$('.dropy__title.spaz span').html(initialPAZ.html());
+$('#variable').html(initialPAZ.html());
+$('input#paz').val(styleid);
 
 $('#rb5').prop("checked",true);
 rankingSelector.attr('data-value',99999);
 var ranking = rankingSelector.attr("data-value");
 fillRank();
-$('.old-select option[value="'+styleid+'"]').attr('selected','');
 
 //make sure at least one checkbox is checked
 crashSelector.prop("checked",true);
@@ -277,6 +273,7 @@ locationSelector.click(function () {
         removedCB.prop("checked",true)
     }
 });
+
 
 function initAutocomplete(mapCenter){
     $.widget("ui.autocomplete", $.ui.autocomplete, {
@@ -506,8 +503,6 @@ function initAutocomplete(mapCenter){
     $('.ui-autocomplete').appendTo($('.nav'));
 }
 
-
-
 function initMap(center) {
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
@@ -584,6 +579,10 @@ function initMap(center) {
         google.maps.event.addDomListener(obj, 'click', updateMap);
     });
 
+    layerSelector.each(function (i,obj) {
+        google.maps.event.addDomListener(obj, 'click', updateMap);
+    });
+
     google.maps.event.addDomListener(spazChecker[0], 'click',updateMap);
     google.maps.event.addDomListener(roadChecker[0], 'click',updateMap);
     google.maps.event.addDomListener(crashChecker[0], 'click', updateMap);
@@ -591,12 +590,11 @@ function initMap(center) {
 
 }
 
-
-function updateMap(){
+function updateMap() {
     var countyfips = county_id[selectedCounty];
     var countyFilter;
-    if (~selectedCounty.indexOf("MDOT")){
-        countyFilter = "Rid = " + countyfips*(-1);
+    if (~selectedCounty.indexOf("MDOT")) {
+        countyFilter = "Rid = " + countyfips * (-1);
     } else {
         countyFilter = "fips = " + countyfips;
     }
@@ -606,21 +604,21 @@ function updateMap(){
         pedbikelayerNorthBay.setMap(null);
         pedbikelayerGMUS.setMap(null);
         styleid = 0;
-    }else{
+    } else {
         if (~GMUS.indexOf(countyfips)) {
             pedbikelayerGMUS.setMap(map);
             pedbikelayerNorthBay.setMap(null);
             pedbikelayerSuperior.setMap(null);
-        }else if (~NorthBay.indexOf(countyfips)) {
+        } else if (~NorthBay.indexOf(countyfips)) {
             pedbikelayerNorthBay.setMap(map);
             pedbikelayerGMUS.setMap(null);
             pedbikelayerSuperior.setMap(null);
-        }else if (~Superior.indexOf(countyfips)) {
+        } else if (~Superior.indexOf(countyfips)) {
             pedbikelayerSuperior.setMap(map);
             pedbikelayerGMUS.setMap(null);
             pedbikelayerNorthBay.setMap(null);
         }
-        styleid = $('.old-select option[selected="selected"]').val();
+        styleid = $('input#paz').val();
     }
 
     if (hideRoad) {
@@ -628,24 +626,24 @@ function updateMap(){
         roadlayerGrandSW.setMap(null);
         roadlayerSuperNorthBay.setMap(null);
         roadid = 0;
-    }else{
+    } else {
+        roadid = $('.road.selector:checked').val();
         if (~UniMetro.indexOf(countyfips)) {
             roadlayerUniMetro.setMap(map);
             roadlayerGrandSW.setMap(null);
             roadlayerSuperNorthBay.setMap(null);
-        }else if (~GrandSW.indexOf(countyfips)) {
+        } else if (~GrandSW.indexOf(countyfips)) {
             roadlayerGrandSW.setMap(map);
             roadlayerUniMetro.setMap(null);
             roadlayerSuperNorthBay.setMap(null);
-        }else if (~SuperNorthBay.indexOf(countyfips)) {
+        } else if (~SuperNorthBay.indexOf(countyfips)) {
             roadlayerSuperNorthBay.setMap(map);
             roadlayerUniMetro.setMap(null);
             roadlayerGrandSW.setMap(null);
         }
-        roadid = $('.road.selector:checked').val();
     }
 
-    if(hideCrash && hideLocation){
+    if (hideCrash && hideLocation) {
         crashlayer.setMap(null);
     } else {
         crashlayer.setMap(map);
@@ -664,72 +662,121 @@ function updateMap(){
 
     var county_ranking_filter = countyFilter + " AND " + rankcol + " >0 AND " + rankcol + " <= " + ranking;
 
-    var poiType=[];
-    if (!hideCrash){
+    var poiType = [];
+    if (!hideCrash) {
         crashSelector.each(function () {
-            if (this.checked){
-                poiType.push("'"+this.value+"'")
+            if (this.checked) {
+                poiType.push("'" + this.value + "'")
             }
         });
     }
-    if (!hideLocation){
+    if (!hideLocation) {
         locationSelector.each(function () {
-            if (this.checked){
-                poiType.push("'"+this.value+"'")
+            if (this.checked) {
+                poiType.push("'" + this.value + "'")
             }
         });
     }
 
-    var poiFilter =  " AND type IN (" +poiType.join(",") + ")";
+    var poiFilter = " AND type IN (" + poiType.join(",") + ")";
 
     drawPointLegend(poiType);
 
     pedbikelayerGMUS.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: pedbike_GMUS,
-            where: county_ranking_filter},
+            where: county_ranking_filter
+        },
         styleId: styleid,
         templateId: 2,
     });
     pedbikelayerNorthBay.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: pedbike_NorthBay,
-            where: county_ranking_filter},
+            where: county_ranking_filter
+        },
         styleId: styleid,
         templateId: 2,
     });
     pedbikelayerSuperior.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: pedbike_Superior,
-            where: county_ranking_filter},
+            where: county_ranking_filter
+        },
         styleId: styleid,
         templateId: 2
     });
     roadlayerUniMetro.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: (roadid == 1) ? pedroad_UniMetro : bikeroad_UniMetro,
-            where: countyFilter},
+            where: countyFilter
+        },
     });
     roadlayerGrandSW.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: (roadid == 1) ? pedroad_GrandSW : bikeroad_GrandSW,
-            where: countyFilter},
+            where: countyFilter
+        },
     });
     roadlayerSuperNorthBay.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: (roadid == 1) ? pedroad_SuperNorthBay : bikeroad_SuperNorthBay,
-            where: countyFilter},
+            where: countyFilter
+        },
     });
 
     crashlayer.setOptions({
-        query: {select: 'geometry',
+        query: {
+            select: 'geometry',
             from: crashes,
-            where: countyFilter+ poiFilter}
+            where: countyFilter + poiFilter
+        }
     });
 
+    drawLegend(styleid, roadid);
 
-    drawLegend(styleid,roadid);
-
+//    generate query
+    selectedLayer = $('input#layer').val();
+    if (selectedLayer == "paz") {
+        if (~NorthBay.indexOf(countyfips)) {
+            tableid = pedbike_NorthBay;
+        } else if (~GMUS.indexOf(countyfips)) {
+            tableid = pedbike_GMUS;
+        } else {
+            tableid = pedbike_Superior
+        }
+        query = "SELECT * FROM " + tableid + " WHERE " + county_ranking_filter + " ORDER BY " + rankcol;
+    } else if (selectedLayer == "road") {
+        if (roadid == 1) {
+            if (~SuperNorthBay.indexOf(countyfips)) {
+                tableid = pedroad_SuperNorthBay;
+            } else if (~GrandSW.indexOf(countyfips)) {
+                tableid = pedroad_GrandSW;
+            } else {
+                tableid = pedroad_UniMetro;
+            }
+        } else if (roadid == 2) {
+            if (~SuperNorthBay.indexOf(countyfips)) {
+                tableid = bikeroad_SuperNorthBay;
+            } else if (~GrandSW.indexOf(countyfips)) {
+                tableid = bikeroad_GrandSW;
+            } else {
+                tableid = bikeroad_UniMetro;
+            }
+        } else if (roadid == 0) {
+            tableid = "";
+        }
+        query = "SELECT * FROM " + tableid + " WHERE " + countyFilter;
+    } else if (selectedLayer == "point") {
+        tableid = crashes;
+        query = "SELECT * FROM " + tableid + " WHERE " + countyFilter + poiFilter;
+    }
 }
 
 function drawLegend(styleid,rd){
@@ -841,8 +888,6 @@ function drawPointLegend(poi){
 
             });
 
-
-
         legendRect.append('svg:image')
             .attr("xlink:href",  function(d) {return  d[1]})
             .attr("height",function (d) {
@@ -868,8 +913,6 @@ function drawPointLegend(poi){
             .text(function (d) {
                 return d[0];
             });
-
-
 
         var titleW = legendTitle.node().getBBox().width;
         var cellW = legendCells.node().getBBox().width;
@@ -924,8 +967,6 @@ function drawroadLegend(roadid){
     } else {
         $('#roadLegend').css('border-left', 'none');
     }
-
-
 }
 
 function generateSpazLabels(legendOpts){
@@ -1019,15 +1060,63 @@ function fillRank() {
     }
 }
 
-function fillVar() {
-    if (styleid==6){
-        selected_var = "PIE";
-    } else if (styleid==7){
-        selected_var = "BIE";
+function getData() {
+    if (selectedLayer=="paz"){
+        if(hideSpaz){
+            alert("Please turn on the PAZ layer to export data.")
+        }
+    } else if (selectedLayer=="road"){
+        if(hideRoad){
+            alert("Please turn on the road layer to export data.")
+        }
+    } else if (selectedLayer=="point") {
+        if (hideCrash && hideLocation) {
+            alert("Please turn on at least one point layer to export data.")
+        }
+    } else {
+        alert("Please select a layer.")
     }
-    $('#variable').html(selected_var);
+    $.ajax({
+        type:"GET",
+        url:"https://www.googleapis.com/fusiontables/v2/query?sql="+query+"&alt=csv&&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ",
+        success:function (data) {
+            var location;
+            if (~selectedCounty.indexOf("MDOT")){
+                location = selectedCounty.replace(" - MDOT region","");
+            } else {
+                location = selectedCounty;
+            }
+            var filename = location+"_"+selectedLayer+".csv";
+            var blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
+            if (navigator.msSaveBlob) { // IE 10+
+                navigator.msSaveBlob(blob, filename);
+            } else {
+                var link = document.createElement("a");
+                if (link.download !== undefined) { // feature detection
+                    // Browsers that support HTML5 download attribute
+                    var url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", filename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+        },
+        statusCode:{
+            503:function (xhr) {
+                alert("File size is too big to download. Please access fusion table directly at https://fusiontables.google.com/DataSource?docid="+tableid);
+            },
+            400:function (xhr) {
+                console.log("invalid query");
+            },
+            501:function (xhr) {
+                console.log("empty query");
+            }
+        }
+    });
 }
-
 
 function ready(error,counties,mdot) {
     if(error) { console.log(error); }
@@ -1044,8 +1133,10 @@ function ready(error,counties,mdot) {
     var mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
 
     show_intro();
+    dropy.init();
     initMap(mapCenterCoords);
     initAutocomplete(mapCenter);
+    $("#download").on("click",getData)
 
 }
 
