@@ -33,8 +33,9 @@
 <nav id="menu">
     <div class="title">
         <h2>Pedestrian and Bicyclist Safety Risk Assessment Tool</h2>
+        <h3>Filters</h3>
     </div>
-    <div class="menu-content">
+    <div class="menu-content filters">
         <div class="ui-wrap">
             <form>
                 <p>Search for a county or a MDOT region:</p>
@@ -59,27 +60,24 @@
                 </div>
             </div>
             <div class="riskex spaz">
-                <p>Select a PAZ variable:</p>
-                <div class="selection-wrap">
-                    <select class="old-select">
-                        <option value="2">Pedestrian Risk</option>
-                        <option value="3">Bike Risk</option>
-                        <option value="4">Pedestrian Exposure</option>
-                        <option value="5">Bike Exposure</option>
-                        <option value="6">Pedestrian Index of Environment (PIE)</option>
-                        <option value="7">Bike Index of Environment (BIE)</option>
-                        <option value="8">Non-Motorized Risk</option>
-                        <option value="9">Non-Motorized Exposure</option>
-                    </select>
-                    <div class="new-select">
-                        <div class="selection">
-                            <p>
-                                <span></span>
-                                <i></i>
-                            </p>
-                            <span></span>
-                        </div>
-                    </div>
+                <div class="dropy-wrapper">
+                    <dl class="dropy">
+                        <dt class="dropy__title spaz"><span>Select a PAZ variable</span></dt>
+                        <dd class="dropy__content">
+                            <ul>
+                                <li class="dropy__header">Select a PAZ variable</li>
+                                <li><a data-value="2" class="spaz-selector">Pedestrian Risk</a></li>
+                                <li><a data-value="3" class="spaz-selector">Bike Risk</a></li>
+                                <li><a data-value="4" class="spaz-selector">Pedestrian Exposure</a></li>
+                                <li><a data-value="5" class="spaz-selector">Bike Exposure</a></li>
+                                <li><a data-value="6" class="spaz-selector">Pedestrian Index of Environment (PIE)</a></li>
+                                <li><a data-value="7" class="spaz-selector">Bike Index of Environment (BIE)</a></li>
+                                <li><a data-value="8" class="spaz-selector">Non-Motorized Risk</a></li>
+                                <li><a data-value="9" class="spaz-selector">Non-Motorized Exposure</a></li>
+                            </ul>
+                        </dd>
+                        <input type="hidden" id="paz">
+                    </dl>
                 </div>
                 <p>Show <span id="variable_rank" class="highlight"></span> PAZs for <span id="variable" class="highlight"></span></p>
                 <div class="selection-wrap">
@@ -125,8 +123,6 @@
                         <label for="rb6">Bike Exposure</label>
                     </li>
                 </ul>
-
-
             </div>
         </div>
         <div class="ui-wrap">
@@ -181,7 +177,33 @@
                 </ul>
             </div>
         </div>
-
+    </div>
+    <div class="title">
+        <h3>Export Data</h3>
+        <span class="tool-tip" data-tooltip-title="Format is csv. Geometry is KML style." data-tooltip-position="bottom">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+        </span>
+    </div>
+    <div class="menu-content">
+        <div class="ui-wrap">
+            <div class="dropy-wrapper">
+                <dl class="dropy">
+                    <dt class="dropy__title"><span>Select a layer</span></dt>
+                    <dd class="dropy__content">
+                        <ul>
+                            <li><a class="dropy__header">Select a layer</a></li>
+                            <li><a class="layer-selector" data-value="paz">PAZ</a></li>
+                            <li><a class="layer-selector" data-value="road">Road</a></li>
+                            <li><a class="layer-selector" data-value="point">Point</a></li>
+                        </ul>
+                    </dd>
+                    <input type="hidden" id="layer">
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="btn-wrapper">
+        <a href="#" class="btn blue" id="download">Export</a>
     </div>
 </nav>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
