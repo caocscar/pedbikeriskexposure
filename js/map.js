@@ -7,6 +7,7 @@ var crashLegend = $('#crashLegend');
 var styleid = 2;
 var roadid = 0;
 
+
 // 10 fusion tables
 var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
 var pedbike_Superior = "1pp4Axxd5C8U7RByKuZsidxmSulBH7YSDTWn25ohQ";
@@ -109,16 +110,19 @@ var dropy = {
 
             // Update selected value
             $title.html($that.html());
-            $input.val($that.attr('data-value')).trigger('change')
+            $input.val($that.attr('data-value')).trigger('change');
+
+            var hightlight = $('#variable');
+            hightlight.html($that.html());
+
             if (inArray($input.val(), ["2","3","4","5","6","7"])){
                 if ($input.val()==6){
-                    $('#variable').html("PIE");
+                    hightlight.html("PIE");
                 } else if ($input.val()==7){
-                    $('#variable').html("BIE");
-                } else {
-                    $('#variable').html($that.html());
+                    hightlight.html("BIE");
                 }
             }
+
 
             function inArray(target, array)
             {
@@ -800,32 +804,68 @@ function drawLegend(styleid,rd){
 }
 
 function drawSpazLegend(styleid){
+    var colorScale, title, legendinfo,pazinfo;
+    var legendinfopop=$('#pazlegendinfo');
+    var pazinfopop=$('#pazinfopop');
     if (styleid==2){
-        var colorScale = d3.scaleThreshold().domain(PRbins).range(PRcolours);
-        var title = "Pedestrian Risk";
+        colorScale = d3.scaleThreshold().domain(PRbins).range(PRcolours);
+        title = "Pedestrian Risk";
     } else if (styleid==3){
-        var colorScale = d3.scaleThreshold().domain(BRbins).range(BRcolours);
-        var title = "Bike Risk";
+        colorScale = d3.scaleThreshold().domain(BRbins).range(BRcolours);
+        title = "Bicycle Risk";
     } else if (styleid==4){
-        var colorScale = d3.scaleThreshold().domain(PEbins).range(PEcolours);
-        var title = "Pedestrian Exposure";
+        colorScale = d3.scaleThreshold().domain(PEbins).range(PEcolours);
+        title = "Pedestrian Exposure";
     } else if (styleid==5){
-        var colorScale = d3.scaleThreshold().domain(BEbins).range(BEcolours);
-        var title = "Bike Exposure";
+        colorScale = d3.scaleThreshold().domain(BEbins).range(BEcolours);
+        title = "Bicycle Exposure";
     } else if (styleid==6){
-        var colorScale = d3.scaleThreshold().domain(PIEbins).range(PIEcolours);
-        var title = "PIE";
+        colorScale = d3.scaleThreshold().domain(PIEbins).range(PIEcolours);
+        title = "PIE";
     }  else if (styleid==7){
-        var colorScale = d3.scaleThreshold().domain(BIEbins).range(BIEcolours);
-        var title = "BIE";
+        colorScale = d3.scaleThreshold().domain(BIEbins).range(BIEcolours);
+        title = "BIE";
     } else if (styleid==8){
-        var colorScale = d3.scaleThreshold().domain(NMRbins).range(NMRcolours);
-        var title = "Non-Motorized Risk";
+        colorScale = d3.scaleThreshold().domain(NMRbins).range(NMRcolours);
+        title = "Non-Motorized Risk";
     } else if (styleid==9){
-        var colorScale = d3.scaleThreshold().domain(NMEbins).range(NMEcolours);
-        var title = "Non-Motorized Exposure";
+        colorScale = d3.scaleThreshold().domain(NMEbins).range(NMEcolours);
+        title = "Non-Motorized Exposure";
     }
+    var highlight = $('#variable');
+
+    if(styleid==2||styleid==3){
+        legendinfopop.show();
+        pazinfopop.show();
+        legendinfo = "Expected number of Crashes over the next 11 year period.";
+        pazinfo = "Includes crash, roadway, exposure, built environment, and household characteristics. Click on the left text for more info.";
+        highlight.unwrap();
+        highlight.wrap('<a target="_blank" href="https://github.com/caocscar/pedbikeriskexposure/blob/master/draft.md#risk-score"/>');
+    } else if (styleid==4||styleid==5){
+        legendinfopop.show();
+        pazinfopop.show();
+        legendinfo = "Estimated number of Trips per day.";
+        pazinfo = " Includes crash, roadway, exposure, built environment, and household characteristics. Click on the left text for more info.";
+        highlight.unwrap();
+        highlight.wrap('<a target="_blank" href="https://github.com/caocscar/pedbikeriskexposure/blob/master/draft.md#exposure-model"/>');
+    } else if (styleid==6||styleid==7){
+        legendinfopop.show();
+        pazinfopop.show();
+        legendinfo = "Scaled measure between 0-100.";
+        pazinfo = "Built environment factors. Click on the left text for more info.";
+        highlight.unwrap();
+        highlight.wrap('<a target="_blank" href="https://github.com/caocscar/pedbikeriskexposure/blob/master/draft.md#pedestrian-index-of-the-environment-pie"/>');
+    } else {
+        legendinfopop.hide();
+        pazinfopop.hide();
+        highlight.unwrap();
+    }
+
+    legendinfopop.attr("data-tooltip-title",legendinfo);
+    pazinfopop.attr("data-tooltip-title",pazinfo);
+
     d3.select("#spazLegend").select("svg").remove();
+
     var legendsvg = d3.select("#spazLegend").append("svg");
     legendsvg.append("g")
         .attr("class","dynamicLegend")
@@ -837,16 +877,21 @@ function drawSpazLegend(styleid){
         .labels(generateSpazLabels)
         .shapeWidth(20)
         .scale(colorScale);
+
     legendsvg.select('.dynamicLegend').call(legendOptions);
     legendsvg.select('.legendCells').attr('transform','translate(0, 10)');
     var titleW = $('#spazLegend text.legendTitle')[0].getBBox().width;
     var cellW = $('#spazLegend g.legendCells')[0].getBBox().width;
+    var legendW;
     if (titleW>cellW){
-        var legendW = titleW;
+        legendW = titleW;
+        $('#spazLegend').width(legendW+20);
     } else {
-        var legendW = cellW;
+        legendW = cellW;
+        $('#spazLegend').width(legendW+15);
+
     }
-    $('#spazLegend').width(legendW+8);
+    legendinfopop.css("left",titleW+5)
 
 }
 
@@ -854,7 +899,7 @@ function drawPointLegend(poi){
     if (poi.length==0){
         crashLegend.hide();
     } else {
-        var legendData=[["Pedestrian Crash","img/pedestrian.png"],["Bike Crash","img/bike.png"],
+        var legendData=[["Pedestrian Crash","img/pedestrian.png"],["Bicycle Crash","img/bike.png"],
             ["School","img/schools.png"],["Bar","img/bars.png"]];
         crashLegend.show();
         d3.select("#crashLegend").select("svg").remove();
@@ -933,12 +978,13 @@ function drawPointLegend(poi){
 }
 
 function drawroadLegend(roadid){
+    var colorScale,title;
     if (roadid==1){
-        var colorScale = d3.scaleThreshold().domain(pedbins).range(pedcols);
-        var title = "Pedestrian Exposure";
+        colorScale = d3.scaleThreshold().domain(pedbins).range(pedcols);
+        title = "Pedestrian Exposure";
     } else if (roadid==2){
-        var colorScale = d3.scaleThreshold().domain(bikebins).range(bikecols);
-        var title = "Bike Exposure";
+        colorScale = d3.scaleThreshold().domain(bikebins).range(bikecols);
+        title = "Bicycle Exposure";
     }
     d3.select("#roadLegend").select("svg").remove();
     var legendsvg = d3.select("#roadLegend").append("svg");
@@ -1061,6 +1107,7 @@ function fillRank() {
 }
 
 function getData() {
+    ga('send','event','ExportData','click');
     if (selectedLayer=="paz"){
         if(hideSpaz){
             alert("Please turn on the PAZ layer to export data.")

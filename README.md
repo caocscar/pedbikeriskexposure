@@ -1,12 +1,16 @@
 # Pedestrian and Bicyclist Safety Risk Assessment Tool
 
-MDOT Project with Dr. Robert Hampshire and Dr. Lisa Molnar
+This is a MDOT Project with Dr. Robert Hampshire and Dr. Lisa Molnar
+
+The webtool is located at www.cmisst.org/pedbike-risk-exposure/
 
 ## Summary
 - 10 Fusion Tables
 - 3 Fusion Table Layers (5 Layer Limit)
-- 3 Filters (County, Ranking, Points of Interests)
-
+  - PAZ
+  - Road Segment
+  - Points of Interest
+	
 ## List of Fusion Tables
 ### Bike Ped Risk Exposure
 MDOT Regions|Map|Bicycle/Pedestrian

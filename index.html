@@ -10,12 +10,22 @@
     <link rel="stylesheet" href="css/radios-to-slider.min.css">
     <link rel="stylesheet" href="css/introjs.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Google Analytics -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+        ga('create', 'UA-108047145-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
 </head>
 <body>
 
 <div class="container">
-    <a class="menu-btn menu-link animated bounceInDown" id="step1">
+    <a class="menu-btn menu-link animated bounceInDown">
         <span></span>
         <span></span>
         <span></span>
@@ -23,8 +33,12 @@
     <div class="attribution" style="z-index: 1000001; position: absolute; right: 287px; bottom: 0px; width:auto;"><div draggable="false" class="gm-style-cc" style="user-select: none; height: 14px; line-height: 14px;"><div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;"><div style="width: 1px;"></div><div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div></div><div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right; vertical-align: middle; display: inline-block;"><a style="text-decoration: none; cursor: pointer; display: none;">Map Data</a><span>Alex Cao, Sicun Chen | University of Michigan Transportation Research Institute</span></div></div></div>
     <div id="map">
     </div>
-    <div class="legendwrapper" id="step2" >
-        <div id="spazLegend" class="mapLegend" ></div>
+    <div class="legendwrapper">
+        <div id="spazLegend" class="mapLegend">
+            <span id="pazlegendinfo" class="tool-tip" data-tooltip-title="" data-tooltip-position="right">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </span>
+        </div>
         <div id="roadLegend" class="mapLegend"></div>
         <div id="crashLegend" class="mapLegend"></div>
     </div>
@@ -67,11 +81,11 @@
                             <ul>
                                 <li class="dropy__header">Select a PAZ variable</li>
                                 <li><a data-value="2" class="spaz-selector">Pedestrian Risk</a></li>
-                                <li><a data-value="3" class="spaz-selector">Bike Risk</a></li>
+                                <li><a data-value="3" class="spaz-selector">Bicycle Risk</a></li>
                                 <li><a data-value="4" class="spaz-selector">Pedestrian Exposure</a></li>
-                                <li><a data-value="5" class="spaz-selector">Bike Exposure</a></li>
+                                <li><a data-value="5" class="spaz-selector">Bicycle Exposure</a></li>
                                 <li><a data-value="6" class="spaz-selector">Pedestrian Index of Environment (PIE)</a></li>
-                                <li><a data-value="7" class="spaz-selector">Bike Index of Environment (BIE)</a></li>
+                                <li><a data-value="7" class="spaz-selector">Bicycle Index of Environment (BIE)</a></li>
                                 <li><a data-value="8" class="spaz-selector">Non-Motorized Risk</a></li>
                                 <li><a data-value="9" class="spaz-selector">Non-Motorized Exposure</a></li>
                             </ul>
@@ -79,7 +93,15 @@
                         <input type="hidden" id="paz">
                     </dl>
                 </div>
-                <p>Show <span id="variable_rank" class="highlight"></span> PAZs for <span id="variable" class="highlight"></span></p>
+                <div>
+                    <span>Show</span>
+                    <span id="variable_rank" class="highlight"></span>
+                    <span>PAZs for </span>
+                    <span id="variable" class="highlight"></span>
+                    <span class="tool-tip" id="pazinfopop" data-tooltip-title="" data-tooltip-position="bottom">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                </div>
                 <div class="selection-wrap">
                     <div id="radios">
                         <input id="rb9" name="rb3" type="radio" value="10">
@@ -120,7 +142,7 @@
                     </li>
                     <li class="list__item">
                         <input type="radio"  name="rb1" class="radio road selector" id="rb6" value="2">
-                        <label for="rb6">Bike Exposure</label>
+                        <label for="rb6">Bicycle Exposure</label>
                     </li>
                 </ul>
             </div>
@@ -143,10 +165,16 @@
                     <li class="list__item">
                         <input type="checkbox" id="cb1" name="cb" class="cb crash selector" value="pedestrian">
                         <label for="cb1">Pedestrian Crash</label>
+                        <span class="tool-tip" data-tooltip-title="Source MTCF 2005-2015." data-tooltip-position="bottom">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </span>
                     </li>
                     <li class="list__item">
                         <input type="checkbox" id="cb2" name="cb" class="cb crash selector" value="bike">
-                        <label for="cb2">Bike Crash</label>
+                        <label for="cb2">Bicycle Crash</label>
+                        <span class="tool-tip" data-tooltip-title="Source MTCF 2005-2015." data-tooltip-position="bottom">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </span>
                     </li>
                 </ul>
             </div>
