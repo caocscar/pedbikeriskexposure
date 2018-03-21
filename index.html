@@ -17,7 +17,9 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-108047145-2', 'auto');
+        var trackId = 'UA-115569466-1';
+
+        ga('create', trackId, 'auto');
         ga('send', 'pageview');
     </script>
     <!-- End Google Analytics -->
@@ -43,7 +45,6 @@
         <div id="crashLegend" class="mapLegend"></div>
     </div>
 </div>
-
 <nav id="menu">
     <div class="title">
         <h2>Pedestrian and Bicyclist Safety Risk Assessment Tool</h2>
@@ -53,7 +54,7 @@
         <div class="ui-wrap">
             <form>
                 <p>Search for a county or a MDOT region:</p>
-                    <input name="search" class="search-box" required type="text" id="county" placeholder="Type a county or region name...">
+                <input name="search" class="search-box" required type="text" id="county" placeholder="Type a county or region name...">
             </form>
         </div>
         <div class="ui-wrap">
@@ -61,8 +62,8 @@
                 <p>
                     <span>Show PAZ?</span>
                     <span class="tool-tip" data-tooltip-title="Pedestrian Analysis Zone (PAZ) is a 400-meters-by-400-meters unit of analysis." data-tooltip-position="bottom">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                    </span>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </span>
                 </p>
             </div>
             <div class="hint">
@@ -99,8 +100,8 @@
                     <span>PAZs for </span>
                     <span id="variable" class="highlight"></span>
                     <span class="tool-tip" id="pazinfopop" data-tooltip-title="" data-tooltip-position="bottom">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                    </span>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </span>
                 </div>
                 <div class="selection-wrap">
                     <div id="radios">
@@ -121,8 +122,8 @@
                 <p>
                     <span>Show road segments?</span>
                     <span class="tool-tip" data-tooltip-title="Pedestrian/bike exposure (trips per day)." data-tooltip-position="bottom">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                    </span>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </span>
                 </p>
             </div>
             <div class="hint">
@@ -166,15 +167,15 @@
                         <input type="checkbox" id="cb1" name="cb" class="cb crash selector" value="pedestrian">
                         <label for="cb1">Pedestrian Crash</label>
                         <span class="tool-tip" data-tooltip-title="Source MTCF 2005-2015." data-tooltip-position="bottom">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        </span>
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            </span>
                     </li>
                     <li class="list__item">
                         <input type="checkbox" id="cb2" name="cb" class="cb crash selector" value="bike">
                         <label for="cb2">Bicycle Crash</label>
                         <span class="tool-tip" data-tooltip-title="Source MTCF 2005-2015." data-tooltip-position="bottom">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        </span>
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            </span>
                     </li>
                 </ul>
             </div>
@@ -214,26 +215,27 @@
     </div>
     <div class="menu-content">
         <div class="ui-wrap">
-            <div class="dropy-wrapper">
-                <dl class="dropy">
-                    <dt class="dropy__title"><span>Select a layer</span></dt>
-                    <dd class="dropy__content">
-                        <ul>
-                            <li><a class="dropy__header">Select a layer</a></li>
-                            <li><a class="layer-selector" data-value="paz">PAZ</a></li>
-                            <li><a class="layer-selector" data-value="road">Road</a></li>
-                            <li><a class="layer-selector" data-value="point">Point</a></li>
-                        </ul>
-                    </dd>
-                    <input type="hidden" id="layer">
-                </dl>
-            </div>
+        <div class="dropy-wrapper">
+            <dl class="dropy">
+                <dt class="dropy__title"><span>Select a layer</span></dt>
+                <dd class="dropy__content">
+                    <ul>
+                        <li><a class="dropy__header">Select a layer</a></li>
+                        <li><a class="layer-selector" data-value="paz">PAZ</a></li>
+                        <li><a class="layer-selector" data-value="road">Road</a></li>
+                        <li><a class="layer-selector" data-value="point">Point</a></li>
+                    </ul>
+                </dd>
+                <input type="hidden" id="layer">
+            </dl>
         </div>
+    </div>
     </div>
     <div class="btn-wrapper">
         <a href="#" class="btn blue" id="download">Export</a>
     </div>
 </nav>
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="lib/jquery.radios-to-slider.min.js"></script>
