@@ -112,14 +112,13 @@ var dropy = {
             $title.html($that.html());
             $input.val($that.attr('data-value')).trigger('change');
 
-            var hightlight = $('#variable');
-            hightlight.html($that.html());
-
-            if (inArray($input.val(), ["2","3","4","5","6","7"])){
+            if (inArray($input.val(), ["2","3","4","5","6","7","8","9"])){
+                var highlight = $('#variable');
+                highlight.html($that.html());
                 if ($input.val()==6){
-                    hightlight.html("PIE");
+                    highlight.html("PIE");
                 } else if ($input.val()==7){
-                    hightlight.html("BIE");
+                    highlight.html("BIE");
                 }
             }
 
@@ -160,6 +159,9 @@ var dropy = {
 
 //generate radio slider
 $('#radios').radiosToSlider();
+
+dropy.init();
+
 
 
 //initial filter state
@@ -1180,7 +1182,7 @@ function ready(error,counties,mdot) {
     var mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
 
     show_intro();
-    dropy.init();
+    // dropy.init();
     initMap(mapCenterCoords);
     initAutocomplete(mapCenter);
     $("#download").on("click",getData)
