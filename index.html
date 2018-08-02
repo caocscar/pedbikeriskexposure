@@ -4,12 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Pedestrian and Bicyclist Safety Risk Assessment Tool</title>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="css/radios-to-slider.min.css">
-    <link rel="stylesheet" href="css/introjs.min.css">
     <link rel="stylesheet" href="css/style.css">
 
 	<script src="js/GoogleAnalytics.js"></script>
@@ -19,262 +16,332 @@
 
 <body>
 
-    <div class="container">
-        <a class="menu-btn menu-link animated bounceInDown">
-            <span></span>
-            <span></span>
-            <span></span>
-        </a>
-        <div class="attribution" style="z-index: 1000001; position: absolute; right: 287px; bottom: 0px; width:auto;">
-            <div draggable="false" class="gm-style-cc" style="user-select: none; height: 14px; line-height: 14px;">
-                <div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;">
-                    <div style="width: 1px;"></div>
-                    <div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div>
+    <div class="wrapper">
+        <header>
+            <div class="left">
+                <button id="menu" title="Menu">
+                    <i class="fa fa-bars fa-2x"></i>
+                </button>
+                <h1 class="site-title">
+                    Pedestrian and Bicyclist Safety Risk Assessment Tool
+                </h1>
+
+                <div class="site-logos">
+                    <a href="https://www.michigan.gov/mdot/" class="logo">
+                        <img src="img/MDOT_logo.jpg" alt="MDOT_logo" width="150px">
+                    </a>
+                    <a href="https://www.michigan.gov/mdot/0,4616,7-151-9615_11261_45350_66595---,00.html">
+                        <img src="img/TZD_logo.jpg" alt="TND_logo" width="150px">
+                    </a>
                 </div>
-                <div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right; vertical-align: middle; display: inline-block;">
-                    <a style="text-decoration: none; cursor: pointer; display: none;">Map Data</a>
-                    <span>Alex Cao, Sicun Chen | University of Michigan Transportation Research Institute</span>
-                </div>
+
+
+
             </div>
-        </div>
-        <div id="map">
-        </div>
-        <div class="legendwrapper">
-            <div id="spazLegend" class="mapLegend">
-                <span id="pazlegendinfo" class="tool-tip" data-tooltip-title="" data-tooltip-position="right">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </span>
+
+            <div class="utils right">
+                <h1>
+                    <a href="javascript:;" class="trigger">About</a>
+                </h1>
             </div>
-            <div id="roadLegend" class="mapLegend"></div>
-            <div id="crashLegend" class="mapLegend"></div>
-        </div>
-    </div>
-    <nav id="menu">
-        <div class="title">
-            <h2>Pedestrian and Bicyclist Safety Risk Assessment Tool</h2>
-            <h3>Filters</h3>
-        </div>
-        <div class="menu-content filters">
-            <div class="ui-wrap">
-                <form>
-                    <p>Search for a county or a MDOT region:</p>
-                    <input name="search" class="search-box" required type="text" id="county" placeholder="Type a county or region name...">
-                </form>
-            </div>
-            <div class="ui-wrap">
-                <div class="hint">
-                    <p>
-                        <span>Show PAZ?</span>
-                        <span class="tool-tip" data-tooltip-title="Pedestrian Analysis Zone (PAZ) is a 400-meters-by-400-meters unit of analysis."
-                            data-tooltip-position="bottom">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="hint">
-                    <div class="toggle">
-                        <input id="spaz" type="checkbox" />
-                        <label for="spaz">
-                            <div class="card"></div>
-                        </label>
+        </header>
+
+        <div class="content">
+            <aside>
+                <div class="controls">
+                    <h2>Filters</h2>
+                    <div class="ui-wrap">
+                        <form>
+                            <p>Search for a county or a MDOT region:</p>
+                            <input name="search" class="search-box" required type="text" id="county" placeholder="Type a county or region name...">
+                        </form>
                     </div>
-                </div>
-                <div class="riskex spaz">
-                    <div class="dropy-wrapper">
-                        <dl class="dropy">
-                            <dt class="dropy__title spaz">
-                                <span>Select a PAZ variable</span>
-                            </dt>
-                            <dd class="dropy__content">
-                                <ul>
-                                    <li class="dropy__header">Select a PAZ variable</li>
-                                    <li>
-                                        <a data-value="2" class="spaz-selector">Pedestrian Risk</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="3" class="spaz-selector">Bicycle Risk</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="4" class="spaz-selector">Pedestrian Exposure</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="5" class="spaz-selector">Bicycle Exposure</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="6" class="spaz-selector">Pedestrian Index of Environment (PIE)</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="7" class="spaz-selector">Bicycle Index of Environment (BIE)</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="8" class="spaz-selector">Non-Motorized Risk</a>
-                                    </li>
-                                    <li>
-                                        <a data-value="9" class="spaz-selector">Non-Motorized Exposure</a>
-                                    </li>
-                                </ul>
-                            </dd>
-                            <input type="hidden" id="paz">
-                        </dl>
+                    <div class="ui-wrap">
+                        <div class="hint-wrap">
+                            <div class="hint">
+                                <p>
+                                    <span>Show PAZ?</span>
+                                    <span class="tool-tip" data-tooltip-title="Pedestrian Analysis Zone (PAZ) is a 400-meters-by-400-meters unit of analysis."
+                                        data-tooltip-position="bottom">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="hint right">
+                                <div class="toggle">
+                                    <input id="spaz" type="checkbox" />
+                                    <label for="spaz">
+                                        <div class="card"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="riskex spaz">
+                            <div class="dropy-wrapper">
+                                <dl class="dropy">
+                                    <dt class="dropy__title spaz">
+                                        <span>Select a PAZ variable</span>
+                                    </dt>
+                                    <dd class="dropy__content">
+                                        <ul>
+                                            <li class="dropy__header">Select a PAZ variable</li>
+                                            <li>
+                                                <a data-value="2" class="spaz-selector">Pedestrian Risk</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="3" class="spaz-selector">Bicycle Risk</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="4" class="spaz-selector">Pedestrian Exposure</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="5" class="spaz-selector">Bicycle Exposure</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="6" class="spaz-selector">Pedestrian Index of Environment (PIE)</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="7" class="spaz-selector">Bicycle Index of Environment (BIE)</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="8" class="spaz-selector">Non-Motorized Risk</a>
+                                            </li>
+                                            <li>
+                                                <a data-value="9" class="spaz-selector">Non-Motorized Exposure</a>
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <input type="hidden" id="paz">
+                                </dl>
+                            </div>
+                            <div>
+                                <span>Show</span>
+                                <span id="variable_rank" class="highlight"></span>
+                                <span>PAZs for </span>
+                                <span id="variable" class="highlight"></span>
+                                <span class="tool-tip paz" id="pazinfopop" data-tooltip-title="" data-tooltip-position="bottom">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div class="selection-wrap">
+                                <div id="radios">
+                                    <input id="rb9" name="rb3" type="radio" value="10">
+                                    <label for="rb9">10</label>
+                                    <input id="rb10" name="rb3" type="radio" value="25">
+                                    <label for="rb10">25</label>
+                                    <input id="rb11" name="rb3" type="radio" value="100">
+                                    <label for="rb11">100</label>
+                                    <input id="rb12" name="rb3" type="radio" value="99999" checked>
+                                    <label for="rb12">All</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span>Show</span>
-                        <span id="variable_rank" class="highlight"></span>
-                        <span>PAZs for </span>
-                        <span id="variable" class="highlight"></span>
-                        <span class="tool-tip" id="pazinfopop" data-tooltip-title="" data-tooltip-position="bottom">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        </span>
+                    <div class="ui-wrap">
+                        <div class="hint-wrap">
+                            <div class="hint">
+                                <p>
+                                    <span>Show road segments?</span>
+                                    <span class="tool-tip" data-tooltip-title="Pedestrian/bike exposure (trips per day)." data-tooltip-position="bottom">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="hint right">
+                                <div class="toggle">
+                                    <input id="road" type="checkbox" />
+                                    <label for="road">
+                                        <div class="card flip"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="riskex road">
+                            <p>Select a road variable:</p>
+                            <ul class="list">
+                                <li class="list__item">
+                                    <input type="radio" name="rb1" class="radio road selector" id="rb5" value="1">
+                                    <label for="rb5">Pedestrian Exposure</label>
+                                </li>
+                                <li class="list__item">
+                                    <input type="radio" name="rb1" class="radio road selector" id="rb6" value="2">
+                                    <label for="rb6">Bicycle Exposure</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="selection-wrap">
-                        <div id="radios">
-                            <input id="rb9" name="rb3" type="radio" value="10">
-                            <label for="rb9">10</label>
-                            <input id="rb10" name="rb3" type="radio" value="25">
-                            <label for="rb10">25</label>
-                            <input id="rb11" name="rb3" type="radio" value="100">
-                            <label for="rb11">100</label>
-                            <input id="rb12" name="rb3" type="radio" value="99999" checked>
-                            <label for="rb12">All</label>
+                    <div class="ui-wrap">
+                        <div class="hint-wrap">
+                            <div class="hint">
+                                <p>Show crash locations?</p>
+                            </div>
+                            <div class="hint right">
+                                <div class="toggle">
+                                    <input id="crash" type="checkbox" />
+                                    <label for="crash">
+                                        <div class="card flip"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="riskex crash">
+                            <p>Select crash type:</p>
+                            <ul class="list">
+                                <li class="list__item">
+                                    <input type="checkbox" id="cb1" name="cb" class="cb crash selector" value="pedestrian">
+                                    <label for="cb1">Pedestrian Crash</label>
+                                    <span class="tool-tip" data-tooltip-title="Source: MTCF 2005-2015." data-tooltip-position="bottom">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </span>
+                                </li>
+                                <li class="list__item">
+                                    <input type="checkbox" id="cb2" name="cb" class="cb crash selector" value="bike">
+                                    <label for="cb2">Bicycle Crash</label>
+                                    <span class="tool-tip" data-tooltip-title="Source: MTCF 2005-2015." data-tooltip-position="bottom">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ui-wrap">
+                        <div class="hint-wrap">
+                            <div class="hint">
+                                <p>Show points of interest?</p>
+                            </div>
+                            <div class="hint right">
+                                <div class="toggle">
+                                    <input id="location" type="checkbox" />
+                                    <label for="location">
+                                        <div class="card flip"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="riskex location">
+                            <p>Select point type:</p>
+                            <ul class="list">
+                                <li class="list__item">
+                                    <input type="checkbox" id="cb3" name="cb2" class="cb location selector" value="schools">
+                                    <label for="cb3">Schools</label>
+                                </li>
+                                <li class="list__item">
+                                    <input type="checkbox" id="cb4" name="cb2" class="cb location selector" value="bars">
+                                    <label for="cb4">Bars</label>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="ui-wrap">
-                <div class="hint">
-                    <p>
-                        <span>Show road segments?</span>
-                        <span class="tool-tip" data-tooltip-title="Pedestrian/bike exposure (trips per day)." data-tooltip-position="bottom">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        </span>
-                    </p>
-                </div>
-                <div class="hint">
-                    <div class="toggle">
-                        <input id="road" type="checkbox" />
-                        <label for="road">
-                            <div class="card flip"></div>
-                        </label>
-                    </div>
-                </div>
-                <div class="riskex road">
-                    <p>Select a road variable:</p>
-                    <ul class="list">
-                        <li class="list__item">
-                            <input type="radio" name="rb1" class="radio road selector" id="rb5" value="1">
-                            <label for="rb5">Pedestrian Exposure</label>
-                        </li>
-                        <li class="list__item">
-                            <input type="radio" name="rb1" class="radio road selector" id="rb6" value="2">
-                            <label for="rb6">Bicycle Exposure</label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="ui-wrap">
-                <div class="hint">
-                    <p>Show crash locations?</p>
-                </div>
-                <div class="hint margin">
-                    <div class="toggle">
-                        <input id="crash" type="checkbox" />
-                        <label for="crash">
-                            <div class="card flip"></div>
-                        </label>
-                    </div>
-                </div>
-                <div class="riskex crash">
-                    <p>Select crash type:</p>
-                    <ul class="list">
-                        <li class="list__item">
-                            <input type="checkbox" id="cb1" name="cb" class="cb crash selector" value="pedestrian">
-                            <label for="cb1">Pedestrian Crash</label>
-                            <span class="tool-tip" data-tooltip-title="Source MTCF 2005-2015." data-tooltip-position="bottom">
-                                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            </span>
-                        </li>
-                        <li class="list__item">
-                            <input type="checkbox" id="cb2" name="cb" class="cb crash selector" value="bike">
-                            <label for="cb2">Bicycle Crash</label>
-                            <span class="tool-tip" data-tooltip-title="Source MTCF 2005-2015." data-tooltip-position="bottom">
-                                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="ui-wrap">
-                <div class="hint">
-                    <p>Show points of interest?</p>
-                </div>
-                <div class="hint margin">
-                    <div class="toggle">
-                        <input id="location" type="checkbox" />
-                        <label for="location">
-                            <div class="card flip"></div>
-                        </label>
-                    </div>
-                </div>
-                <div class="riskex location">
-                    <p>Select point type:</p>
-                    <ul class="list">
-                        <li class="list__item">
-                            <input type="checkbox" id="cb3" name="cb2" class="cb location selector" value="schools">
-                            <label for="cb3">Schools</label>
-                        </li>
-                        <li class="list__item">
-                            <input type="checkbox" id="cb4" name="cb2" class="cb location selector" value="bars">
-                            <label for="cb4">Bars</label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="title">
-            <h3>Export Data</h3>
-            <span class="tool-tip" data-tooltip-title="Format is csv. Geometry is KML style." data-tooltip-position="bottom">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-            </span>
-        </div>
-        <div class="menu-content">
-            <div class="ui-wrap">
-                <div class="dropy-wrapper">
-                    <dl class="dropy">
-                        <dt class="dropy__title">
-                            <span>Select a layer</span>
-                        </dt>
-                        <dd class="dropy__content">
-                            <ul>
-                                <li>
-                                    <a class="dropy__header">Select a layer</a>
-                                </li>
-                                <li>
-                                    <a class="layer-selector" data-value="paz">PAZ</a>
-                                </li>
-                                <li>
-                                    <a class="layer-selector" data-value="road">Road</a>
-                                </li>
-                                <li>
-                                    <a class="layer-selector" data-value="point">Point</a>
-                                </li>
-                            </ul>
-                        </dd>
-                        <input type="hidden" id="layer">
-                    </dl>
-                </div>
-            </div>
-        </div>
-        <div class="btn-wrapper">
-            <a href="#" class="btn blue" id="download">Export</a>
-        </div>
-    </nav>
 
+                <h2>
+                    Export Data
+                    <span class="tool-tip" data-tooltip-title="Format is csv. Geometry is KML style." data-tooltip-position="bottom">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                </h2>
+
+
+                <div class="menu-content">
+                    <div class="ui-wrap">
+                        <div class="dropy-wrapper">
+                            <dl class="dropy">
+                                <dt class="dropy__title">
+                                    <span>Select a layer</span>
+                                </dt>
+                                <dd class="dropy__content">
+                                    <ul>
+                                        <li>
+                                            <a class="dropy__header">Select a layer</a>
+                                        </li>
+                                        <li>
+                                            <a class="layer-selector" data-value="paz">PAZ</a>
+                                        </li>
+                                        <li>
+                                            <a class="layer-selector" data-value="road">Road</a>
+                                        </li>
+                                        <li>
+                                            <a class="layer-selector" data-value="point">Point</a>
+                                        </li>
+                                    </ul>
+                                </dd>
+                                <input type="hidden" id="layer">
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-wrapper">
+                    <a href="#" class="btn blue" id="download">Export</a>
+                </div>
+            </aside>
+        </div>
+        <!--//sidebar-->
+        <section>
+            <div id="map"></div>
+            <div class="attribution" style="z-index: 1000001; position: absolute; right: 287px; bottom: 0px; width:auto;">
+                <div draggable="false" class="gm-style-cc" style="user-select: none; height: 14px; line-height: 14px;">
+                    <div style="opacity: 0.7; width: 100%; height: 100%; position: absolute;">
+                        <div style="width: 1px;"></div>
+                        <div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px;"></div>
+                    </div>
+                    <div style="position: relative; padding-right: 6px; padding-left: 6px; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(68, 68, 68); white-space: nowrap; direction: ltr; text-align: right; vertical-align: middle; display: inline-block;">
+                        <a style="text-decoration: none; cursor: pointer; display: none;">Map Data</a>
+                        <span>Alex Cao, Sicun Chen | University of Michigan Transportation Research Institute</span>
+                    </div>
+                </div>
+            </div>
+            <div class="legendwrapper">
+                <div id="spazLegend" class="mapLegend">
+                    <span id="pazlegendinfo" class="tool-tip" data-tooltip-title="" data-tooltip-position="right">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div id="roadLegend" class="mapLegend"></div>
+                <div id="crashLegend" class="mapLegend"></div>
+            </div>
+        </section>
+        <!--//body content-->
+        <!-- modal -->
+        <div class="modal-wrapper">
+            <div class="modal">
+                <div class="head">
+                    <a class="btn-close trigger" href="javascript:;"></a>
+                </div>
+                <div class="modal-content">
+                    <p>
+                        Welcome to MDOT Pedestrian and Bicyclist Safety Risk Assessment Tool. You can click the top left button to open up the filter
+                        menu, which allows you to choose variables to visualize on the map. If you have any questions or
+                        feedback for the tool please contact:
+                    </p>
+
+                    <p>
+                        <span class="contact">
+                            Carissa McQuiston, P.E.
+                        </span>
+                        <br> Non-Motorized Safety Engineering Specialist
+                        <br> RSA Program Manager SHSP Engineer
+                        <br> MDOT Safety Programs Unit
+                        <br> Email: McQuistonC@michigan.gov
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+        <!--//Main Content-->
+    </div>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="lib/jquery.radios-to-slider.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.min.js"></script>
-    <!-- <script src="lib/intro.min.js"></script> -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDny-AaZwZEw5j-jUcfwiBMS2fch0dg4dI"></script>
     <script src="js/map.js"></script>
 </body>
