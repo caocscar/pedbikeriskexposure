@@ -2,7 +2,7 @@
 
 This is a MDOT Project with Dr. Robert Hampshire and Dr. Lisa Molnar
 
-The webtool is located at www.cmisst.org/pedbike-risk-exposure/
+The webtool is located at https://pedbikerisk.umtri.umich.edu/
 
 ## Summary
 - 10 Fusion Tables
