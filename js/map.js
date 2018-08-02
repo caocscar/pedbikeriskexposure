@@ -1,4 +1,3 @@
-// global variables
 var map,selectedLayer,tableid,query;
 var county_id = {};
 var spazLegend = $('#spazLegend');
@@ -8,7 +7,7 @@ var styleid = 2;
 var roadid = 0;
 
 
-// 10 fusion tables
+
 var crashes = "1WYNs_bniznkgQMwU-lhxstOJ7vlTvVggXSV4TMUh";
 var pedbike_Superior = "1pp4Axxd5C8U7RByKuZsidxmSulBH7YSDTWn25ohQ";
 var pedbike_NorthBay = "12Vn0EY7_LJm_kHKsjUnJO4luY-4cekMha6QCiPoG";
@@ -68,12 +67,17 @@ var Superior = [3,13,33,41,43,53,61,71,83,95,97,103,109,131,153,-1],
     UniMetro = [37,45,59,65,75,91,93,115,161,
         99,125,163,-6,-7];
 
-
+// modal
+$('.trigger').click(function () {
+    $('.modal-wrapper').toggleClass('open');
+    $('.page-wrapper').toggleClass('blur');
+    return false;
+});
 
 //hide/show side menu
-$(".menu-link").click(function(){
-    $("#menu").toggleClass("active");
-    $(".container").toggleClass("active");
+$("#menu").on("click", function () {
+    $(this).toggleClass("active");
+    $("body").toggleClass("nav-open");
 });
 
 //dropdown components
@@ -564,7 +568,7 @@ function initMap(center) {
 
     //init legend
     drawLegend(styleid,roadid);
-
+    
     spazSelector.each(function (i,obj) {
         google.maps.event.addDomListener(obj, 'click', updateMap);
     });
@@ -1069,32 +1073,32 @@ function generateRoadLabels(legendOpts){
     return legendOpts.generatedLabels[legendOpts.i];
 }
 
-function show_intro() {
-    if (localStorage.getItem('intro_shown')) {
-        // already shown
-        return
-    }
-    localStorage.setItem('intro_shown', true);
-    intro = introJs();
-    intro.setOption('tooltipPosition', 'auto');
-    intro.setOption('disableInteraction', true);
-    intro.setOptions({
-        steps: [
-            {
-                intro: "Welcome to the MDOT Pedestrian-Road Project page, which visualizes risk/exposure and crash points distributions."
-            },
-            {
-                element:"#step1",
-                intro: "Click here to open up the side menu which allows you to search for locations and adjust variables.",
-            },
-            {
-                element:"#step2",
-                intro: "The legend indicates that the darker the color the higher the risk/exposure value.",
-            },
-        ]
-    });
-    intro.start()
-}
+// function show_intro() {
+//     if (localStorage.getItem('intro_shown')) {
+//         // already shown
+//         return
+//     }
+//     localStorage.setItem('intro_shown', true);
+//     intro = introJs();
+//     intro.setOption('tooltipPosition', 'auto');
+//     intro.setOption('disableInteraction', true);
+//     intro.setOptions({
+//         steps: [
+//             {
+//                 intro: "Welcome to the MDOT Pedestrian-Road Project page, which visualizes risk/exposure and crash points distributions."
+//             },
+//             {
+//                 element:"#step1",
+//                 intro: "Click here to open up the side menu which allows you to search for locations and adjust variables.",
+//             },
+//             {
+//                 element:"#step2",
+//                 intro: "The legend indicates that the darker the color the higher the risk/exposure value.",
+//             },
+//         ]
+//     });
+//     intro.start()
+// }
 
 function fillRank() {
     if (ranking == 99999){
@@ -1181,8 +1185,7 @@ function ready(error,counties,mdot) {
     var center = mapCenter[selectedCounty];
     var mapCenterCoords = new google.maps.LatLng(center[1], center[0]);
 
-    show_intro();
-    // dropy.init();
+    // show_intro();
     initMap(mapCenterCoords);
     initAutocomplete(mapCenter);
     $("#download").on("click",getData)
