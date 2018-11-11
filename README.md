@@ -47,12 +47,17 @@ The table belows illustrates the NAICS code that was used to classify schools an
 | 624410     | Schools    | Child Day Care Services                          |
 | 722410     | Bars       | Drinking Places (Alcoholic Beverages)            |
 
-### Development
+## Development
 
-#### Installing
+### Install Dependencies
 
 `npm install`
 
-#### Start the dev server
+### Start the Dev Server
 
 `npm start`
+
+## Deployment
+
+To create production build run
+`npm run build`
