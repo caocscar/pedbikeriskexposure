@@ -16,7 +16,6 @@ import Filters from "./components/Filters";
 import Legend from "./components/Legend";
 import ReactGA from "react-ga";
 import "./App.css";
-require("dotenv").config();
 
 const initializeReactGA = () => {
   ReactGA.initialize(process.env.REACT_APP_GA_ID, {
