@@ -1,4 +1,6 @@
 const CONSTANTS = require("./../data/lookup");
+const locationOptions = require("./../data/locations");
+const filterOptions = require("./../data/filterOptions")
 const counties = require("./../data/counties.json");
 const mdotRegions = require("./../data/MDOT.json");
 const d3Geo = require("d3-geo");
@@ -23,6 +25,18 @@ export function getRoadTableID(locationID, roadVar) {
 
 export function getLocationFilter(locationID) {
   return locationID < 0 ? `Rid=${locationID * -1}` : `fips=${locationID}`;
+}
+export function getLocationName(locationID) {
+  return locationOptions.locations.filter(obj=>obj.value===locationID)[0].text;
+}
+export function getRoadVariable(roadVar) {
+  return roadVar === 1 ? "Pedestrian Exposure" :"Bicycle Exposure";
+}
+export function getPazVariable(pazVar) {
+  return filterOptions.PAZOptions.filter(opt => opt.value === pazVar)[0].text;
+}
+export function getDownloadLayer(selectedLayer) {
+  return filterOptions.downloadOptions.filter(opt => opt.value === selectedLayer)[0].key;
 }
 
 export function getRankingFilter(pazVar, pazRank) {
@@ -78,3 +92,4 @@ export function getLegendData(bins, colors) {
     text: `${bins[i]} to ${bins[i + 1]}`
   }));
 }
+

@@ -12,7 +12,7 @@ class Contact extends Component {
         }
         closeIcon
         size="tiny"
-        dimmer={"blurring"}
+        dimmer={"inverted"}
       >
         <Modal.Content>
           <p>

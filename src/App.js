@@ -6,13 +6,26 @@ import {
   getLocationFilter,
   getRankingFilter,
   getRoadTableID,
-  getPointFilter
+  getPointFilter,
+  getLocationName,
+  getRoadVariable,
+  getPazVariable
 } from "./components/helpers";
-import { PAZOptions } from "./data/filterOptions";
 import MapHeader from "./components/MapHeader";
 import Filters from "./components/Filters";
 import Legend from "./components/Legend";
+import ReactGA from "react-ga";
 import "./App.css";
+require("dotenv").config();
+
+const initializeReactGA = () => {
+  ReactGA.initialize(process.env.REACT_APP_GA_ID, {
+    cookieDomain: "auto",
+    debug: process.env.NODE_ENV === "development" ? true : false
+  });
+  ReactGA.pageview("/");
+};
+initializeReactGA();
 
 class App extends Component {
   state = {
@@ -31,7 +44,7 @@ class App extends Component {
     isStreetview: false,
     sideBarVisible: false,
     filterActive: false,
-    mapHeight: null
+    mapHeight: null,
   };
 
   header = React.createRef();
@@ -70,15 +83,14 @@ class App extends Component {
       legends.push({
         type: "paz",
         var: this.state.pazVar,
-        title: PAZOptions.filter(opt => opt.value === this.state.pazVar)[0].text
+        title: getPazVariable(this.state.pazVar)
       });
     }
     if (this.state.showRoad) {
       legends.push({
         type: "road",
         var: this.state.roadVar,
-        title:
-          this.state.roadVar === 1 ? "Pedestrian Exposure" : "Bicycle Exposure"
+        title: getRoadVariable(this.state.roadVar)
       });
     }
     if (this.state.showCrash || this.state.showPoint) {
@@ -152,63 +164,171 @@ class App extends Component {
     this.setState(prevState => ({
       isStreetview: !prevState.isStreetview
     }));
+    this.state.isStreetview &&
+      ReactGA.event({ category: "Navigation", action: "Used street view" });
   };
 
   handleLocationSearch = (e, { value }) => {
     this.setState(() => ({ locationID: value }));
+    ReactGA.event({
+      category: "Filter",
+      action: `Searched location: ${getLocationName(value)}`
+    });
   };
 
   handleMenuClick = () => {
-    this.setState(prevState => ({
-      sideBarVisible: !prevState.sideBarVisible,
-      filterActive: !prevState.filterActive
-    }));
+    this.setState(
+      prevState => ({
+        sideBarVisible: !prevState.sideBarVisible,
+        filterActive: !prevState.filterActive
+      }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `Switched filter sidebar ${
+            this.state.sideBarVisible ? "on" : "off"
+          }`
+        });
+      }
+    );
   };
 
   handlePazToggle = () => {
-    this.setState(ps => ({ showPaz: !ps.showPaz }));
+    this.setState(
+      ps => ({ showPaz: !ps.showPaz }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `Switched paz layer toggle ${
+            this.state.showPaz ? "on" : "off"
+          }`
+        });
+      }
+    );
   };
   handleRoadToggle = () => {
-    this.setState(ps => ({ showRoad: !ps.showRoad }));
+    this.setState(
+      ps => ({ showRoad: !ps.showRoad }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `Switched road layer toggle ${
+            this.state.showRoad ? "on" : "off"
+          }`
+        });
+      }
+    );
   };
   handleCrashToggle = () => {
-    this.setState(ps => ({ showCrash: !ps.showCrash }));
+    this.setState(
+      ps => ({ showCrash: !ps.showCrash }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `Switched crash layer toggle ${
+            this.state.showCrash ? "on" : "off"
+          }`
+        });
+      }
+    );
   };
   handlePointToggle = () => {
-    this.setState(ps => ({ showPoint: !ps.showPoint }));
+    this.setState(
+      ps => ({ showPoint: !ps.showPoint }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `Switched point layer toggle ${
+            this.state.showPoint ? "on" : "off"
+          }`
+        });
+      }
+    );
   };
 
   handleRoadChange = (e, { value }) => {
     this.setState(() => ({ roadVar: value }));
+    ReactGA.event({
+      category: "Filter",
+      action: `Selected road variable: ${getRoadVariable(value)}`
+    });
   };
 
   handlePedCrashChange = () => {
-    this.setState(ps => ({
-      pedCrashChecked: !ps.pedCrashChecked
-    }));
+    this.setState(
+      ps => ({
+        pedCrashChecked: !ps.pedCrashChecked
+      }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `${
+            this.state.pedCrashChecked ? "checked" : "unchecked"
+          } pedestrian crash for crash layer`
+        });
+      }
+    );
   };
   handleBikeCrashChange = () => {
-    this.setState(ps => ({
-      bikeCrashChecked: !ps.bikeCrashChecked
-    }));
+    this.setState(
+      ps => ({
+        bikeCrashChecked: !ps.bikeCrashChecked
+      }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `${
+            this.state.bikeCrashChecked ? "checked" : "unchecked"
+          } bike crash for crash layer`
+        });
+      }
+    );
   };
   handleSchoolPointChange = () => {
-    this.setState(ps => ({
-      schoolPointChecked: !ps.schoolPointChecked
-    }));
+    this.setState(
+      ps => ({
+        schoolPointChecked: !ps.schoolPointChecked
+      }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `${
+            this.state.schoolPointChecked ? "checked" : "unchecked"
+          } school for point layer`
+        });
+      }
+    );
   };
   handleBarPointChange = () => {
-    this.setState(ps => ({
-      barPointChecked: !ps.barPointChecked
-    }));
+    this.setState(
+      ps => ({
+        barPointChecked: !ps.barPointChecked
+      }),
+      () => {
+        ReactGA.event({
+          category: "Filter",
+          action: `${
+            this.state.barPointChecked ? "checked" : "unchecked"
+          } bar for point layer`
+        });
+      }
+    );
   };
 
   handleRankChange = (e, { value }) => {
     this.setState(() => ({ pazRank: value }));
+    ReactGA.event({
+      category: "Filter",
+      action: `Selected paz rank: ${value}`
+    });
   };
 
   handlePazChange = (e, { value }) => {
     this.setState(() => ({ pazVar: value }));
+    ReactGA.event({
+      category: "Filter",
+      action: `Selected paz variable: ${getPazVariable(value)}`
+    });
   };
 
   render() {
@@ -242,6 +362,7 @@ class App extends Component {
           >
             <Filters
               {...this.state}
+              ReactGA={ReactGA}
               PazLayerOptions={this.getPazLayerOptions()}
               RoadLayerOptions={this.getRoadLayerOptions()}
               CrashLayerOptions={this.getCrashLayerOptions()}

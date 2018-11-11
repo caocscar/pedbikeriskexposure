@@ -6,7 +6,6 @@ export const locations = [
   { text: "Southwest Region", value: -5 },
   { text: "University Region", value: -6 },
   { text: "Metro Region", value: -7 },
-
   { text: "Alcona County", value: 1 },
   { text: "Alger County", value: 3 },
   { text: "Allegan County", value: 5 },

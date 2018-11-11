@@ -2,10 +2,8 @@
 import React, { Component } from "react";
 import { Dropdown, Segment, Button } from "semantic-ui-react";
 import axios from "axios";
-import { getPazTableID, getRoadTableID } from "./helpers";
-import { locations } from "./../data/locations";
+import { getPazTableID, getRoadTableID,getLocationName,getDownloadLayer } from "./helpers";
 import { downloadOptions } from "./../data/filterOptions";
-
 class Download extends Component {
   handleLayerChange = (e, { value }) => {
     this.selectedLayer = value;
@@ -31,7 +29,7 @@ class Download extends Component {
         url =
           "https://www.googleapis.com/fusiontables/v2/query?sql=" +
           query +
-          "&alt=csv&&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ";
+        `&alt=csv&&key=${process.env.REACT_APP_FUSION_TABLE_API_KEY}`;
         break;
       case 2:
         if (!this.props.RoadLayerOptions) {
@@ -46,7 +44,7 @@ class Download extends Component {
         url =
           "https://www.googleapis.com/fusiontables/v2/query?sql=" +
           query +
-          "&alt=csv&&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ";
+          `&alt=csv&&key=${process.env.REACT_APP_FUSION_TABLE_API_KEY}`;
         break;
       case 3:
         if (!this.props.CrashLayerOptions) {
@@ -61,7 +59,7 @@ class Download extends Component {
         url =
           "https://www.googleapis.com/fusiontables/v2/query?sql=" +
           query +
-          "&alt=csv&&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ";
+          `&alt=csv&&key=${process.env.REACT_APP_FUSION_TABLE_API_KEY}`;
         break;
       case 4:
         if (!this.props.PointLayerOptions) {
@@ -73,45 +71,43 @@ class Download extends Component {
         query = `select * from ${
           this.props.PointLayerOptions.query.from
         } where ${this.props.PointLayerOptions.query.where}`;
-        url =
-          "https://www.googleapis.com/fusiontables/v2/query?sql=" +
-          query +
-          "&alt=csv&&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ";
+        url = "https://www.googleapis.com/fusiontables/v2/query?sql=" + query + `&alt=csv&&key=${process.env.REACT_APP_FUSION_TABLE_API_KEY}`;   
         break;
     }
 
     axios({
       url,
       method: "GET",
-      responseType: "blob" // important
+      responseType: "blob" 
     })
       .then(res => {
-        let location = locations.filter(
-          loc => loc.value === this.props.locationID
-        )[0].text;
-        location = /(\w+)\s/g.exec(location)[0].replace(" ", "");
-        const filename = `${location}_${
-          downloadOptions.filter(opt => opt.value === this.selectedLayer)[0].key
-        }.csv`;
-        const blob = new Blob([res.data], { type: "text/csv;charset=utf-8;" });
-        if (navigator.msSaveBlob) {
-          // IE 10+
-          navigator.msSaveBlob(blob, filename);
-        } else {
-          const link = document.createElement("a");
-          if (link.download !== undefined) {
-            // feature detection
-            // Browsers that support HTML5 download attribute
-            var url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", filename);
-            link.style.visibility = "hidden";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
-        }
-      })
+                     let location = getLocationName(this.props.locationID);
+                     location = /(\w+)\s/g
+                       .exec(location)[0]
+                       .replace(" ", "");
+                     const filename = `${location}_${getDownloadLayer(this.selectedLayer)}.csv`;
+                     const blob = new Blob([res.data], {
+                       type: "text/csv;charset=utf-8;"
+                     });
+                     if (navigator.msSaveBlob) {
+                       // IE 10+
+                       navigator.msSaveBlob(blob, filename);
+                     } else {
+                       const link = document.createElement("a");
+                       if (link.download !== undefined) {
+                         // feature detection
+                         // Browsers that support HTML5 download attribute
+                         let donwloadUrl = URL.createObjectURL(blob);
+                         link.setAttribute("href", donwloadUrl);
+                         link.setAttribute("download", filename);
+                         link.style.visibility = "hidden";
+                         document.body.appendChild(link);
+                         link.click();
+                         document.body.removeChild(link);
+                       }
+                     }
+                     this.props.ReactGA.event({ category: "Download", action: `Successfully downloaded ${filename}`,label:`${url}`});
+                   })
       .catch(error => {
         let tableID;
         if (error.request.status === 503) {
@@ -134,6 +130,8 @@ class Download extends Component {
                 tableID
             );
           }
+          this.props.ReactGA.event({ category: "Download", action: `download fail, file too big`, label: `${url}` });
+
         }
       });
   };
