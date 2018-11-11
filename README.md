@@ -2,7 +2,7 @@
 
 This is a MDOT Project with Dr. Robert Hampshire and Dr. Lisa Molnar
 
-The webtool is located at http://sicunchen.github.io/pedbikeexposure
+The webtool is located at http://sicunchen.github.io/pedbikeriskexposure
 
 ## Summary
 
