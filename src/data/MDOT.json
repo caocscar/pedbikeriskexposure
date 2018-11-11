@@ -2212,7 +2212,8 @@
       },
       "properties": {
         "merged": "Kent, Muskegon, Ottawa, Newaygo, Oceana, Mecosta, Ionia, Montcalm, Barry, Mason, Lake, Osceola, Allegan",
-        "REG_NAME": "Grand"
+        "REG_NAME": "Grand",
+        "RID":3
       }
     },
     {
@@ -11980,7 +11981,8 @@
       },
       "properties": {
         "merged": "Wexford, Manistee, Benzie, Leelanau, Grand Traverse,Roscommon, Missaukee, Crawford, Kalkaska,Emmet, Charlevoix, Antrim, Cheboygan,Otsego,Alpena, Alcona, Montmorency, Iosco, Oscoda,Presque Isle,  Ogemaw",
-        "REG_NAME": "North"
+        "REG_NAME": "North",
+        "RID":2
       }
     },
     {
@@ -31628,7 +31630,8 @@
       },
       "properties": {
         "merged": "Marquette,Alger,Chippewa,Luce,Mackinac,Schoolcraft,Delta,Menominee, Iron, Dickinson,Gogebic,Ontonagon,Houghton, Baraga,Keweenaw",
-        "REG_NAME": "Superior"
+        "REG_NAME": "Superior",
+        "RID":1
       }
     },
     {
@@ -33886,7 +33889,8 @@
       },
       "properties": {
         "merged": "Clinton, Ingham, Eaton,Livingston, Washtenaw,Jackson,Hillsdale,Monroe,Lenawee",
-        "REG_NAME": "University"
+        "REG_NAME": "University",
+        "RID":6
       }
     },
     {
@@ -35500,7 +35504,8 @@
       },
       "properties": {
         "merged": "Van Buren, Kalamazoo, Berrien,Cass,Calhoun, Branch,St. Joseph",
-        "REG_NAME": "Southwest"
+        "REG_NAME": "Southwest",
+        "RID":5
       }
     },
     {
@@ -41984,7 +41989,8 @@
       },
       "properties": {
         "merged": "Bay, Midland,Saginaw, Gladwin,Arenac,Huron, Tuscola,Sanilac,Lapeer, Genesee, Clare, Gratiot, , Shiawassee, Isabella, St. Clair",
-        "REG_NAME": "Bay"
+        "REG_NAME": "Bay",
+        "RID":4
       }
     },
     {
@@ -43998,7 +44004,8 @@
       },
       "properties": {
         "merged": "Wayne, Oakland,Macomb",
-        "REG_NAME": "Metro"
+        "REG_NAME": "Metro",
+        "RID":7
       }
     }
   ]
