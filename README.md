@@ -59,9 +59,10 @@ The table belows illustrates the NAICS code that was used to classify schools an
 
 ## Deployment
 
-To create a production bundle run:
+To create a production bundle:
 
 `npm run build`
 
 Deploy to github page:
+
 `npm run deploy`
