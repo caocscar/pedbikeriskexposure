@@ -53,6 +53,6 @@ The table belows illustrates the NAICS code that was used to classify schools an
 
 `npm install`
 
-#### Running the dev server
+#### Start the dev server
 
 `npm start`
